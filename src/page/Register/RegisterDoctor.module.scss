@@ -1,0 +1,39 @@
+.container {
+  padding-top: 80px;
+  padding-left: 150px;
+}
+.panel-border {
+  height: 360px;
+  width: 400px;
+  border-radius: 20px;
+}
+.panel-heading {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.panel-heading h3 {
+  font-size: 3rem;
+  font-family: var(--font-family);
+}
+#forgot {
+  min-width: 100px;
+  margin-left: auto;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+.back {
+  display: flex;
+  margin-top: 10px;
+  margin-left: -10px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.back h3 {
+  margin-top: 2px;
+  font-size: 1.2rem;
+}
