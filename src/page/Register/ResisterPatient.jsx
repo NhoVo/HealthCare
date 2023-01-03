@@ -1,7 +1,7 @@
 import React from "react";
 
 import classNames from "classnames/bind";
-import styles from "./RegisterDoctor.module.scss";
+import styles from "./ResisterPatient.module.scss";
 import FormPage from "../../components/FormPage/FormPage";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -19,7 +19,7 @@ import {
   TextField,
 } from "@mui/material";
 const cx = classNames.bind(styles);
-const RegisterDoctor = () => {
+const ResisterPatient = () => {
   return (
     <FormPage>
       <div className={cx("container")}>
@@ -27,7 +27,7 @@ const RegisterDoctor = () => {
           <div className={cx("panel-border")}>
             <div className={cx("panel-heading")}>
               <h3 className={cx("pt-3 font-weight-bold")}>
-                Đăng Ký Tài Khoản Bác Sĩ
+                Đăng Ký Tài Khoản Bệnh Nhân
               </h3>
             </div>
             <div className={cx("panel-body p-3")}>
@@ -84,40 +84,26 @@ const RegisterDoctor = () => {
                 <div className={cx("form-group py-1 pb-2")}>
                   <div className={cx("form-group-1")}>
                     <div className={cx("input-field")}>
-                      <FormControl variant="standard" sx={{ width: 333 }}>
-                        <InputLabel id="demo-simple-select-standard-label">
-                          Quận/Huyện
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-standard-label"
-                          id="demo-simple-select-standard"
-                          //  value={age}
-                          // onChange={handleChange}
-                          label="Chọn quận/Huyện"
-                        >
-                          <MenuItem value="">
-                            <em>Chọn quận/Huyện</em>
-                          </MenuItem>
-                          <MenuItem value={10}>1</MenuItem>
-                          <MenuItem value={20}>2</MenuItem>
-                          <MenuItem value={30}>3</MenuItem>
-                        </Select>
-                      </FormControl>
+                      <TextInput
+                        id="outlined-helperText"
+                        label="Quận/Huyện"
+                        placeholder="Nhập Quận/Huyện..."
+                      />
                     </div>
                     <div className={cx("input-field")}>
                       <FormControl variant="standard" sx={{ width: 333 }}>
                         <InputLabel id="demo-simple-select-standard-label">
-                          Nơi công tác
+                          Tỉnh/Thành Phố
                         </InputLabel>
                         <Select
                           labelId="demo-simple-select-standard-label"
                           id="demo-simple-select-standard"
                           //  value={age}
                           // onChange={handleChange}
-                          label="Chọn Bệnh Viện"
+                          label="Chọn Tỉnh/Thành Phố"
                         >
                           <MenuItem value="">
-                            <em>Chọn Nơi công tác</em>
+                            <em>Chọn Tỉnh/Thành Phố</em>
                           </MenuItem>
                           <MenuItem value={10}>1</MenuItem>
                           <MenuItem value={20}>2</MenuItem>
@@ -146,8 +132,8 @@ const RegisterDoctor = () => {
                     <div className={cx("input-field")}>
                       <TextInput
                         id="outlined-helperText"
-                        label="Email"
-                        placeholder="Nhập Email..."
+                        label="Số bảo hiểm"
+                        placeholder="Nhập Số bảo hiểm..."
                       />
                     </div>
                   </div>
@@ -157,15 +143,15 @@ const RegisterDoctor = () => {
                     <div className={cx("input-field")}>
                       <TextInput
                         id="outlined-helperText"
-                        label="Kinh nghiệm làm việc"
-                        placeholder="Nhập Kinh nghiệm làm việc..."
+                        label="Nghề nghiệp"
+                        placeholder="Nhập Nghề nghiệp..."
                       />
                     </div>
                     <div className={cx("input-field")}>
                       <TextInput
                         id="outlined-helperText"
-                        label="Cấp bậc"
-                        placeholder="Nhập Cấp bậc..."
+                        label="Tình trạng"
+                        placeholder="Nhập Tình trạng..."
                       />
                     </div>
                   </div>
@@ -194,8 +180,8 @@ const RegisterDoctor = () => {
                   <div className={cx("input-field")}>
                     <TextField
                       id="outlined-helperText"
-                      label="Giới thiệu bản thân"
-                      placeholder="Nhập họ và tên..."
+                      label="Tiểu sử bệnh"
+                      placeholder="Nhập Tiểu sử bệnh..."
                       className={cx("intro")}
                       sx={{ width: 685 }}
                     />
@@ -221,4 +207,4 @@ const RegisterDoctor = () => {
   );
 };
 
-export default RegisterDoctor;
+export default ResisterPatient;

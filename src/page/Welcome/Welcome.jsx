@@ -24,7 +24,9 @@ const Welcome = () => {
         </div>
         <div className={cx("title-register")}>
           Đăng ký tài khoản dành cho bệnh nhân?
-          <u>Đăng ký tài khoản bệnh nhân</u>
+          <Link to="/ResisterPatient">
+            <u>Đăng ký tài khoản bệnh nhân</u>{" "}
+          </Link>
         </div>
       </div>
     </FormPage>
