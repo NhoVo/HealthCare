@@ -7,6 +7,7 @@ import Welcome from "./page/Welcome/Welcome";
 import Login from "./page/login/Login";
 import RegisterDoctor from "./page/Register/RegisterDoctor";
 import ConfirmOTP from "./page/ConfirmOTP/ConfirmOTP";
+import ResisterPatient from "./page/Register/ResisterPatient";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/RegisterDoctor" element={<RegisterDoctor />} />
         <Route path="/ConfirmOTP" element={<ConfirmOTP />} />
+        <Route path="/ResisterPatient" element={<ResisterPatient />} />
       </Routes>
     </Fragment>
   );
