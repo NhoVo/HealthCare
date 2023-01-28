@@ -1,0 +1,24 @@
+.container {
+  margin: 0px;
+  padding: 0px;
+  height: 680px;
+  background-color: #f5f6f8;
+  margin-left: -13px;
+}
+.col-12 {
+  display: flex;
+}
+
+.addIndex {
+  border: none;
+  margin-top: 10px;
+}
+.title {
+  font-family: var(--font-family);
+  font-size: 1.5rem;
+  margin-top: 20px;
+  margin-left: 30px;
+}
+// .Chart {
+//   padding: 30px;
+// }

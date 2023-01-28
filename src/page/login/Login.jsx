@@ -57,7 +57,9 @@ const login = () => {
                       Quên mật Khẩu ?
                     </u>
                   </div>
-                  <Button>Đăng nhập</Button>
+                  <Link to="/Home">
+                    <Button>Đăng nhập</Button>
+                  </Link>
                   <div className={cx("title-register")}>
                     <div className={cx("title-register")}>
                       Đăng ký tài khoản dành cho bác sĩ?{" "}
