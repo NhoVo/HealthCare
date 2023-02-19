@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./Home.module.scss";
 import Left from "../../components/Layout/Left/Left";
 import Middle from "../../components/Layout/middle/Middle";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLoginSlice } from "../../Redux/Features/Users/UserLoginSlice";
+import { fetchUserDoctors } from "../../Redux/Features/Users/UserDoctors";
+
 const cx = classNames.bind(styles);
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchLoginSlice());
+  }, []);
+
   return (
     <div className={cx("container-fluid")}>
       <div className={cx("row")}>

@@ -1,0 +1,220 @@
+.title h1 {
+  font-weight: bold;
+  font-family: var(--font-family);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 3rem;
+}
+.input-field {
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: var(--font-family);
+  width: 400px;
+
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.input-field b {
+  margin-right: 10px;
+}
+.input-field input {
+  font-size: 1.5rem;
+
+  font-family: var(--font-family);
+  width: 380px;
+  height: 25px;
+  padding: 5px;
+}
+.col-12 {
+  display: flex;
+}
+.col-6 {
+  background-color: white;
+  margin-left: 10px;
+  border-radius: 10px;
+  height: 500px;
+  width: 400px;
+}
+.col-6 label {
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: var(--font-family);
+  text-align: center;
+  display: block;
+  padding: 10px;
+}
+.col-2 {
+  background-color: white;
+  margin-left: 10px;
+  border-radius: 10px;
+  height: 250px;
+  width: 265px;
+}
+.col-2 label {
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: var(--font-family);
+  text-align: center;
+  display: block;
+  padding: 10px;
+}
+.morning {
+  display: flex;
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: var(--font-family);
+}
+.morning h2 {
+  margin-left: 5px;
+  margin-top: -3px;
+}
+.chooseTime {
+  //   background-color: rgb(186, 194, 202);
+  width: 80px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  border-radius: 5px;
+  border: 1px solid silver;
+  margin-left: 5px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+    color: white;
+    background-color: rgb(189, 192, 195);
+  }
+}
+.time {
+  display: flex;
+  margin-top: 5px;
+}
+
+.afternoon {
+  display: flex;
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: var(--font-family);
+  margin-top: 10px;
+}
+.afternoon h2 {
+  margin-left: 5px;
+  margin-top: -3px;
+}
+.btn-register {
+  margin-left: 15px;
+}
+.col-4 {
+  background-color: white;
+  margin-left: 10px;
+  border-radius: 10px;
+  height: 250px;
+  width: 450px;
+}
+.col-4 label {
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: var(--font-family);
+  text-align: center;
+  display: block;
+  padding: 10px;
+}
+.infor-book {
+  display: flex;
+}
+.schedule {
+  //   background-color: rgb(186, 194, 202);
+  width: 150px;
+  height: 150px;
+
+  border-radius: 5px;
+  border: 1px solid silver;
+  margin-left: 10px;
+}
+.title-schedule {
+  font-family: var(--font-family);
+  text-align: center;
+  line-height: 20px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+.doctorName-schedule {
+  font-family: var(--font-family);
+  font-size: 1.2rem;
+  margin-left: 5px;
+}
+.button-schedule {
+  display: flex;
+  margin-top: 10px;
+}
+.button-seen button {
+  width: 60px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid silver;
+  margin-left: 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  color: white;
+
+  &:hover {
+    opacity: 0.8;
+    color: black;
+    background-color: rgb(189, 192, 195);
+  }
+  background-color: var(--primary);
+}
+.button-cancel button {
+  width: 60px;
+  height: 20px;
+  border-radius: 5px;
+  background-color: var(--primary);
+  color: white;
+  border: 1px solid silver;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+    color: black;
+
+    background-color: rgb(189, 192, 195);
+  }
+}
+///
+.model-add-information {
+  width: 550px;
+  height: 600px;
+}
+.model-add-information-bg {
+  background-color: var(--white);
+  border-radius: 6px;
+  height: 350px;
+}
+
+.add-information-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  height: 50px;
+  border-bottom: solid 0.5px #d3d3d3;
+}
+
+.information-title {
+  color: var(--text);
+  font-size: 1.8rem;
+  font-weight: 500;
+  font-family: var(--font-family);
+}
+.close-btn {
+  background-color: transparent;
+  border: none;
+}
+.close-ic {
+  font-size: 2rem;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
+}

@@ -19,6 +19,60 @@
   margin-top: 20px;
   margin-left: 30px;
 }
-// .Chart {
-//   padding: 30px;
-// }
+.Chart {
+  display: flex;
+  width: 88%;
+}
+////
+///
+.model-add-information {
+  width: 720px;
+  height: 500px;
+}
+.model-add-information-bg {
+  background-color: var(--white);
+  border-radius: 6px;
+  height: 450px;
+}
+
+.add-information-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  height: 50px;
+  border-bottom: solid 0.5px #d3d3d3;
+}
+
+.information-title {
+  color: var(--text);
+  font-size: 1.8rem;
+  font-weight: 500;
+  font-family: var(--font-family);
+}
+.close-btn {
+  background-color: transparent;
+  border: none;
+}
+.close-ic {
+  font-size: 2rem;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
+}
+.col-2 {
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
+}
+.model-add-detail-information {
+  width: 720px;
+  height: 500px;
+}
+.model-add-detail-information-bg {
+  background-color: var(--white);
+  border-radius: 6px;
+  height: 450px;
+}
