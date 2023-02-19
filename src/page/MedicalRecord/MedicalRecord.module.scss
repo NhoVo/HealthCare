@@ -1,0 +1,65 @@
+.Title h1 {
+  font-weight: 500;
+  font-family: var(--font-family);
+  padding-top: 20px;
+  text-align: center;
+}
+.input-field {
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: var(--font-family);
+  width: 350px;
+
+  margin-left: 10px;
+}
+.form-group-1 {
+  display: flex;
+  margin-top: 10px;
+}
+
+.input-field-2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: var(--font-family);
+  margin-left: 10px;
+  padding-bottom: 17px;
+}
+.table-infor table {
+  font-size: 1.5rem;
+  border-collapse: collapse;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  width: 99.5%;
+  height: 350px;
+}
+.table-infor thead {
+  background-color: black;
+  color: white;
+}
+.table-infor tbody {
+  flex: 1 1 auto;
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.table-infor tr {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+.title-table {
+  font-size: 1.8rem;
+
+  font-weight: bold;
+  font-family: var(--font-family);
+  margin-left: 10px;
+}
+.title-table input {
+  font-size: 1.8rem;
+  margin-left: 770px;
+}
+.title-table .search {
+  font-size: 4rem;
+  cursor: pointer;
+}

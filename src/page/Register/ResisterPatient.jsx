@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
 import classNames from "classnames/bind";
 import styles from "./ResisterPatient.module.scss";
 import FormPage from "../../components/FormPage/FormPage";
+import { authentication } from "../../util/firebase";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TextInput from "../../components/TextInput/TextInput";
 import Button from "../../components/Button/Button";
 
@@ -18,8 +19,98 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "@firebase/auth";
+
 const cx = classNames.bind(styles);
 const ResisterPatient = () => {
+  const navigate = useNavigate();
+  const [phone, setPhone] = useState();
+  const [name, setName] = useState();
+  const [optionSex, setOptionSex] = useState("");
+  const [address, setAddress] = useState();
+  const [birthday, setBirthday] = useState();
+  const [insuranceNumber, setInsuranceNumber] = useState();
+  const [job, setJob] = useState();
+  const [states, setStates] = useState();
+  const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
+  const [medicalHistory, setMedicalHistory] = useState();
+
+  const { handleSubmit } = useForm();
+  const generateRecaptcha = () => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "tam",
+      {
+        size: "invisible",
+        callback: (response) => {},
+      },
+      authentication
+    );
+  };
+  const handleChange = (e) => {
+    const sex = e.target.value;
+    if (sex === "MALE") {
+      setOptionSex("MALE");
+    } else {
+      setOptionSex("FEMALE");
+    }
+  };
+  const handleResisterPatient = () => {
+    if (password !== confirmPassword) {
+      alert("Mật khẩu không trùng khớp");
+    } else {
+      generateRecaptcha();
+      const phoneNumbers = "+84" + phone.slice(1);
+      const appVerifier = window.recaptchaVerifier;
+      signInWithPhoneNumber(authentication, phoneNumbers, appVerifier)
+        .then((confirmationResult) => {
+          // SMS sent. Prompt user to type the code from the message, then sign the
+          // user in with confirmationResult.confirm(code).
+          window.confirmationResult = confirmationResult;
+          // ...
+          navigate("/ConFirmOTP", {
+            state: {
+              name,
+              phone,
+              password,
+              optionSex,
+              address,
+              birthday,
+              insuranceNumber,
+              job,
+              states,
+              medicalHistory,
+            },
+          });
+          console.log("Đã gửi mã");
+        })
+        .catch((error) => {
+          // Error; SMS not sent
+          // ...
+          //alert('Tài khoản đã yêu cầu quá nhiều lần!!!');
+          console.log("Chưa gửi về OTP" + error);
+        });
+    }
+    console.log(phone);
+    console.log(name);
+
+    console.log(optionSex);
+
+    console.log(address);
+
+    console.log(birthday);
+
+    console.log(insuranceNumber);
+
+    console.log(job);
+    console.log(states);
+
+    console.log(password);
+    console.log(confirmPassword);
+
+    console.log(medicalHistory);
+  };
   return (
     <FormPage>
       <div className={cx("container")}>
@@ -31,7 +122,7 @@ const ResisterPatient = () => {
               </h3>
             </div>
             <div className={cx("panel-body p-3")}>
-              <form>
+              <form onSubmit={handleSubmit(handleResisterPatient)}>
                 <div className={cx("form-group py-2")}>
                   <div className={cx("form-group-1")}>
                     <div className={cx("input-field")}>
@@ -39,7 +130,8 @@ const ResisterPatient = () => {
                         id="outlined-helperText"
                         label="Số điện thoại"
                         placeholder="Nhập số điện thoại..."
-                        className={cx("tam")}
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                       />
                     </div>
                     <div className={cx("input-field")}>
@@ -47,6 +139,8 @@ const ResisterPatient = () => {
                         id="outlined-helperText"
                         label="Họ và tên"
                         placeholder="Nhập họ và tên..."
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                       />
                     </div>
                   </div>
@@ -57,17 +151,17 @@ const ResisterPatient = () => {
                       <label>Giới tính: </label>&ensp;
                       <label>Nam</label>
                       <Radio
-                        // checked={selectedValue === "a"}
-                        // onChange={handleChange}
-                        value="a"
+                        checked={optionSex === "MALE"}
+                        onChange={handleChange}
+                        value="MALE"
                         name="radio-buttons"
                         inputProps={{ "aria-label": "A" }}
                       />
                       <label>Nữ</label>
                       <Radio
-                        // checked={selectedValue === "b"}
-                        // onChange={handleChange}
-                        value="b"
+                        checked={optionSex === "FEMALE"}
+                        onChange={handleChange}
+                        value="FEMALE"
                         name="radio-buttons"
                         inputProps={{ "aria-label": "B" }}
                       />
@@ -77,55 +171,27 @@ const ResisterPatient = () => {
                         id="outlined-helperText"
                         label="Địa chỉ"
                         placeholder="Nhập địa chỉ..."
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
                       />
                     </div>
                   </div>
                 </div>
-                <div className={cx("form-group py-1 pb-2")}>
-                  <div className={cx("form-group-1")}>
-                    <div className={cx("input-field")}>
-                      <TextInput
-                        id="outlined-helperText"
-                        label="Quận/Huyện"
-                        placeholder="Nhập Quận/Huyện..."
-                      />
-                    </div>
-                    <div className={cx("input-field")}>
-                      <FormControl variant="standard" sx={{ width: 333 }}>
-                        <InputLabel id="demo-simple-select-standard-label">
-                          Tỉnh/Thành Phố
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-standard-label"
-                          id="demo-simple-select-standard"
-                          //  value={age}
-                          // onChange={handleChange}
-                          label="Chọn Tỉnh/Thành Phố"
-                        >
-                          <MenuItem value="">
-                            <em>Chọn Tỉnh/Thành Phố</em>
-                          </MenuItem>
-                          <MenuItem value={10}>1</MenuItem>
-                          <MenuItem value={20}>2</MenuItem>
-                          <MenuItem value={30}>3</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-                  </div>
-                </div>
+
                 <div className={cx("form-group py-1 pb-2")}>
                   <div className={cx("form-group-1")}>
                     <div className={cx("input-field")}>
                       <Stack component="form" noValidate spacing={1}>
                         <TextField
                           id="date"
-                          label="Birthday"
+                          label="Ngày sinh"
                           type="date"
-                          defaultValue="2017-05-24"
                           sx={{ width: 333, marginTop: 1 }}
                           InputLabelProps={{
                             shrink: true,
                           }}
+                          value={birthday}
+                          onChange={(e) => setBirthday(e.target.value)}
                         />
                       </Stack>
                     </div>
@@ -134,6 +200,8 @@ const ResisterPatient = () => {
                         id="outlined-helperText"
                         label="Số bảo hiểm"
                         placeholder="Nhập Số bảo hiểm..."
+                        value={insuranceNumber}
+                        onChange={(e) => setInsuranceNumber(e.target.value)}
                       />
                     </div>
                   </div>
@@ -145,6 +213,8 @@ const ResisterPatient = () => {
                         id="outlined-helperText"
                         label="Nghề nghiệp"
                         placeholder="Nhập Nghề nghiệp..."
+                        value={job}
+                        onChange={(e) => setJob(e.target.value)}
                       />
                     </div>
                     <div className={cx("input-field")}>
@@ -152,6 +222,8 @@ const ResisterPatient = () => {
                         id="outlined-helperText"
                         label="Tình trạng"
                         placeholder="Nhập Tình trạng..."
+                        value={states}
+                        onChange={(e) => setStates(e.target.value)}
                       />
                     </div>
                   </div>
@@ -164,6 +236,8 @@ const ResisterPatient = () => {
                         type="password"
                         label="Mật khẩu"
                         placeholder="Nhập mật khẩu..."
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
                     <div className={cx("input-field")}>
@@ -172,6 +246,8 @@ const ResisterPatient = () => {
                         type="password"
                         label="Nhập lại mật khẩu"
                         placeholder="Nhập lại mật khẩu..."
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                       />
                     </div>
                   </div>
@@ -184,14 +260,17 @@ const ResisterPatient = () => {
                       placeholder="Nhập Tiểu sử bệnh..."
                       className={cx("intro")}
                       sx={{ width: 685 }}
+                      value={medicalHistory}
+                      onChange={(e) => setMedicalHistory(e.target.value)}
                     />
                   </div>
                 </div>
-                <Link to="/ConfirmOTP">
-                  <div className={cx("btn-register")}>
-                    <Button>Đăng Ký</Button>
-                  </div>
-                </Link>
+
+                <div className={cx("btn-register")}>
+                  <Button>Đăng Ký</Button>
+                  <div id="tam"></div>
+                </div>
+
                 <Link to="/Login">
                   <div className={cx("back")}>
                     <ArrowBackIcon sx={{ fontSize: 20 }} />

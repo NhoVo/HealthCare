@@ -11,9 +11,15 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import EditIcon from "@mui/icons-material/Edit";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Information from "../../../page/Information/Information";
+import MedicalRecord from "../../../page/MedicalRecord/MedicalRecord";
+import { useLocation } from "react-router-dom";
+import ModelInfoAccount from "../../ModelWrapper/ModelInfoAccount/ModelInfoAccount";
+import { userLogin } from "../../../Redux/selector";
+import { useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 
 const Middle = () => {
+  const user = useSelector(userLogin);
   return (
     <div className={cx("middle")}>
       <div className={cx("col-12")}>
@@ -34,7 +40,7 @@ const Middle = () => {
             <li>
               <div className={cx("name-subMenu")}>
                 <div>
-                  <h4 className={cx("name")}> Võ Thành Nhớ</h4>
+                  <h4 className={cx("name")}> {user.fullName}</h4>
                 </div>
                 <div>
                   <ArrowDropDownIcon
@@ -50,9 +56,10 @@ const Middle = () => {
                       <div>
                         <PersonIcon className={cx("icon")} />
                       </div>
-
                       <div>
-                        <h1>Thông tin tài khoản</h1>
+                        <h1 className={cx("modelInfor")}>
+                          <ModelInfoAccount user={user} />
+                        </h1>
                       </div>
                     </div>
                   </ItemLeft>

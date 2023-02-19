@@ -20,6 +20,19 @@
   --gray: #868e96;
   // font-family
   --font-family: "Barlow", sans-serif;
+  --primaryGradient: linear-gradient(93.12deg, #581b98 0.52%, #9c1de7 100%);
+  --secondaryGradient: linear-gradient(
+    268.91deg,
+    #581b98 -2.14%,
+    #9c1de7 99.69%
+  );
+  --primaryBoxShadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+  --secondaryBoxShadow: 0px -10px 15px rgba(0, 0, 0, 0.1);
+  --light: 300;
+  --regular: 400;
+  --semiBold: 600;
+  --extraLight: 300;
+  --italic: 300;
 }
 
 * {
