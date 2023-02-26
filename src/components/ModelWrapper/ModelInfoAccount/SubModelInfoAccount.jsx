@@ -19,13 +19,18 @@ import { Radio } from "@mui/material";
 
 const cx = classNames.bind(styles);
 
-function SubModelInfoAccount({ user }) {
+function SubModelInfoAccount({ user, userDoctor }) {
   const [openUpdateInfoAccount, setOpenUpdateInfoAccount] = useState(false);
-  const [optionSex, setOptionSex] = useState(user.gender);
-  const [birthday, setBirthday] = useState(
-    moment(user.dateOfBirth).format("YYYY-MM-DD")
+  const [optionSex, setOptionSex] = useState(
+    user?.gender || userDoctor?.doctor.gender
   );
-  const [fullName, setFullName] = useState(user.fullName);
+  const [birthday, setBirthday] = useState(
+    moment(userDoctor?.doctor.dateOfBirth).format("YYYY-MM-DD") ||
+      moment(user?.dateOfBirth).format("YYYY-MM-DD")
+  );
+  const [fullName, setFullName] = useState(
+    user?.fullName || userDoctor?.doctor.fullName
+  );
 
   // const [avatar, setAvatar] = useState(user?.avatarLink); //
   //const dispatch = useDispatch();

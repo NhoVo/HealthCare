@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+//gửi thông tin báo cáo hằng ngày
 export const postHealthRecord = createAsyncThunk(
   // Tên action
   "user/postHealthRecord",
@@ -25,6 +25,7 @@ export const postHealthRecord = createAsyncThunk(
     return jsonData;
   }
 );
+//xem thông tin hằng ngày
 export const healthRecordDay = createAsyncThunk(
   "user/healthRecordDay",
   async (arg, { rejectWithValue }) => {

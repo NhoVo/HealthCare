@@ -50,7 +50,7 @@ const AddInformation = () => {
             <div className={cx("input-field")}>
               <TextInput
                 id="outlined-helperText"
-                label="Chiều cao (M)"
+                label="Chiều cao (Cm)"
                 placeholder="Nhập chỉ số Chiều cao..."
                 value={hight}
                 onChange={(e) => setHight(e.target.value)}

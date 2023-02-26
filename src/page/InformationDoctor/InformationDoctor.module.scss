@@ -1,0 +1,73 @@
+.title h1 {
+  font-weight: bold;
+  font-family: var(--font-family);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 3rem;
+}
+.col-8 {
+  height: 600px;
+  margin-left: 50px;
+  width: 900px;
+}
+.form-group-1 {
+  display: flex;
+  margin-top: 10px;
+}
+.input-field {
+  font-size: 1.8rem;
+  font-weight: 500;
+  font-family: var(--font-family);
+  width: 300px;
+  margin-left: 10px;
+}
+.input-field b {
+  margin-right: 5px;
+}
+.input-field-2 {
+  font-size: 1.8rem;
+
+  font-weight: 500;
+  font-family: var(--font-family);
+  margin-left: 10px;
+  padding-bottom: 17px;
+}
+.input-field-2 b {
+  margin-right: 5px;
+}
+.Content {
+  display: flex;
+}
+.Content-img {
+  height: 300px;
+}
+.Content-img .img {
+  margin-top: 10px;
+  width: 300px;
+  height: 250px;
+  margin-left: 10px;
+  margin-right: 20px;
+  object-fit: cover;
+}
+.updateDoctor button {
+  font-size: 14px;
+  background-color: var(--primary);
+  border-radius: 10px;
+  border: 0;
+  width: 30%;
+  height: 30px;
+  margin-top: 10px;
+  margin-left: 10px;
+  color: white;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.col-4 {
+  display: block;
+  background-color: antiquewhite;
+  height: 300px;
+  width: 1000px;
+}

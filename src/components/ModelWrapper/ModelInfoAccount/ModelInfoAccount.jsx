@@ -16,6 +16,7 @@ const cx = classNames.bind(styles);
 function ModelInfoAccount({
   yourProfile,
   user,
+  userDoctor,
   friend,
   ConversationInfo,
   seenInfoInGroup,
@@ -29,13 +30,13 @@ function ModelInfoAccount({
   const handleModelCloseInfoAccount = () => {
     setOpenInfoAccount(false);
   };
-
+  console.log(userDoctor);
   return (
     <>
       {ConversationInfo ? (
         <img
           className={cx("img-avatar-ConversationInfo")}
-          src={images.logo}
+          src={images?.logo}
           alt="img-avatar"
           onClick={handleModelOpenInfoAccount}
         />
@@ -65,66 +66,139 @@ function ModelInfoAccount({
         </>
       )}
 
-      <ModelWrapper
-        className={cx("model-info-acc")}
-        open={openInfoAccount}
-        onClose={handleModelCloseInfoAccount}
-      >
-        <div className={cx("model-info-acc-bg")}>
-          <div className={cx("model-info-acc-header")}>
-            <div className={cx("info-acc-title")}>
-              <span className={cx("acc-title")}>Thông tin tài khoản</span>
-              <button className={cx("close-btn")}>
-                <FontAwesomeIcon
-                  className={cx("acc-close-ic")}
-                  icon={faXmark}
-                  onClick={handleModelCloseInfoAccount}
-                />
-              </button>
-            </div>
-            <div className={cx("info-acc")}>
-              <div className={cx("info-image")}>
-                <img
-                  className={cx("img-cover")}
-                  src={images.logo}
-                  alt="img-cover"
-                />
-                <img
-                  className={cx("img-avatar")}
-                  src={images.logo}
-                  alt="img-avatar"
-                />
+      {userDoctor.role === "DOCTOR" ? (
+        <>
+          <ModelWrapper
+            className={cx("model-info-acc")}
+            open={openInfoAccount}
+            onClose={handleModelCloseInfoAccount}
+          >
+            <div className={cx("model-info-acc-bg")}>
+              <div className={cx("model-info-acc-header")}>
+                <div className={cx("info-acc-title")}>
+                  <span className={cx("acc-title")}>Thông tin tài khoản</span>
+                  <button className={cx("close-btn")}>
+                    <FontAwesomeIcon
+                      className={cx("acc-close-ic")}
+                      icon={faXmark}
+                      onClick={handleModelCloseInfoAccount}
+                    />
+                  </button>
+                </div>
+                <div className={cx("info-acc")}>
+                  <div className={cx("info-image")}>
+                    <img
+                      className={cx("img-cover")}
+                      src={images?.logo}
+                      alt="img-cover"
+                    />
+                    <img
+                      className={cx("img-avatar")}
+                      src={images.logo}
+                      alt="img-avatar"
+                    />
+                  </div>
+                  <div className={cx("info-name")}>
+                    <div className={cx("name")}>
+                      {userDoctor.doctor?.fullName}
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className={cx("info-name")}>
-                <div className={cx("name")}>{user.fullName}</div>
+              {/* render (map) after */}
+              <div className={cx("model-info-acc-body")}>
+                <div className={cx("info-desc-title")}>Thông tin cá nhân</div>
+                <div className={cx("info-desc-line")}>
+                  <div className={cx("info-title")}>Điện thoại: </div>
+                  <div>{userDoctor.doctor?.phone}</div>
+                </div>
+                <div className={cx("info-desc-line")}>
+                  <div className={cx("info-title")}>Giới tính: </div>
+                  <div>
+                    {userDoctor.doctor?.gender === "MALE" ? "Nam" : "Nữ"}
+                  </div>
+                </div>
+                <div className={cx("info-desc-line")}>
+                  <div className={cx("info-title")}>Ngày sinh: </div>
+                  <div>
+                    {moment(userDoctor.doctor?.dateOfBirth).format(
+                      "DD/MM/YYYY"
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          {/* render (map) after */}
-          <div className={cx("model-info-acc-body")}>
-            <div className={cx("info-desc-title")}>Thông tin cá nhân</div>
-            <div className={cx("info-desc-line")}>
-              <div className={cx("info-title")}>Điện thoại: </div>
-              <div>{user.phone}</div>
-            </div>
-            <div className={cx("info-desc-line")}>
-              <div className={cx("info-title")}>Giới tính: </div>
-              <div>{user.gender === "MALE" ? "Nam" : "Nữ"}</div>
-            </div>
-            <div className={cx("info-desc-line")}>
-              <div className={cx("info-title")}>Ngày sinh: </div>
-              <div>{moment(user?.dateOfBirth).format("DD/MM/YYYY")}</div>
-            </div>
-          </div>
 
-          <div className={cx("model-info-acc-footer")}>
-            {/* model update info account */}
-            {friend || ConversationInfo ? null : (
-              <SubModelInfoAccount user={user} />
-            )}
+              <div className={cx("model-info-acc-footer")}>
+                {/* model update info account */}
+                {friend || ConversationInfo ? null : (
+                  <SubModelInfoAccount userDoctor={userDoctor} />
+                )}
+              </div>
+            </div>
+          </ModelWrapper>
+        </>
+      ) : (
+        <ModelWrapper
+          className={cx("model-info-acc")}
+          open={openInfoAccount}
+          onClose={handleModelCloseInfoAccount}
+        >
+          <div className={cx("model-info-acc-bg")}>
+            <div className={cx("model-info-acc-header")}>
+              <div className={cx("info-acc-title")}>
+                <span className={cx("acc-title")}>Thông tin tài khoản</span>
+                <button className={cx("close-btn")}>
+                  <FontAwesomeIcon
+                    className={cx("acc-close-ic")}
+                    icon={faXmark}
+                    onClick={handleModelCloseInfoAccount}
+                  />
+                </button>
+              </div>
+              <div className={cx("info-acc")}>
+                <div className={cx("info-image")}>
+                  <img
+                    className={cx("img-cover")}
+                    src={images?.logo}
+                    alt="img-cover"
+                  />
+                  <img
+                    className={cx("img-avatar")}
+                    src={images.logo}
+                    alt="img-avatar"
+                  />
+                </div>
+                <div className={cx("info-name")}>
+                  <div className={cx("name")}>{user?.fullName}</div>
+                </div>
+              </div>
+            </div>
+            {/* render (map) after */}
+            <div className={cx("model-info-acc-body")}>
+              <div className={cx("info-desc-title")}>Thông tin cá nhân</div>
+              <div className={cx("info-desc-line")}>
+                <div className={cx("info-title")}>Điện thoại: </div>
+                <div>{user?.phone}</div>
+              </div>
+              <div className={cx("info-desc-line")}>
+                <div className={cx("info-title")}>Giới tính: </div>
+                <div>{user?.gender === "MALE" ? "Nam" : "Nữ"}</div>
+              </div>
+              <div className={cx("info-desc-line")}>
+                <div className={cx("info-title")}>Ngày sinh: </div>
+                <div>{moment(user?.dateOfBirth).format("DD/MM/YYYY")}</div>
+              </div>
+            </div>
+
+            <div className={cx("model-info-acc-footer")}>
+              {/* model update info account */}
+              {friend || ConversationInfo ? null : (
+                <SubModelInfoAccount user={user} />
+              )}
+            </div>
           </div>
-        </div>
-      </ModelWrapper>
+        </ModelWrapper>
+      )}
     </>
   );
 }

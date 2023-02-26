@@ -92,24 +92,6 @@ const ResisterPatient = () => {
           console.log("Chưa gửi về OTP" + error);
         });
     }
-    console.log(phone);
-    console.log(name);
-
-    console.log(optionSex);
-
-    console.log(address);
-
-    console.log(birthday);
-
-    console.log(insuranceNumber);
-
-    console.log(job);
-    console.log(states);
-
-    console.log(password);
-    console.log(confirmPassword);
-
-    console.log(medicalHistory);
   };
   return (
     <FormPage>

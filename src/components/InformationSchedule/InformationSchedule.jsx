@@ -14,13 +14,13 @@ const InformatioSchedule = ({ user }) => {
             <div className={cx("form-group-1")}>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Họ và tên Bác sĩ:</b> Lê thị Liễu
+                  <b>Họ và tên Bác sĩ:</b> {user.doctor?.fullName}
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Ngày sinh:</b> 12/02/20023
-                  {/* {moment(user?.dateOfBirth).format("DD/MM/YYYY")} */}
+                  <b>Ngày sinh:</b>
+                  {moment(user.doctor?.dateOfBirth).format("DD/MM/YYYY")}
                 </label>
               </div>
             </div>
@@ -28,36 +28,38 @@ const InformatioSchedule = ({ user }) => {
             <div className={cx("form-group-1")}>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Nơi công tác:</b> Bệnh viện 175
+                  <b>Nơi công tác:</b> {user.doctor?.workPlace}
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Chuyên khoa: </b> Tim mạch
-                </label>
-              </div>
-            </div>
-            <div className={cx("form-group-1")}>
-              <div className={cx("input-field")}>
-                <label>
-                  <b>Họ và tên bệnh nhân:</b>Võ Minh Phương
-                </label>
-              </div>
-              <div className={cx("input-field")}>
-                <label>
-                  <b>Số điện thoại:</b> 0123456789
+                  <b>Chuyên khoa: </b> {user.doctor?.specialize}
                 </label>
               </div>
             </div>
             <div className={cx("form-group-1")}>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Ngày Sinh:</b> 12/08/2023
+                  <b>Họ và tên bệnh nhân:</b>
+                  {user.patient?.fullName}
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Địa chỉ:</b> Quận 12
+                  <b>Số điện thoại:</b> {user.patient?.phone}
+                </label>
+              </div>
+            </div>
+            <div className={cx("form-group-1")}>
+              <div className={cx("input-field")}>
+                <label>
+                  <b>Ngày Sinh:</b>{" "}
+                  {moment(user.patient?.dateOfBirth).format("DD/MM/YYYY")}
+                </label>
+              </div>
+              <div className={cx("input-field")}>
+                <label>
+                  <b>Địa chỉ:</b> {user.patient?.address}
                 </label>
               </div>
             </div>
@@ -65,19 +67,21 @@ const InformatioSchedule = ({ user }) => {
               <div className={cx("input-field-2")}>
                 <label>
                   <b>Ghi chú:</b>
-                  {user?.medicalHistory}
+                  {user?.notes}
                 </label>
               </div>
             </div>
             <div className={cx("form-group-1")}>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Ngày hẹn:</b> 12/02/2023
+                  <b>Ngày hẹn:</b>
+                  {moment(user?.dateMeeting).format("DD/MM/YYYY")}
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Giờ hẹn:</b> 8h-8h30
+                  <b>Giờ hẹn:</b>
+                  {user?.timeMeeting}
                 </label>
               </div>
             </div>

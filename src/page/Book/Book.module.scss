@@ -20,11 +20,20 @@
 }
 .input-field input {
   font-size: 1.5rem;
-
   font-family: var(--font-family);
   width: 380px;
   height: 25px;
   padding: 5px;
+}
+.input-field .nameSelect {
+  font-size: 1.5rem;
+  font-family: var(--font-family);
+  width: 380px;
+  height: 25px;
+  // padding: 5px;
+}
+.nameSelect MenuItem {
+  background-color: black;
 }
 .col-12 {
   display: flex;
@@ -48,7 +57,7 @@
   background-color: white;
   margin-left: 10px;
   border-radius: 10px;
-  height: 250px;
+  height: 300px;
   width: 265px;
 }
 .col-2 label {
@@ -71,18 +80,22 @@
 }
 .chooseTime {
   //   background-color: rgb(186, 194, 202);
-  width: 80px;
-  height: 20px;
+  width: 100px;
+  height: 40px;
   text-align: center;
-  line-height: 20px;
+  line-height: 40px;
   border-radius: 5px;
   border: 1px solid silver;
   margin-left: 5px;
   cursor: pointer;
+  font-size: 1.2rem;
   &:hover {
     opacity: 0.6;
     color: white;
     background-color: rgb(189, 192, 195);
+  }
+  &.active {
+    background-color: var(--primary);
   }
 }
 .time {
@@ -109,7 +122,22 @@
   margin-left: 10px;
   border-radius: 10px;
   height: 250px;
-  width: 450px;
+  width: 470px;
+}
+.col-4-doctor {
+  background-color: white;
+  margin-left: 10px;
+  border-radius: 10px;
+  height: 250px;
+  width: 100%;
+}
+.col-4-doctor label {
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: var(--font-family);
+  text-align: center;
+  display: block;
+  padding: 10px;
 }
 .col-4 label {
   font-size: 1.8rem;
@@ -126,10 +154,10 @@
   //   background-color: rgb(186, 194, 202);
   width: 150px;
   height: 150px;
-
+  // margin-right: 10px;
   border-radius: 5px;
   border: 1px solid silver;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 .title-schedule {
   font-family: var(--font-family);
@@ -170,14 +198,13 @@
   width: 60px;
   height: 20px;
   border-radius: 5px;
-  background-color: var(--primary);
+  background-color: silver;
   color: white;
   border: 1px solid silver;
   cursor: pointer;
   &:hover {
     opacity: 0.8;
     color: black;
-
     background-color: rgb(189, 192, 195);
   }
 }
@@ -189,7 +216,7 @@
 .model-add-information-bg {
   background-color: var(--white);
   border-radius: 6px;
-  height: 350px;
+  height: 450px;
 }
 
 .add-information-title {
@@ -217,4 +244,62 @@
   &:hover {
     opacity: 0.6;
   }
+}
+//
+.col-3 {
+  margin-top: 70px;
+  height: 200px;
+  width: auto;
+
+  background-color: white;
+
+  border-radius: 10px;
+}
+.col-3-doctor {
+  margin-top: 30px;
+  height: 200px;
+  width: auto;
+
+  background-color: white;
+
+  border-radius: 10px;
+}
+//
+.table-infor table {
+  font-size: 1.5rem;
+  // display: flex;
+  border-collapse: collapse;
+  flex-flow: column;
+  width: 99.5%;
+  height: 200px;
+}
+.table-infor thead {
+  background-color: black;
+  color: white;
+}
+.table-infor tbody {
+  flex: 1 1 auto;
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.table-infor tr {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+.table-infor button {
+  font-size: 1.2rem;
+  border: 1px solid silver;
+  border-radius: 2px;
+  width: 70px;
+  height: 20px;
+  cursor: pointer;
+  color: white;
+  &:hover {
+    opacity: 0.8;
+    color: black;
+    background-color: rgb(189, 192, 195);
+  }
+  background-color: var(--primary);
 }

@@ -5,7 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import moment from "moment/moment";
 
 const cx = classNames.bind(styles);
-const MedicalRecord = ({ user }) => {
+const MedicalRecord = ({ user, userDoctor }) => {
   return (
     <div className={cx("Title")}>
       <h1>HỒ SƠ BỆNH ÁN</h1>

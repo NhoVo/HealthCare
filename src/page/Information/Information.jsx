@@ -20,6 +20,7 @@ import {
   nextPageSelector,
   nextPageSelectorBook,
   nextPageSelectorInfor,
+  nextPageSelectorInforDoctor,
   userLogin,
 } from "../../Redux/selector";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,8 +29,14 @@ import { healthRecordDay } from "../../Redux/Features/HealthRecord/HealthRecord"
 import {
   fetchBloodPressures,
   fetchBMI,
+  fetchCholesterol,
+  fetchGlucoses,
   fetchHeartbeats,
 } from "../../Redux/Features/HealthRecord/Heartbeat";
+import { fetchUserDoctor } from "../../Redux/Features/Users/UserDoctors";
+import InformationDoctor from "../InformationDoctor/InformationDoctor";
+import { fetchLoginSlice } from "../../Redux/Features/Users/UserLoginSlice";
+import { fetchBookedSchedule } from "../../Redux/Features/Book/PatientBook";
 
 const cx = classNames.bind(styles);
 
@@ -45,17 +52,14 @@ const Information = () => {
   const medicalRecord = useSelector(nextPageSelector);
   const pageBook = useSelector(nextPageSelectorBook);
   const pageInfor = useSelector(nextPageSelectorInfor);
+  const pageInforDoctor = useSelector(nextPageSelectorInforDoctor);
+
   const user = useSelector(userLogin);
+  const userDoctor = useSelector(userLogin);
+
   const healReport = useSelector(healthRD);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(healthRecordDay());
-    dispatch(fetchHeartbeats());
-    dispatch(fetchBMI());
-    dispatch(fetchBloodPressures());
-  }, []);
 
   const handleModelOpenInfo = () => {
     setOpenInfo(true);
@@ -101,107 +105,232 @@ const Information = () => {
 
   return (
     <div className={cx("container")}>
-      {pageBook || medicalRecord ? (
-        <>{medicalRecord ? <MedicalRecord user={user} /> : <Book />}</>
+      {userDoctor.role === "DOCTOR" ? (
+        <>
+          {pageBook || medicalRecord ? (
+            <>{medicalRecord ? <MedicalRecord user={user} /> : <Book />}</>
+          ) : (
+            <>
+              {pageInforDoctor ? (
+                <InformationDoctor />
+              ) : (
+                <>
+                  <div className={cx("col-12")}>
+                    <div className={cx("col-2")} onClick={HandleBMI}>
+                      <DiseaseIndex
+                        name="Tổng số bệnh nhân"
+                        // index={healReport.indexBmi}
+                        icon={
+                          <ArrowDropDownIcon
+                            sx={{ fontSize: 20 }}
+                            color="success"
+                          />
+                        }
+                      />
+                    </div>
+                    <div className={cx("col-2")} onClick={HandleHA}>
+                      <DiseaseIndex
+                        name=""
+                        // index={healReport.systolic}
+                        percent="46%"
+                        icon={
+                          <ArrowDropDownIcon
+                            sx={{ fontSize: 20 }}
+                            color="success"
+                          />
+                        }
+                      />
+                    </div>
+                    <div className={cx("col-2")} onClick={HandleCHOLE}>
+                      <DiseaseIndex
+                        name="Cholesterol"
+                        // index={healReport.cholesterol}
+                        percent="46%"
+                        icon={
+                          <ArrowDropDownIcon
+                            sx={{ fontSize: 20 }}
+                            color="success"
+                          />
+                        }
+                      />
+                    </div>
+                    <div className={cx("col-2")} onClick={HandleGLU}>
+                      <DiseaseIndex
+                        name="Glucose"
+                        // index={healReport.glucose}
+                        percent="46%"
+                        icon={
+                          <ArrowDropDownIcon
+                            sx={{ fontSize: 20 }}
+                            color="success"
+                          />
+                        }
+                      />
+                    </div>
+                    <div className={cx("col-2")} onClick={HandleTIM}>
+                      <DiseaseIndex
+                        name="Nhịp Tim"
+                        // index={healReport.heartbeat}
+                        percent="46%"
+                        icon={
+                          <ArrowDropDownIcon
+                            sx={{ fontSize: 20 }}
+                            color="success"
+                          />
+                        }
+                      />
+                    </div>
+                    <div className={cx("col-2")}>
+                      <DiseaseIndex
+                        name="Tình trạng"
+                        // index="Tốt"
+                        icon={
+                          <MoodIcon sx={{ fontSize: 20 }} color="success" />
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div className={cx("col-12")}>
+                    <div className={cx("Chart")}>
+                      <ChatIA />
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+          )}
+        </>
       ) : (
         <>
-          <div className={cx("col-12")}>
-            <h1 className={cx("title")}>Thêm thông tin</h1>
-            <button className={cx("addIndex")} onClick={handleModelOpenInfo}>
-              <ControlPointIcon sx={{ fontSize: 40 }} />
-            </button>
-            <ModelWrapper
-              className={cx("model-add-information")}
-              open={openInfo}
-              onClose={handleModelCloseInfo}
-            >
-              <div className={cx("model-add-information-bg")}>
-                <div className={cx("add-information-title")}>
-                  <span className={cx("information-title")}>
-                    Thông tin bệnh án
-                  </span>
-                  <button className={cx("close-btn")}>
-                    <FontAwesomeIcon
-                      className={cx("close-ic")}
-                      icon={faXmark}
-                      onClick={handleModelCloseInfo}
-                    />
-                  </button>
-                </div>
-                <AddInformation />
-              </div>
-            </ModelWrapper>
-          </div>
-          <div className={cx("col-12")}>
-            <div className={cx("col-2")} onClick={HandleBMI}>
-              <DiseaseIndex
-                name="BMI"
-                index={healReport.indexBmi}
-                percent="46%"
-                icon={
-                  <ArrowDropDownIcon sx={{ fontSize: 20 }} color="success" />
-                }
-              />
-            </div>
-            <div className={cx("col-2")} onClick={HandleHA}>
-              <DiseaseIndex
-                name="Huyết áp"
-                index={healReport.systolic}
-                percent="46%"
-                icon={
-                  <ArrowDropDownIcon sx={{ fontSize: 20 }} color="success" />
-                }
-              />
-            </div>
-            <div className={cx("col-2")} onClick={HandleCHOLE}>
-              <DiseaseIndex
-                name="Cholesterol"
-                index={healReport.cholesterol}
-                percent="46%"
-                icon={
-                  <ArrowDropDownIcon sx={{ fontSize: 20 }} color="success" />
-                }
-              />
-            </div>
-            <div className={cx("col-2")} onClick={HandleGLU}>
-              <DiseaseIndex
-                name="Glucose"
-                index={healReport.glucose}
-                percent="46%"
-                icon={
-                  <ArrowDropDownIcon sx={{ fontSize: 20 }} color="success" />
-                }
-              />
-            </div>
-            <div className={cx("col-2")} onClick={HandleTIM}>
-              <DiseaseIndex
-                name="Nhịp Tim"
-                index={healReport.heartbeat}
-                percent="46%"
-                icon={
-                  <ArrowDropDownIcon sx={{ fontSize: 20 }} color="success" />
-                }
-              />
-            </div>
-            <div className={cx("col-2")}>
-              <DiseaseIndex
-                name="Tình trạng"
-                index="Tốt"
-                icon={<MoodIcon sx={{ fontSize: 20 }} color="success" />}
-              />
-            </div>
-          </div>
-          <div className={cx("col-12")}>
-            <div className={cx("Chart")}>
-              {BMI ? <Chart BMI /> : null}
-              {HA ? <Chart HA /> : null}
-              {CHOLES ? <Chart CHOLES /> : null}
-              {GLU ? <Chart GLU /> : null}
-              {TIM ? <Chart TIM /> : null}
-              {/* <ChatBot /> */}
-              <ChatIA />
-            </div>
-          </div>
+          {pageBook || medicalRecord ? (
+            <>{medicalRecord ? <MedicalRecord user={user} /> : <Book />}</>
+          ) : (
+            <>
+              {pageInforDoctor ? (
+                <InformationDoctor />
+              ) : (
+                <>
+                  <div className={cx("col-12")}>
+                    <h1 className={cx("title")}>Thêm thông tin</h1>
+                    <button
+                      className={cx("addIndex")}
+                      onClick={handleModelOpenInfo}
+                    >
+                      <ControlPointIcon sx={{ fontSize: 40 }} />
+                    </button>
+                    <ModelWrapper
+                      className={cx("model-add-information")}
+                      open={openInfo}
+                      onClose={handleModelCloseInfo}
+                    >
+                      <div className={cx("model-add-information-bg")}>
+                        <div className={cx("add-information-title")}>
+                          <span className={cx("information-title")}>
+                            Thông tin bệnh án
+                          </span>
+                          <button className={cx("close-btn")}>
+                            <FontAwesomeIcon
+                              className={cx("close-ic")}
+                              icon={faXmark}
+                              onClick={handleModelCloseInfo}
+                            />
+                          </button>
+                        </div>
+                        <AddInformation />
+                      </div>
+                    </ModelWrapper>
+                  </div>
+                  <div className={cx("col-12")}>
+                    <div className={cx("col-2")} onClick={HandleBMI}>
+                      <DiseaseIndex
+                        name="BMI"
+                        index={healReport.indexBmi}
+                        percent="46%"
+                        icon={
+                          <ArrowDropDownIcon
+                            sx={{ fontSize: 20 }}
+                            color="success"
+                          />
+                        }
+                      />
+                    </div>
+                    <div className={cx("col-2")} onClick={HandleHA}>
+                      <DiseaseIndex
+                        name="Huyết áp"
+                        index={healReport.systolic}
+                        percent="46%"
+                        icon={
+                          <ArrowDropDownIcon
+                            sx={{ fontSize: 20 }}
+                            color="success"
+                          />
+                        }
+                      />
+                    </div>
+                    <div className={cx("col-2")} onClick={HandleCHOLE}>
+                      <DiseaseIndex
+                        name="Cholesterol"
+                        index={healReport.cholesterol}
+                        percent="46%"
+                        icon={
+                          <ArrowDropDownIcon
+                            sx={{ fontSize: 20 }}
+                            color="success"
+                          />
+                        }
+                      />
+                    </div>
+                    <div className={cx("col-2")} onClick={HandleGLU}>
+                      <DiseaseIndex
+                        name="Glucose"
+                        index={healReport.glucose}
+                        percent="46%"
+                        icon={
+                          <ArrowDropDownIcon
+                            sx={{ fontSize: 20 }}
+                            color="success"
+                          />
+                        }
+                      />
+                    </div>
+                    <div className={cx("col-2")} onClick={HandleTIM}>
+                      <DiseaseIndex
+                        name="Nhịp Tim"
+                        index={healReport.heartRateIndicator}
+                        percent="46%"
+                        icon={
+                          <ArrowDropDownIcon
+                            sx={{ fontSize: 20 }}
+                            color="success"
+                          />
+                        }
+                      />
+                    </div>
+                    <div className={cx("col-2")}>
+                      <DiseaseIndex
+                        name="Tình trạng"
+                        index="Tốt"
+                        icon={
+                          <MoodIcon sx={{ fontSize: 20 }} color="success" />
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div className={cx("col-12")}>
+                    <div className={cx("Chart")}>
+                      {BMI ? <Chart BMI /> : null}
+                      {HA ? <Chart HA /> : null}
+                      {CHOLES ? <Chart CHOLES /> : null}
+                      {GLU ? <Chart GLU /> : null}
+                      {TIM ? <Chart TIM /> : null}
+                      {/* <ChatBot /> */}
+                      <ChatIA />
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+          )}
         </>
       )}
     </div>

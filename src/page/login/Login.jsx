@@ -20,6 +20,8 @@ const cx = classNames.bind(styles);
 const Login = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [roleLogin, setRoleLogin] = useState("");
+
   const { handleSubmit } = useForm();
   const navigate = useNavigate();
 
@@ -40,8 +42,7 @@ const Login = () => {
         if (resData.statusCode !== 200) {
           throw new Error(resData.message);
         } else {
-          console.log(resData);
-
+          console.log(resData.data);
           return resData.data;
         }
       });
@@ -50,18 +51,39 @@ const Login = () => {
     sign()
       .then((token) => {
         if (typeof token != "undefined") {
-          console.log(token);
-          alert("Đăng nhập thành công");
-          localStorage.setItem(
-            "user_login",
-            JSON.stringify(token.access_token)
-          );
-          navigate("/Home", {
-            state: true,
-          });
-          setTimeout(() => {
-            navigate("/Home");
-          }, 2000);
+          if (token.role === "PATIENT") {
+            console.log(token.role);
+            alert("Đăng nhập thành công");
+            localStorage.setItem(
+              "user_login",
+              JSON.stringify(token.access_token)
+            );
+            setRoleLogin(token.role);
+            navigate("/Home", {
+              state: {
+                roleLogin,
+              },
+            });
+            setTimeout(() => {
+              navigate("/Home");
+            }, 2000);
+          } else {
+            console.log(token.role);
+            alert("Đăng nhập thành công");
+            localStorage.setItem(
+              "user_login",
+              JSON.stringify(token.access_token)
+            );
+            const role = token.role;
+            navigate("/Home", {
+              state: {
+                role,
+              },
+            });
+            setTimeout(() => {
+              navigate("/Home");
+            }, 2000);
+          }
         }
       })
       .catch((err) => {

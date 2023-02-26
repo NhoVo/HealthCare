@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+//lấy thông tin user login
 export const fetchLoginSlice = createAsyncThunk(
   "user/fetchLoginSlice",
   async (arg, { rejectWithValue }) => {
     try {
       const getToken = JSON.parse(localStorage.getItem("user_login"));
-
       // check token
       if (getToken !== null) {
         return fetch(`${process.env.REACT_APP_BASE_URL}/user/me`, {
@@ -18,7 +18,12 @@ export const fetchLoginSlice = createAsyncThunk(
         })
           .then((resp) => resp.json())
           .then((data) => {
-            return data.data.patient;
+            if (data.data.role === "DOCTOR") {
+              console.log(data.data.role);
+              return data.data;
+            } else {
+              return data.data.patient;
+            }
           });
       }
     } catch (err) {

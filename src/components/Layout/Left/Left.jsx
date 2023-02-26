@@ -15,31 +15,45 @@ import NextPage from "../../../Redux/Features/NextPage";
 
 const cx = classNames.bind(styles);
 
-const Left = () => {
+const Left = ({ role }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleChat = () => {
     navigate("/ChatHome");
   };
+
   const handleMedicalRecord = () => {
     dispatch(NextPage.actions.NextPageChange(true));
     dispatch(NextPage.actions.NextPageChangeBook(false));
     dispatch(NextPage.actions.NextPageChangeInfor(false));
+    dispatch(NextPage.actions.NextPageChangeInforDoctor(false));
+
     console.log("ok");
   };
   const handleInformation = () => {
     dispatch(NextPage.actions.NextPageChange(false));
     dispatch(NextPage.actions.NextPageChangeBook(false));
     dispatch(NextPage.actions.NextPageChangeInfor(true));
+    dispatch(NextPage.actions.NextPageChangeInforDoctor(false));
   };
   const handleBook = () => {
     dispatch(NextPage.actions.NextPageChange(false));
     dispatch(NextPage.actions.NextPageChangeInfor(false));
     dispatch(NextPage.actions.NextPageChangeBook(true));
+    dispatch(NextPage.actions.NextPageChangeInforDoctor(false));
+
     console.log("ok34");
   };
+  const handleInformationDoctor = () => {
+    dispatch(NextPage.actions.NextPageChange(false));
+    dispatch(NextPage.actions.NextPageChangeInfor(false));
+    dispatch(NextPage.actions.NextPageChangeBook(false));
+    dispatch(NextPage.actions.NextPageChangeInforDoctor(true));
 
+    console.log("ok34");
+  };
+  console.log(role);
   return (
     <div className={cx("left")}>
       <div className={cx("Logo")}>
@@ -59,20 +73,38 @@ const Left = () => {
           <h1>Hội thoại</h1>
         </div>
       </ItemLeft>
+      {role ? (
+        <ItemLeft>
+          <div className={cx("group-item")}>
+            <FormatListBulletedIcon className={cx("icon")} />
+            <h1>Hồ sơ bệnh nhân</h1>
+          </div>
+        </ItemLeft>
+      ) : (
+        <ItemLeft>
+          <div className={cx("group-item")} onClick={handleMedicalRecord}>
+            <FormatListBulletedIcon className={cx("icon")} />
+            <h1>Hồ sơ bệnh án</h1>
+          </div>
+        </ItemLeft>
+      )}
+      {role ? (
+        <ItemLeft>
+          <div className={cx("group-item")} onClick={handleBook}>
+            <CalendarMonthIcon className={cx("icon")} />
+            <h1>Danh sách lịch hẹn</h1>
+          </div>
+        </ItemLeft>
+      ) : (
+        <ItemLeft>
+          <div className={cx("group-item")} onClick={handleBook}>
+            <CalendarMonthIcon className={cx("icon")} />
+            <h1>Đặt lịch hẹn</h1>
+          </div>
+        </ItemLeft>
+      )}
       <ItemLeft>
-        <div className={cx("group-item")} onClick={handleMedicalRecord}>
-          <FormatListBulletedIcon className={cx("icon")} />
-          <h1>Hồ sơ bệnh án</h1>
-        </div>
-      </ItemLeft>
-      <ItemLeft>
-        <div className={cx("group-item")} onClick={handleBook}>
-          <CalendarMonthIcon className={cx("icon")} />
-          <h1>Đặt lịch hẹn</h1>
-        </div>
-      </ItemLeft>
-      <ItemLeft>
-        <div className={cx("group-item")}>
+        <div className={cx("group-item")} onClick={handleInformationDoctor}>
           <PersonIcon className={cx("icon")} />
           <h1>Thông tin bác sĩ</h1>
         </div>

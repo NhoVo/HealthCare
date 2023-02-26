@@ -17,6 +17,16 @@
   margin-top: 10px;
   margin-left: 32px;
   border: none;
+  color: var(--primary);
+  position: absolute;
+}
+.size-notifications {
+  font-family: var(--font-family);
+  font-size: 2rem;
+  font-weight: bold;
+  position: absolute;
+  margin-left: 50px;
+  color: red;
 }
 .col-3 {
   display: block;
@@ -104,5 +114,39 @@
   font-size: 1.5rem;
 }
 .modelInfor {
+  font-weight: bold;
+}
+.notifications {
+  height: 500px;
+  width: 200px;
+  display: flex;
+  border-collapse: collapse;
+  flex-flow: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.notifications .title-Notifications {
+  font-family: var(--font-family);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.notifications .strikethrough {
+  border-bottom: 2px solid black;
+}
+.content {
+  display: flex;
+  font-family: var(--font-family);
+  font-size: 1.4rem;
+}
+.content-notifications {
+  width: 90%;
+
+  text-align: left;
+
+  word-wrap: break-word;
+}
+.date-content {
+  font-size: 1.2rem;
+  margin-left: 30px;
   font-weight: bold;
 }

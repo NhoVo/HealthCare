@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+// chọn bác sĩ
 export const fetchChooseDoctor = createAsyncThunk(
   "doctorC/fetchChooseDoctor",
   async (data, { rejectWithValue }) => {
     try {
       const getToken = JSON.parse(localStorage.getItem("user_login"));
-      console.log(data);
+
       // check token
       if (getToken !== null) {
         return fetch(`${process.env.REACT_APP_BASE_URL}/patient/select`, {
@@ -19,7 +20,6 @@ export const fetchChooseDoctor = createAsyncThunk(
         })
           .then((resp) => resp.json())
           .then((data) => {
-            console.log(data);
             return data.data;
           });
       }
@@ -35,7 +35,6 @@ const ChooseDoctor = createSlice({
   initialState: { data: [] },
   extraReducers: (builder) => {
     builder.addCase(fetchChooseDoctor.fulfilled, (state, action) => {
-      console.log(action.payload);
       state.data = action.payload;
     });
   },

@@ -15,6 +15,8 @@ import { useSelector } from "react-redux";
 import {
   ChartBloodPressures,
   ChartBMI,
+  ChartCholesterol,
+  ChartGlucoses,
   ChartHeartbeat,
   listHeartbeat,
 } from "../../Redux/selector";
@@ -35,6 +37,8 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
   const listHB = useSelector(ChartHeartbeat);
   const listBMI = useSelector(ChartBMI);
   const listBloodPressures = useSelector(ChartBloodPressures);
+  const listCholesterol = useSelector(ChartCholesterol);
+  const listGlucoses = useSelector(ChartGlucoses);
 
   return (
     <div className={cx("Chart")}>
@@ -70,7 +74,7 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="createdAt" />
-          <YAxis type="number" />
+          <YAxis />
           <Tooltip />
           <Legend />
           <Line
@@ -95,17 +99,17 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
         <LineChart
           width={1050}
           height={400}
-          data={data}
+          data={listCholesterol}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >
-          <XAxis dataKey="name" />
+          <XAxis dataKey="createdAt" />
           <YAxis />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
           <Legend />
           <Line
             type="monotone"
-            dataKey="amt"
+            dataKey="cholesterol"
             stroke="#0851FF"
             activeDot={{ r: 8 }}
             strokeWidth={3}
@@ -116,17 +120,17 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
         <LineChart
           width={1050}
           height={400}
-          data={data}
+          data={listGlucoses}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >
-          <XAxis dataKey="name" />
+          <XAxis dataKey="createdAt" />
           <YAxis />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
           <Legend />
           <Line
             type="monotone"
-            dataKey="amt"
+            dataKey="glucose"
             stroke="#0851FF"
             activeDot={{ r: 8 }}
             strokeWidth={3}
