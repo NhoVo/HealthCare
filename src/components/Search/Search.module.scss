@@ -6,9 +6,14 @@
 .form .search {
   position: absolute;
   top: 10px;
-  left: 20px;
+  left: 125%;
+
   font-size: 30px;
   color: #9ca3af;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
 }
 
 .form input {
@@ -16,8 +21,115 @@
   width: 772px;
   text-indent: 35px;
   margin-left: 10px;
-
   font-family: var(--font-family);
   font-size: 2rem;
   border: none;
+}
+.model-add-information {
+  width: 90%;
+  height: 90%;
+}
+.model-add-information-bg {
+  background-color: var(--white);
+  border-radius: 6px;
+  height: 100%;
+}
+
+.add-information-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  height: 50px;
+  border-bottom: solid 0.5px #d3d3d3;
+}
+
+.information-title {
+  color: var(--text);
+  font-size: 1.8rem;
+  font-weight: 500;
+  font-family: var(--font-family);
+}
+.close-btn {
+  background-color: transparent;
+  border: none;
+}
+.close-ic {
+  font-size: 2rem;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
+}
+.search-content {
+  height: 500px;
+  display: flex;
+}
+.search-content .search-text {
+  height: 620px;
+  width: 60%;
+  text-align: left;
+  margin-left: 20px;
+  border-collapse: collapse;
+  flex-flow: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.search-text-title {
+  color: var(--primary);
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-top: 10px;
+}
+.search-text-title a {
+  text-decoration: none;
+}
+.search-text-snippet {
+  font-size: 1.2rem;
+  font-weight: 500;
+  width: 650px;
+}
+.search-text-img img {
+  width: 100px;
+  height: 100px;
+}
+.search-content .search-map {
+  height: 620px;
+  width: 40%;
+  font-family: var(--font-family);
+  border-collapse: collapse;
+  flex-flow: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.map-patientBook:hover .map-address {
+  display: block;
+}
+.map-address {
+  display: none;
+  width: 100px;
+  height: 100px;
+}
+
+.search-map-name {
+  margin-top: 5px;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.search-map-phone,
+.search-map-address {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.search-map-rating {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-left: 5px;
+  margin-top: 2px;
+}
+.search-map-rating1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  margin-top: 2px;
 }

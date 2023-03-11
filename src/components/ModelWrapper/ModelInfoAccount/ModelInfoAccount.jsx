@@ -30,7 +30,7 @@ function ModelInfoAccount({
   const handleModelCloseInfoAccount = () => {
     setOpenInfoAccount(false);
   };
-  console.log(userDoctor);
+
   return (
     <>
       {ConversationInfo ? (

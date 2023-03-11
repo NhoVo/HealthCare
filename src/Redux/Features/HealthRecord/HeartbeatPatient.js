@@ -1,41 +1,47 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-const Heartbeat = createSlice({
-  name: "listHeartbeat",
+//bác sĩ xem chỉ số của bệnh nhân
+const HeartbeatPatient = createSlice({
+  name: "listHPatient",
   initialState: {
-    data: [],
-    bmi: [],
-    bloodPressures: [],
-    cholesterol: [],
-    glucoses: [],
+    dataDoctor: [],
+    bmiDoctor: [],
+    bloodPressuresDoctor: [],
+    cholesterolDoctor: [],
+    glucosesDoctor: [],
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchHeartbeats.fulfilled, (state, action) => {
-      state.data = action.payload;
+    builder.addCase(fetchHeartbeatsDoctor.fulfilled, (state, action) => {
+      state.dataDoctor = action.payload;
     });
-    builder.addCase(fetchBMI.fulfilled, (state, action) => {
-      state.bmi = action.payload;
+    builder.addCase(fetchBMIDoctor.fulfilled, (state, action) => {
+      state.bmiDoctor = action.payload;
     });
-    builder.addCase(fetchBloodPressures.fulfilled, (state, action) => {
-      state.bloodPressures = action.payload;
+    builder.addCase(fetchBloodPressuresDoctor.fulfilled, (state, action) => {
+      state.bloodPressuresDoctor = action.payload;
     });
-    builder.addCase(fetchCholesterol.fulfilled, (state, action) => {
-      state.cholesterol = action.payload;
+    builder.addCase(fetchCholesterolDoctor.fulfilled, (state, action) => {
+      state.cholesterolDoctor = action.payload;
     });
-    builder.addCase(fetchGlucoses.fulfilled, (state, action) => {
-      state.glucoses = action.payload;
+    builder.addCase(fetchGlucosesDoctor.fulfilled, (state, action) => {
+      state.glucosesDoctor = action.payload;
     });
   },
 });
 //xem nhịp tim
-export const fetchHeartbeats = createAsyncThunk(
+export const fetchHeartbeatsDoctor = createAsyncThunk(
   // Tên action
-  "userPatient/fetchHeartbeats",
+  "userDoctors/fetchHeartbeatsDoctor",
   async (data) => {
     // Gọi lên API backend
+    const param = new URLSearchParams({
+      patientId: data,
+      pageSize: 5,
+      page: 1,
+    });
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/get-heartbeat`,
+      `${process.env.REACT_APP_BASE_URL}/get-heartbeat-doctor?` +
+        param.toString(),
       {
         method: "GET",
         headers: {
@@ -51,18 +57,19 @@ export const fetchHeartbeats = createAsyncThunk(
   }
 );
 //xem BMI
-export const fetchBMI = createAsyncThunk(
+export const fetchBMIDoctor = createAsyncThunk(
   // Tên action
-  "userPatient/fetchBMI",
+  "userDoctors/fetchBMIDoctor",
   async (data) => {
     const param = new URLSearchParams({
+      patientId: data,
       pageSize: 5,
       page: 1,
     });
-    // Gọi lên API backend
+    // Gọi lên API backend/v1/get-bmi-doctor
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/get-bmi?` + param.toString(),
+      `${process.env.REACT_APP_BASE_URL}/get-bmi-doctor?` + param.toString(),
       {
         method: "GET",
         headers: {
@@ -73,23 +80,25 @@ export const fetchBMI = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-
+    console.log(jsonData.data);
     return jsonData.data;
   }
 );
 //xem huyết áp
-export const fetchBloodPressures = createAsyncThunk(
+export const fetchBloodPressuresDoctor = createAsyncThunk(
   // Tên action
-  "userPatient/fetchBloodPressures",
+  "userDoctors/fetchBloodPressuresDoctor",
   async (data) => {
     // Gọi lên API backend
     const param = new URLSearchParams({
+      patientId: data,
+
       pageSize: 5,
       page: 1,
     });
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/get-blood-pressure?` +
+      `${process.env.REACT_APP_BASE_URL}/get-blood-pressure-doctor?` +
         param.toString(),
       {
         method: "GET",
@@ -106,18 +115,21 @@ export const fetchBloodPressures = createAsyncThunk(
   }
 );
 // xem Cholesterol
-export const fetchCholesterol = createAsyncThunk(
+export const fetchCholesterolDoctor = createAsyncThunk(
   // Tên action
-  "userPatient/fetchCholesterol",
+  "userDoctors/fetchCholesterolDoctor",
   async (data) => {
     // Gọi lên API backend
     const param = new URLSearchParams({
+      patientId: data,
+
       pageSize: 5,
       page: 1,
     });
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/get-cholesterol?` + param.toString(),
+      `${process.env.REACT_APP_BASE_URL}/get-cholesterol-doctor?` +
+        param.toString(),
       {
         method: "GET",
         headers: {
@@ -133,18 +145,21 @@ export const fetchCholesterol = createAsyncThunk(
   }
 );
 //xem Glucoses
-export const fetchGlucoses = createAsyncThunk(
+export const fetchGlucosesDoctor = createAsyncThunk(
   // Tên action
-  "userPatient/fetchGlucoses",
+  "userDoctors/fetchGlucosesDoctor",
   async (data) => {
     // Gọi lên API backend
     const param = new URLSearchParams({
+      patientId: data,
+
       pageSize: 5,
       page: 1,
     });
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/get-glucose?` + param.toString(),
+      `${process.env.REACT_APP_BASE_URL}/get-glucose-doctor?` +
+        param.toString(),
       {
         method: "GET",
         headers: {
@@ -159,4 +174,4 @@ export const fetchGlucoses = createAsyncThunk(
     return jsonData.data;
   }
 );
-export default Heartbeat;
+export default HeartbeatPatient;

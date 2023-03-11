@@ -9,6 +9,7 @@ const userPatient = createSlice({
     });
   },
 });
+//tài khoản đăng nhập bệnh nhân
 export const fetchUserPatients = createAsyncThunk(
   // Tên action
   "userPatients/fetchUserPatients",
@@ -28,4 +29,5 @@ export const fetchUserPatients = createAsyncThunk(
     return jsonData.data;
   }
 );
+
 export default userPatient;

@@ -14,18 +14,28 @@ import ModelWrapper from "../../components/ModelWrapper/ModelWrapper";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddInformation from "../../components/AddInformation/AddInformation";
+import AddAlertIcon from "@mui/icons-material/AddAlert";
 import {
+  allHealthRecord,
+  allHRecordPaient,
+  filterPhonePatient,
   getNextPageBook,
   healthRD,
   nextPageSelector,
   nextPageSelectorBook,
   nextPageSelectorInfor,
   nextPageSelectorInforDoctor,
+  userDoctorPatient,
   userLogin,
+  userPatients,
 } from "../../Redux/selector";
 import { useDispatch, useSelector } from "react-redux";
 import MedicalRecord from "../MedicalRecord/MedicalRecord";
-import { healthRecordDay } from "../../Redux/Features/HealthRecord/HealthRecord";
+import {
+  fetchAllHRPatient,
+  fetchEmergency,
+  healthRecordDay,
+} from "../../Redux/Features/HealthRecord/HealthRecord";
 import {
   fetchBloodPressures,
   fetchBMI,
@@ -37,6 +47,18 @@ import { fetchUserDoctor } from "../../Redux/Features/Users/UserDoctors";
 import InformationDoctor from "../InformationDoctor/InformationDoctor";
 import { fetchLoginSlice } from "../../Redux/Features/Users/UserLoginSlice";
 import { fetchBookedSchedule } from "../../Redux/Features/Book/PatientBook";
+import SearchIcon from "@mui/icons-material/Search";
+import images from "../../assets/images/index";
+import moment from "moment";
+import filterSlice from "../../Redux/Features/filter/filterSlice";
+import { toast } from "react-toastify";
+import {
+  fetchBloodPressuresDoctor,
+  fetchBMIDoctor,
+  fetchCholesterolDoctor,
+  fetchGlucosesDoctor,
+  fetchHeartbeatsDoctor,
+} from "../../Redux/Features/HealthRecord/HeartbeatPatient";
 
 const cx = classNames.bind(styles);
 
@@ -56,11 +78,19 @@ const Information = () => {
 
   const user = useSelector(userLogin);
   const userDoctor = useSelector(userLogin);
-
   const healReport = useSelector(healthRD);
-
+  const allHrecord = useSelector(allHealthRecord);
+  const userD = useSelector(userDoctorPatient);
   const dispatch = useDispatch();
-
+  //
+  //bác sĩ
+  const [searchPhone, setSearchPhone] = useState("");
+  const [searchResult, setSearchResult] = useState(false);
+  const [healReportPatient, setHealReportPatient] = useState([]);
+  const result = useSelector(filterPhonePatient);
+  const listPatient = useSelector(userPatients);
+  const indexPatient = useSelector(allHRecordPaient);
+  // console.log(listPatient);
   const handleModelOpenInfo = () => {
     setOpenInfo(true);
   };
@@ -102,6 +132,31 @@ const Information = () => {
     setGLU(false);
     setTIM(true);
   };
+  const Emergency = () => {
+    console.log("ok");
+    dispatch(fetchEmergency());
+  };
+  //bác sĩ
+  const handleSearch = () => {
+    dispatch(filterSlice.actions.searchFilterChange(searchPhone));
+    console.log(result[0]);
+    if (result !== 1) {
+      setSearchResult(true);
+      setHealReportPatient(result[0]);
+    } else {
+      toast.error(
+        "Số điện thoại này không tồn tại hoặc chưa được đăng ký tài khoản. Vui lòng thử lại!"
+      );
+    }
+  };
+  const handleChoose = (user) => {
+    dispatch(fetchAllHRPatient(user.id));
+    dispatch(fetchHeartbeatsDoctor(user.id));
+    dispatch(fetchBMIDoctor(user.id));
+    dispatch(fetchBloodPressuresDoctor(user.id));
+    dispatch(fetchCholesterolDoctor(user.id));
+    dispatch(fetchGlucosesDoctor(user.id));
+  };
 
   return (
     <div className={cx("container")}>
@@ -118,8 +173,8 @@ const Information = () => {
                   <div className={cx("col-12")}>
                     <div className={cx("col-2")} onClick={HandleBMI}>
                       <DiseaseIndex
-                        name="Tổng số bệnh nhân"
-                        // index={healReport.indexBmi}
+                        name="BMI"
+                        index={indexPatient[0]?.indexBmi}
                         icon={
                           <ArrowDropDownIcon
                             sx={{ fontSize: 20 }}
@@ -130,9 +185,8 @@ const Information = () => {
                     </div>
                     <div className={cx("col-2")} onClick={HandleHA}>
                       <DiseaseIndex
-                        name=""
-                        // index={healReport.systolic}
-                        percent="46%"
+                        name="Huyết áp"
+                        index={indexPatient[0]?.systolic}
                         icon={
                           <ArrowDropDownIcon
                             sx={{ fontSize: 20 }}
@@ -144,8 +198,7 @@ const Information = () => {
                     <div className={cx("col-2")} onClick={HandleCHOLE}>
                       <DiseaseIndex
                         name="Cholesterol"
-                        // index={healReport.cholesterol}
-                        percent="46%"
+                        index={indexPatient[0]?.cholesterol}
                         icon={
                           <ArrowDropDownIcon
                             sx={{ fontSize: 20 }}
@@ -157,8 +210,7 @@ const Information = () => {
                     <div className={cx("col-2")} onClick={HandleGLU}>
                       <DiseaseIndex
                         name="Glucose"
-                        // index={healReport.glucose}
-                        percent="46%"
+                        index={indexPatient[0]?.glucose}
                         icon={
                           <ArrowDropDownIcon
                             sx={{ fontSize: 20 }}
@@ -170,8 +222,7 @@ const Information = () => {
                     <div className={cx("col-2")} onClick={HandleTIM}>
                       <DiseaseIndex
                         name="Nhịp Tim"
-                        // index={healReport.heartbeat}
-                        percent="46%"
+                        index={indexPatient[0]?.heartRateIndicator}
                         icon={
                           <ArrowDropDownIcon
                             sx={{ fontSize: 20 }}
@@ -180,19 +231,117 @@ const Information = () => {
                         }
                       />
                     </div>
-                    <div className={cx("col-2")}>
-                      <DiseaseIndex
-                        name="Tình trạng"
-                        // index="Tốt"
-                        icon={
-                          <MoodIcon sx={{ fontSize: 20 }} color="success" />
-                        }
-                      />
-                    </div>
                   </div>
-                  <div className={cx("col-12")}>
-                    <div className={cx("Chart")}>
-                      <ChatIA />
+                  <div className={cx("center-Infor")}>
+                    <div className={cx("col-4")}>
+                      <div className={cx("title-list")}>
+                        Danh sách bệnh nhân ( {listPatient.length} )
+                      </div>
+                      <div className={cx("strikethrough")}></div>
+                      <div className={cx("search-form")}>
+                        <div
+                          className={cx(
+                            "row height d-flex justify-content-center align-items-center"
+                          )}
+                        >
+                          <div className={cx("col-md-8")}>
+                            <div className={cx("search")}>
+                              <SearchIcon className={cx("item")} />
+                              <input
+                                type="text"
+                                className={cx("form-control")}
+                                placeholder="Nhập số điện thoại bệnh nhân..."
+                                value={searchPhone}
+                                onChange={(e) => setSearchPhone(e.target.value)}
+                              />
+                              <button
+                                className={cx("btn btn-primary")}
+                                onClick={handleSearch}
+                              >
+                                Tìm kiếm
+                              </button>
+                            </div>
+                          </div>
+                          {searchResult ? (
+                            <div className={cx("list-conversation")}>
+                              <img
+                                className={cx("avatar-img")}
+                                // src={phoneNumber.avatar}
+                                src={images.logo}
+                                alt="avatar"
+                              />
+                              <div className={cx("content")}>
+                                <h4 className={cx("username")}>
+                                  {healReportPatient?.fullName}
+                                </h4>
+                                <p className={cx("message")}>
+                                  {healReportPatient?.phone}
+                                </p>
+                                <p className={cx("message")}>
+                                  Ngày sinh:
+                                  {moment(
+                                    healReportPatient?.dateOfBirth
+                                  ).format("DD/MM/YYYY")}
+                                </p>
+                              </div>
+
+                              <div className={cx("result-add-friend")}>
+                                <button onClick={handleChoose}>Xem</button>
+                              </div>
+                            </div>
+                          ) : (
+                            <>
+                              {listPatient?.map((user) => {
+                                return (
+                                  <div
+                                    className={cx("list-conversation")}
+                                    key={user?._id}
+                                  >
+                                    <img
+                                      className={cx("avatar-img")}
+                                      // src={phoneNumber.avatar}
+                                      src={images.logo}
+                                      alt="avatar"
+                                    />
+                                    <div className={cx("content")}>
+                                      <h4 className={cx("username")}>
+                                        {user.fullName}
+                                      </h4>
+                                      <p className={cx("message")}>
+                                        {user.phone}
+                                      </p>
+                                      <p className={cx("message")}>
+                                        Ngày sinh:
+                                        {moment(user?.dateOfBirth).format(
+                                          "DD/MM/YYYY"
+                                        )}
+                                      </p>
+                                    </div>
+                                    <div className={cx("result-add-friend")}>
+                                      <button
+                                        onClick={() => handleChoose(user)}
+                                      >
+                                        Xem
+                                      </button>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className={cx("col-8")}>
+                      <div className={cx("chart")}>
+                        {BMI ? <Chart BMI /> : null}
+                        {HA ? <Chart HA /> : null}
+                        {CHOLES ? <Chart CHOLES /> : null}
+                        {GLU ? <Chart GLU /> : null}
+                        {TIM ? <Chart TIM /> : null}
+                        {/* <ChatBot /> */}
+                        {/* <ChatIA /> */}
+                      </div>
                     </div>
                   </div>
                 </>
@@ -203,7 +352,17 @@ const Information = () => {
       ) : (
         <>
           {pageBook || medicalRecord ? (
-            <>{medicalRecord ? <MedicalRecord user={user} /> : <Book />}</>
+            <>
+              {medicalRecord ? (
+                <MedicalRecord
+                  user={user}
+                  allHrecord={allHrecord}
+                  userD={userD}
+                />
+              ) : (
+                <Book />
+              )}
+            </>
           ) : (
             <>
               {pageInforDoctor ? (
@@ -218,6 +377,11 @@ const Information = () => {
                     >
                       <ControlPointIcon sx={{ fontSize: 40 }} />
                     </button>
+                    <label className={cx("addIndex-lable")}>Cấp Cứu</label>
+                    <button className={cx("addIndex-bell")} onClick={Emergency}>
+                      <AddAlertIcon sx={{ fontSize: 40 }} />
+                    </button>
+
                     <ModelWrapper
                       className={cx("model-add-information")}
                       open={openInfo}
@@ -324,7 +488,7 @@ const Information = () => {
                       {GLU ? <Chart GLU /> : null}
                       {TIM ? <Chart TIM /> : null}
                       {/* <ChatBot /> */}
-                      <ChatIA />
+                      {/* <ChatIA /> */}
                     </div>
                   </div>
                 </>

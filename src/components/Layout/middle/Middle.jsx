@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./Middle.module.scss";
 import Search from "../../Search/Search";
@@ -11,17 +11,25 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import EditIcon from "@mui/icons-material/Edit";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Information from "../../../page/Information/Information";
-import MedicalRecord from "../../../page/MedicalRecord/MedicalRecord";
-import { useLocation } from "react-router-dom";
+
 import ModelInfoAccount from "../../ModelWrapper/ModelInfoAccount/ModelInfoAccount";
-import { allNotifiDoctor, userLogin } from "../../../Redux/selector";
-import { useSelector } from "react-redux";
+import {
+  allNotifiDoctor,
+  indexReadNotifications,
+  userLogin,
+} from "../../../Redux/selector";
+import { useDispatch, useSelector } from "react-redux";
 import TippyHeadless from "@tippyjs/react/headless";
 import Popper from "../../Popper/Popper";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-import { MoreHoriz } from "@mui/icons-material";
+
 import moment from "moment";
+import {
+  fetchNotficationsOfDoctor,
+  seenAllNotifications,
+  seenNotifications,
+} from "../../../Redux/Features/Notifications/Notifications";
 
 const cx = classNames.bind(styles);
 
@@ -29,7 +37,13 @@ const Middle = () => {
   const user = useSelector(userLogin);
   const userDoctor = useSelector(userLogin);
   const allNotificationsDoctor = useSelector(allNotifiDoctor);
-
+  const [idRead, setIdRead] = useState(false);
+  const dispatch = useDispatch();
+  const index = useSelector(indexReadNotifications);
+  useEffect(() => {
+    dispatch(fetchNotficationsOfDoctor());
+    setIdRead(false);
+  }, [idRead === true]);
   const nameDoctor =
     userDoctor.doctor?.fullName?.split(" ")[
       userDoctor.doctor?.fullName?.split(" ")?.length - 2
@@ -42,6 +56,14 @@ const Middle = () => {
     user.fullName?.split(" ")[user.fullName?.split(" ")?.length - 2] +
     " " +
     user.fullName?.split(" ")[user.fullName.split(" ")?.length - 1];
+  const handleReal = (n) => {
+    setIdRead(true);
+    dispatch(seenNotifications(n.id));
+  };
+  const handleSeenAll = () => {
+    setIdRead(true);
+    dispatch(seenAllNotifications());
+  };
   return (
     <div className={cx("middle")}>
       <div className={cx("col-12")}>
@@ -54,24 +76,64 @@ const Middle = () => {
               <div tabIndex="-1" {...attrs}>
                 <Popper className={cx("own-menu-list-children")}>
                   <div className={cx("notifications")}>
-                    <p className={cx("title-Notifications")}> Thông báo</p>
+                    <div style={{ display: "flex" }}>
+                      <div className={cx("title-Notifications")}>
+                        <p>Thông báo</p>
+                      </div>
+                      <div
+                        className={cx("title-seenAll")}
+                        onClick={handleSeenAll}
+                      >
+                        <p>Xem tất cả</p>
+                      </div>
+                    </div>
+
                     <p className={cx("strikethrough")}></p>
-                    {allNotificationsDoctor?.map((n) => {
+                    {allNotificationsDoctor?.map((n, index) => {
                       return (
                         <div key={n.id}>
-                          <div className={cx("content")}>
-                            <NotificationsIcon
-                              className={cx("item-content")}
-                              sx={{ fontSize: 30 }}
-                            />
-                            <div className={cx("content-notifications")}>
-                              {n?.title}
-                              <br /> {n?.content}
+                          {n.isRead === false ? (
+                            <>
+                              <div
+                                style={{ background: "#C0C0C0" }}
+                                onClick={() => handleReal(n)}
+                              >
+                                <div className={cx("content")}>
+                                  <NotificationsIcon
+                                    className={cx("item-content")}
+                                    sx={{ fontSize: 30 }}
+                                  />
+                                  <div className={cx("content-notifications")}>
+                                    <div className={cx("content-title")}>
+                                      {n?.title}
+                                    </div>
+                                    {n?.content}
+                                  </div>
+                                </div>
+                                <div className={cx("date-content")}>
+                                  {moment(n?.dateOfBirth).format("DD/MM/YYYY")}
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <div onClick={() => handleReal(n)}>
+                              <div className={cx("content")}>
+                                <NotificationsIcon
+                                  className={cx("item-content")}
+                                  sx={{ fontSize: 30 }}
+                                />
+                                <div className={cx("content-notifications")}>
+                                  <div className={cx("content-title")}>
+                                    {n?.title}
+                                  </div>
+                                  {n?.content}
+                                </div>
+                              </div>
+                              <div className={cx("date-content")}>
+                                {moment(n?.dateOfBirth).format("DD/MM/YYYY")}
+                              </div>
                             </div>
-                          </div>
-                          <div className={cx("date-content")}>
-                            {moment(n?.dateOfBirth).format("DD/MM/YYYY")}
-                          </div>
+                          )}
                           <p className={cx("strikethrough")}></p>
                         </div>
                       );
@@ -97,8 +159,9 @@ const Middle = () => {
             </Tippy>
           </TippyHeadless>
           <div className={cx("size-notifications")}>
-            {allNotificationsDoctor.length}
+            {index === 0 ? null : index}
           </div>
+          ;
         </div>
         <div className={cx("col-3 ")}>
           <ul className={cx("nav")}>

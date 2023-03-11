@@ -10,22 +10,15 @@ const NextPage = createSlice({
   },
   reducers: {
     NextPageChange: (state, action) => {
-      console.log(action.payload);
       state.medicalRecord = action.payload;
     },
     NextPageChangeBook: (state, action) => {
-      console.log(action.payload);
-
       state.book = action.payload;
     },
     NextPageChangeInfor: (state, action) => {
-      console.log(action.payload);
-
       state.infor = action.payload;
     },
     NextPageChangeInforDoctor: (state, action) => {
-      console.log(action.payload);
-
       state.inforDoctor = action.payload;
     },
   },

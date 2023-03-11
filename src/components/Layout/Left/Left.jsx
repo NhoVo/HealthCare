@@ -28,8 +28,6 @@ const Left = ({ role }) => {
     dispatch(NextPage.actions.NextPageChangeBook(false));
     dispatch(NextPage.actions.NextPageChangeInfor(false));
     dispatch(NextPage.actions.NextPageChangeInforDoctor(false));
-
-    console.log("ok");
   };
   const handleInformation = () => {
     dispatch(NextPage.actions.NextPageChange(false));
@@ -42,18 +40,14 @@ const Left = ({ role }) => {
     dispatch(NextPage.actions.NextPageChangeInfor(false));
     dispatch(NextPage.actions.NextPageChangeBook(true));
     dispatch(NextPage.actions.NextPageChangeInforDoctor(false));
-
-    console.log("ok34");
   };
   const handleInformationDoctor = () => {
     dispatch(NextPage.actions.NextPageChange(false));
     dispatch(NextPage.actions.NextPageChangeInfor(false));
     dispatch(NextPage.actions.NextPageChangeBook(false));
     dispatch(NextPage.actions.NextPageChangeInforDoctor(true));
-
-    console.log("ok34");
   };
-  console.log(role);
+
   return (
     <div className={cx("left")}>
       <div className={cx("Logo")}>

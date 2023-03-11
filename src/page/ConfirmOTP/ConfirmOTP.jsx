@@ -56,8 +56,6 @@ const ConfirmOTP = () => {
         if (resData.statusCode !== 200) {
           throw new Error(resData.message);
         } else {
-          console.log(resData);
-
           return resData.data;
         }
       });
@@ -79,8 +77,6 @@ const ConfirmOTP = () => {
         if (resData.statusCode !== 200) {
           throw new Error(resData.message);
         } else {
-          console.log(resData);
-
           return resData.data;
         }
       });

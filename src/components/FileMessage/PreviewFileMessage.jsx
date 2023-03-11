@@ -19,7 +19,6 @@ function PreviewFileMessage({ newFileMessage }) {
 
   // console.log('FILE - MESSAGE', message);
   // console.log('NEW FILE MESSAGE - ', newFileMessage);
-  console.log("FILE", newFileMessage);
 
   const handlePreviewFile = () => {
     setPreviewFile(true);

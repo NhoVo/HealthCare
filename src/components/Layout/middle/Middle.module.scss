@@ -19,6 +19,7 @@
   border: none;
   color: var(--primary);
   position: absolute;
+  cursor: pointer;
 }
 .size-notifications {
   font-family: var(--font-family);
@@ -137,6 +138,10 @@
   display: flex;
   font-family: var(--font-family);
   font-size: 1.4rem;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
 }
 .content-notifications {
   width: 90%;
@@ -145,8 +150,26 @@
 
   word-wrap: break-word;
 }
+.content-title {
+  color: red;
+  font-weight: bold;
+}
 .date-content {
   font-size: 1.2rem;
   margin-left: 30px;
   font-weight: bold;
+}
+.item-content {
+  color: red;
+}
+.title-seenAll {
+  font-family: var(--font-family);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-left: 55px;
+  margin-top: 5px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
 }

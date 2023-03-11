@@ -5,7 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import moment from "moment/moment";
 
 const cx = classNames.bind(styles);
-const MedicalRecord = ({ user, userDoctor }) => {
+const MedicalRecord = ({ user, userD, allHrecord }) => {
   return (
     <div className={cx("Title")}>
       <h1>HỒ SƠ BỆNH ÁN</h1>
@@ -61,22 +61,22 @@ const MedicalRecord = ({ user, userDoctor }) => {
             <div className={cx("form-group-1")}>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Bác sĩ điều trị:</b> Bùi Sĩ Sơn
+                  <b>Bác sĩ điều trị:</b> {userD?.fullName}
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Bệnh viện:</b> Quân Y 175
+                  <b>Bệnh viện:</b> {userD?.workPlace}
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Khoa:</b> Tim mạch
+                  <b>Chuyên môn:</b> {userD?.specialize}
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Số điện thoại bác sĩ:</b> 0123456789
+                  <b>Số điện thoại bác sĩ:</b> {userD?.phone}
                 </label>
               </div>
             </div>
@@ -130,185 +130,30 @@ const MedicalRecord = ({ user, userDoctor }) => {
             <tr>
               <th>STT</th>
               <th>BMI</th>
-              <th>Huyết áp</th>
+              <th>Tâm thu</th>
+              <th>Tâm trương</th>
               <th>Cholesterol</th>
               <th>Glucose</th>
               <th>Nhịp Tim</th>
-              <th>Tình trạng</th>
+
               <th>Ngày</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>123</td>
-              <td>456</td>
-              <td>789</td>
-              <td>123</td>
-              <td>70</td>
-              <td>Tốt</td>
-              <td>21/01/2001</td>
-            </tr>
+            {allHrecord?.map((hr, index) => {
+              return (
+                <tr key={hr.id}>
+                  <td>{index + 1}</td>
+                  <td>{hr.indexBmi}</td>
+                  <td>{hr.systolic}</td>
+                  <td>{hr.diastolic}</td>
+                  <td>{hr.cholesterol}</td>
+                  <td>{hr.glucose}</td>
+                  <td>{hr.heartRateIndicator}</td>
+                  <td>{moment(hr.createdAt).format("DD/MM/YYYY")}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

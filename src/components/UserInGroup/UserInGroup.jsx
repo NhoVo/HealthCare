@@ -19,7 +19,6 @@ const cx = classNames.bind(styles);
 function UserInGroup({ user, conversationInfo }) {
   const [Friend, setFriend] = useState(false);
   const [meRequest, setMeRequest] = useState(false);
-  console.log("[meRequest] -> ", meRequest);
 
   // useEffect(() => {
   //   listFriendFilters?.map((key) => {

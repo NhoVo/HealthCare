@@ -11,7 +11,10 @@ import {
 } from "../../Redux/Features/Users/UserDoctors";
 import { userLogin } from "../../Redux/selector";
 import { useLocation } from "react-router-dom";
-import { healthRecordDay } from "../../Redux/Features/HealthRecord/HealthRecord";
+import {
+  fetchAllHealthRecord,
+  healthRecordDay,
+} from "../../Redux/Features/HealthRecord/HealthRecord";
 import {
   fetchBloodPressures,
   fetchBMI,
@@ -29,32 +32,31 @@ const cx = classNames.bind(styles);
 
 const Home = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
+
   const user = useSelector(userLogin);
-  const userDoctor = useSelector(userLogin);
+
   // console.log("333------HOme", userDoctor.role);
 
   useEffect(() => {
     dispatch(fetchLoginSlice());
   }, []);
   useEffect(() => {
-    // console.log("39------Home", userDoctor.role);
-    if (userDoctor.role === "DOCTOR") {
-      dispatch(fetchNotficationsOfDoctor());
+    dispatch(fetchNotficationsOfDoctor());
+    if (user.role === "DOCTOR") {
       dispatch(fetchUserPatients());
       dispatch(fetchListBookedOfDoctor());
     } else {
       dispatch(healthRecordDay());
       dispatch(fetchHeartbeats());
-      dispatch(fetchNotficationsOfDoctor());
       dispatch(fetchBMI());
       dispatch(fetchBloodPressures());
       dispatch(fetchCholesterol());
       dispatch(fetchGlucoses());
       dispatch(fetchUserDoctor(user.doctorId));
       dispatch(fetchBookedSchedule());
+      dispatch(fetchAllHealthRecord());
     }
-  }, [user, userDoctor]);
+  }, [user]);
 
   return (
     <div className={cx("container-fluid")}>

@@ -42,8 +42,6 @@ export const fetchDoctorBookAccept = createAsyncThunk(
   // Tên action
   "userPatient/fetchDoctorBookAccept",
   async (data) => {
-    console.log(data);
-
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/appointment/${data}/approve`,
@@ -57,7 +55,7 @@ export const fetchDoctorBookAccept = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-    console.log(jsonData.data);
+
     return jsonData.data;
   }
 );

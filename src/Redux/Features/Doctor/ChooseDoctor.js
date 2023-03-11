@@ -24,7 +24,6 @@ export const fetchChooseDoctor = createAsyncThunk(
           });
       }
     } catch (err) {
-      console.log(err);
       rejectWithValue(err);
     }
   }

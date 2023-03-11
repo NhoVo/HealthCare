@@ -15,7 +15,6 @@ const PatientBook = createSlice({
       state.bookedSchedule = action.payload;
     });
     builder.addCase(fetchBookDetail.fulfilled, (state, action) => {
-      console.log(action.payload);
       state.bookDetail = action.payload;
     });
     builder.addCase(fetchPatientBookCancel.fulfilled, (state, action) => {
@@ -29,7 +28,7 @@ export const fetchPatientBook = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const getToken = JSON.parse(localStorage.getItem("user_login"));
-      console.log(data);
+
       // check token
       if (getToken !== null) {
         return fetch(`${process.env.REACT_APP_BASE_URL}/appointment`, {
@@ -47,13 +46,12 @@ export const fetchPatientBook = createAsyncThunk(
               throw new Error(data.message);
             } else {
               alert("đặt lịch thành công");
-              console.log(data);
+
               return data;
             }
           });
       }
     } catch (err) {
-      console.log(err);
       rejectWithValue(err);
     }
   }
@@ -77,7 +75,7 @@ export const fetchBookedSchedule = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-    console.log(jsonData.data);
+
     return jsonData.data;
   }
 );
@@ -99,7 +97,7 @@ export const fetchBookDetail = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-    console.log(jsonData.data);
+
     return jsonData.data;
   }
 );
@@ -108,8 +106,6 @@ export const fetchPatientBookCancel = createAsyncThunk(
   // Tên action
   "userPatient/fetchPatientBookCancel",
   async (data) => {
-    console.log(data);
-
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/appointment/${data}/cancel`,
@@ -123,7 +119,7 @@ export const fetchPatientBookCancel = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-    console.log(jsonData.data);
+
     return jsonData.data;
   }
 );

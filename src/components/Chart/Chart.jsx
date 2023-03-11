@@ -14,23 +14,20 @@ import {
 import { useSelector } from "react-redux";
 import {
   ChartBloodPressures,
+  ChartBloodPressuresDoctor,
   ChartBMI,
+  ChartBMIDoctor,
   ChartCholesterol,
+  ChartCholesterolDoctor,
   ChartGlucoses,
+  ChartGlucosesDoctor,
   ChartHeartbeat,
+  ChartHeartbeatDoctor,
   listHeartbeat,
+  userLogin,
 } from "../../Redux/selector";
 
 const cx = classNames.bind(styles);
-const data = [
-  { name: "Page A", uv: 17.99, pv: 2400, amt: 200 },
-  { name: "Page B", uv: 0.0, pv: 1398, amt: 2210 },
-  { name: "Page C", uv: 0.12, pv: 9800, amt: 2290 },
-  { name: "Page D", uv: 7.69, pv: 3908, amt: 2000 },
-  { name: "Page E", uv: 1, pv: 4800, amt: 2181 },
-  { name: "Page F", uv: 0.0, pv: 3800, amt: 2500 },
-];
-const dataTim = [{ uv: 40 }, { uv: 80 }, { uv: 120 }, { uv: 160 }];
 
 const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
   // const listHB = useSelector(listHeartbeat);
@@ -39,127 +36,262 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
   const listBloodPressures = useSelector(ChartBloodPressures);
   const listCholesterol = useSelector(ChartCholesterol);
   const listGlucoses = useSelector(ChartGlucoses);
+  const userDoctor = useSelector(userLogin);
+  //bác sĩ
+  const listHBDoctor = useSelector(ChartHeartbeatDoctor);
+  const listBMIDoctor = useSelector(ChartBMIDoctor);
+  const listBloodPressuresDoctor = useSelector(ChartBloodPressuresDoctor);
+  const listCholesterolDoctor = useSelector(ChartCholesterolDoctor);
+  const listGlucosesDoctor = useSelector(ChartGlucosesDoctor);
 
   return (
-    <div className={cx("Chart")}>
-      {BMI ? (
-        <LineChart
-          width={1050}
-          height={400}
-          data={listBMI}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <XAxis dataKey="createdAt" />
-          <YAxis />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="indexBmi"
-            stroke="#003000"
-            activeDot={{ r: 8 }}
-            strokeWidth={3}
-            name="BMI"
-          />
-        </LineChart>
-      ) : null}
+    <>
+      {userDoctor.role === "DOCTOR" ? (
+        <>
+          <div className={cx("Chart")}>
+            {BMI ? (
+              <LineChart
+                width={800}
+                height={400}
+                data={listBMIDoctor}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="createdAt" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="indexBmi"
+                  stroke="#003000"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                  name="BMI"
+                />
+              </LineChart>
+            ) : null}
 
-      {HA ? (
-        <LineChart
-          width={1050}
-          height={400}
-          data={listBloodPressures}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="createdAt" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="systolic"
-            stroke="#82ca9d"
-            name="Tâm thu"
-            activeDot={{ r: 8 }}
-            strokeWidth={3}
-          />
-          <Line
-            type="monotone"
-            dataKey="diastolic"
-            stroke="#8884d8"
-            name="Tâm trương"
-            activeDot={{ r: 8 }}
-            strokeWidth={3}
-          />
-        </LineChart>
-      ) : null}
-      {CHOLES ? (
-        <LineChart
-          width={1050}
-          height={400}
-          data={listCholesterol}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <XAxis dataKey="createdAt" />
-          <YAxis />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="cholesterol"
-            stroke="#0851FF"
-            activeDot={{ r: 8 }}
-            strokeWidth={3}
-          />
-        </LineChart>
-      ) : null}
-      {GLU ? (
-        <LineChart
-          width={1050}
-          height={400}
-          data={listGlucoses}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <XAxis dataKey="createdAt" />
-          <YAxis />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="glucose"
-            stroke="#0851FF"
-            activeDot={{ r: 8 }}
-            strokeWidth={3}
-          />
-        </LineChart>
-      ) : null}
-      {TIM ? (
-        <LineChart
-          width={1050}
-          height={400}
-          data={listHB}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <XAxis dataKey="createdAt" />
-          <YAxis />
-          <CartesianGrid strokeDasharray="5 5" />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="heartRateIndicator"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
-            strokeWidth={3}
-            name="Tim mạch"
-          />
-        </LineChart>
-      ) : null}
-    </div>
+            {HA ? (
+              <LineChart
+                width={800}
+                height={400}
+                data={listBloodPressuresDoctor}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="createdAt" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="systolic"
+                  stroke="#82ca9d"
+                  name="Tâm thu"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="diastolic"
+                  stroke="#8884d8"
+                  name="Tâm trương"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                />
+              </LineChart>
+            ) : null}
+            {CHOLES ? (
+              <LineChart
+                width={800}
+                height={400}
+                data={listCholesterolDoctor}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="createdAt" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="cholesterol"
+                  stroke="#0851FF"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                />
+              </LineChart>
+            ) : null}
+            {GLU ? (
+              <LineChart
+                width={800}
+                height={400}
+                data={listGlucosesDoctor}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="createdAt" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="glucose"
+                  stroke="#0851FF"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                />
+              </LineChart>
+            ) : null}
+            {TIM ? (
+              <LineChart
+                width={800}
+                height={400}
+                data={listHBDoctor}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="createdAt" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="5 5" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="heartRateIndicator"
+                  stroke="#8884d8"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                  name="Tim mạch"
+                />
+              </LineChart>
+            ) : null}
+          </div>
+        </>
+      ) : (
+        <>
+          <div className={cx("Chart")}>
+            {BMI ? (
+              <LineChart
+                width={1050}
+                height={400}
+                data={listBMI}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="createdAt" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="indexBmi"
+                  stroke="#003000"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                  name="BMI"
+                />
+              </LineChart>
+            ) : null}
+
+            {HA ? (
+              <LineChart
+                width={1050}
+                height={400}
+                data={listBloodPressures}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="createdAt" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="systolic"
+                  stroke="#82ca9d"
+                  name="Tâm thu"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="diastolic"
+                  stroke="#8884d8"
+                  name="Tâm trương"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                />
+              </LineChart>
+            ) : null}
+            {CHOLES ? (
+              <LineChart
+                width={1050}
+                height={400}
+                data={listCholesterol}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="createdAt" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="cholesterol"
+                  stroke="#0851FF"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                />
+              </LineChart>
+            ) : null}
+            {GLU ? (
+              <LineChart
+                width={1050}
+                height={400}
+                data={listGlucoses}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="createdAt" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="glucose"
+                  stroke="#0851FF"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                />
+              </LineChart>
+            ) : null}
+            {TIM ? (
+              <LineChart
+                width={1050}
+                height={400}
+                data={listHB}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="createdAt" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="5 5" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="heartRateIndicator"
+                  stroke="#8884d8"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                  name="Tim mạch"
+                />
+              </LineChart>
+            ) : null}
+          </div>
+        </>
+      )}
+    </>
   );
 };
 

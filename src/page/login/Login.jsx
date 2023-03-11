@@ -42,7 +42,6 @@ const Login = () => {
         if (resData.statusCode !== 200) {
           throw new Error(resData.message);
         } else {
-          console.log(resData.data);
           return resData.data;
         }
       });
@@ -52,13 +51,13 @@ const Login = () => {
       .then((token) => {
         if (typeof token != "undefined") {
           if (token.role === "PATIENT") {
-            console.log(token.role);
             alert("Đăng nhập thành công");
             localStorage.setItem(
               "user_login",
               JSON.stringify(token.access_token)
             );
             setRoleLogin(token.role);
+
             navigate("/Home", {
               state: {
                 roleLogin,

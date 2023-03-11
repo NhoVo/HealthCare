@@ -19,7 +19,6 @@ export const fetchLoginSlice = createAsyncThunk(
           .then((resp) => resp.json())
           .then((data) => {
             if (data.data.role === "DOCTOR") {
-              console.log(data.data.role);
               return data.data;
             } else {
               return data.data.patient;

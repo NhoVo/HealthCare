@@ -10,16 +10,12 @@ import { MdOutlineAddLocation } from "react-icons/md";
 const Position = ({ text }) => <div>{text}</div>;
 const cx = classNames.bind(styles);
 
-const GoogleMap = ({ coords, address }) => {
+const GoogleMap = ({ coords, addressP }) => {
   //   const [coordinates, setCoordinates] = useState(null);
   //   const userD = useSelector(userDoctorPatient);
-  //   console.log(userD);
-  console.log(coords);
-  // console.log(address);
 
   return (
     <div className={cx("title")} style={{ height: "300px", width: "1000px" }}>
-      <div></div>
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API }}
         defaultCenter={coords}
@@ -33,15 +29,9 @@ const GoogleMap = ({ coords, address }) => {
         />
 
         <Position
-          lat={10.82221328865831}
-          lng={106.68684506946747}
-          text={
-            <HiLocationMarker
-              color="black"
-              size={"30px"}
-              className={cx("map-patientBook")}
-            />
-          }
+          lat={addressP?.lat}
+          lng={addressP?.lng}
+          text={<HiLocationMarker color="black" size={"30px"} />}
         />
 
         {/* <div className={cx("map-address")}>okok</div> */}

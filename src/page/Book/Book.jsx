@@ -62,14 +62,13 @@ const Book = () => {
   // const userPatient = useSelector(userPatients);
   const listBDoctor = useSelector(getListBookDoctor);
   const listADoctor = useSelector(getListBookDoctorAccept);
-  console.log(listADoctor);
+
   const handleModelCloseInfo = () => {
     setOpenInfo(false);
   };
   //đặt lịch hẹn
   const handleBook = () => {
     if (count > 3) {
-      console.log(count);
       alert("Bạn chỉ được đặt tối đa 3 cuộc hẹn");
     } else {
       setCount(inforBook.length);
@@ -81,7 +80,7 @@ const Book = () => {
         notes: note,
         timeMeeting: timeMeeting,
       };
-      // console.log(data);
+
       dispatch(fetchPatientBook(data));
     }
   };
@@ -374,7 +373,9 @@ const Book = () => {
                                 </button>
                               </td>
                               <td>
-                                <button>Hủy</button>
+                                <button onClick={() => handleCanceletail(b)}>
+                                  Hủy
+                                </button>
                               </td>
                             </tr>
                           );

@@ -8,7 +8,6 @@ const UserDoctors = createSlice({
       state.data = action.payload;
     });
     builder.addCase(fetchUserDoctor.fulfilled, (state, action) => {
-      console.log(action.payload);
       state.userDoctor = action.payload;
     });
   },
@@ -53,7 +52,7 @@ export const fetchUserDoctor = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-    console.log(jsonData.data);
+
     return jsonData.data;
   }
 );
