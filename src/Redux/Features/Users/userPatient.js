@@ -9,7 +9,7 @@ const userPatient = createSlice({
     });
   },
 });
-//tài khoản đăng nhập bệnh nhân
+//danh sách  bệnh nhân
 export const fetchUserPatients = createAsyncThunk(
   // Tên action
   "userPatients/fetchUserPatients",

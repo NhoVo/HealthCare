@@ -1,0 +1,211 @@
+.Title h1 {
+  font-weight: 500;
+  font-family: var(--font-family);
+  padding-top: 20px;
+  text-align: center;
+}
+.content {
+  display: flex;
+}
+.listPatient {
+  height: 640px;
+  width: 500px;
+}
+.informationPatient {
+  height: 640px;
+  width: 750px;
+}
+.col-4 {
+  border-radius: 10px;
+  border: 1px solid silver;
+  width: 400px;
+  height: 600px;
+  margin-left: 10px;
+  margin-top: 20px;
+}
+.title-list {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: var(--font-family);
+  text-align: center;
+  margin-top: 10px;
+}
+.strikethrough {
+  border: 1px solid silver;
+}
+.col-md-8 {
+  display: block;
+  margin-top: 10px;
+}
+.search {
+  position: relative;
+
+  box-shadow: 0 0 40px rgba(51, 51, 51, 0.1);
+}
+.search input {
+  height: 30px;
+  text-indent: 15px;
+  border: 2px solid #d6d4d4;
+}
+.search input:focus {
+  box-shadow: none;
+  border: 2px solid var(--primary);
+}
+.search .item {
+  position: absolute;
+  top: 8px;
+  left: 5px;
+}
+.search button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 30px;
+  width: 60px;
+  background-color: var(--primary);
+}
+.list-conversation {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  &:hover {
+    width: 400px;
+    cursor: pointer;
+    background-color: rgb(248, 233, 233);
+    transition: background-color ease-in-out 200ms;
+  }
+}
+.avatar-img {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.content-s {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.username {
+  font-size: 1.6rem;
+}
+.message {
+  font-size: 1.4rem;
+}
+.result-add-friend button {
+  padding: 10px;
+  border: 0;
+  border-radius: 6px;
+  background-color: var(--primary);
+  color: var(--white);
+
+  width: 80px;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
+.form-group-1 {
+  display: flex;
+  margin-top: 10px;
+}
+.input-field {
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: var(--font-family);
+  width: 350px;
+
+  margin-left: 10px;
+}
+.input-field-2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: var(--font-family);
+  margin-left: 10px;
+  padding-bottom: 17px;
+}
+.table-infor table {
+  font-size: 1.5rem;
+  width: 100%;
+  display: flex;
+  border-collapse: collapse;
+  flex-flow: column;
+  width: 99.5%;
+  height: 440px;
+}
+.table-infor thead {
+  background-color: black;
+  color: white;
+}
+.table-infor tbody {
+  flex: 1 1 auto;
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.table-infor tr {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+.title-table {
+  font-size: 1.8rem;
+
+  font-weight: bold;
+  font-family: var(--font-family);
+  margin-left: 10px;
+}
+.title-table button {
+  font-size: 1.2rem;
+  padding: 10px;
+  margin-bottom: 5px;
+  margin-left: 450px;
+  border: 0;
+  border-radius: 6px;
+  background-color: var(--primary);
+  color: var(--white);
+  width: 100px;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
+.model-add-information {
+  width: 600px;
+  height: 700px;
+}
+.model-add-information-bg {
+  background-color: var(--white);
+  border-radius: 6px;
+  height: 700px;
+  width: 600px;
+}
+
+.add-information-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  height: 50px;
+  border-bottom: solid 0.5px #d3d3d3;
+}
+
+.information-title {
+  color: var(--text);
+  font-size: 1.8rem;
+  font-weight: 500;
+  font-family: var(--font-family);
+}
+.close-btn {
+  background-color: transparent;
+  border: none;
+}
+.close-ic {
+  font-size: 2rem;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
+}

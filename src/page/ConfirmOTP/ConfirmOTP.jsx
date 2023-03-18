@@ -26,6 +26,9 @@ const ConfirmOTP = () => {
   const job = location.state?.job;
   const states = location.state?.states;
   const medicalHistory = location.state?.medicalHistory;
+  const carersFullName = location.state?.carersFullName;
+  const carersPhone = location.state?.carersPhone;
+
   const [OTP, setOTP] = useState("");
   //API Register
   const register = () => {
@@ -48,6 +51,12 @@ const ConfirmOTP = () => {
           job: job,
           state: states,
           medicalHistory: medicalHistory,
+          carers: [
+            {
+              phone: carersPhone,
+              fullName: carersFullName,
+            },
+          ],
         }),
       }
     )
@@ -172,7 +181,6 @@ const ConfirmOTP = () => {
                       </u>
                     </div>
                   </Link>
-
                   <Button>
                     Xác nhận <div id="tam"></div>
                   </Button>

@@ -69,7 +69,7 @@ const Left = ({ role }) => {
       </ItemLeft>
       {role ? (
         <ItemLeft>
-          <div className={cx("group-item")}>
+          <div className={cx("group-item")} onClick={handleMedicalRecord}>
             <FormatListBulletedIcon className={cx("icon")} />
             <h1>Hồ sơ bệnh nhân</h1>
           </div>

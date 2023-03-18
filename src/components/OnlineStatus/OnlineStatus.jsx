@@ -56,25 +56,13 @@ function OnlineStatus({ onlineUsers, conversation }) {
             src={images.logo}
             alt=""
           />
-          {/* conversation.isGroup */}
-          {false ? (
-            <div className={cx("info")}>
-              {/* <h3 className={cx("username")}>{conversation.name}</h3> */}
-              <h3 className={cx("username")}>VTN</h3>
-
-              <span className={cx("time-online")}>
-                <FontAwesomeIcon icon={faUser} /> 6
-                {/* {conversation.members.length}{" "} */}
-                thành viên
-              </span>
-            </div>
-          ) : (
-            <div className={cx("info")}>
-              {/* {conversation.name} */}
-              <h3 className={cx("username")}>VTN</h3>
-              <span className={cx("time-online")}>Offline</span>
-            </div>
-          )}
+          <div className={cx("info")}>
+            {/* {conversation.name} */}
+            <h3 className={cx("username")}>
+              {conversation[0]?.user?.fullName}
+            </h3>
+            <span className={cx("time-online")}>Offline</span>
+          </div>
         </>
       )}
     </>

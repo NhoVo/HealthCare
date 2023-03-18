@@ -122,7 +122,6 @@ export const fetchCholesterolDoctor = createAsyncThunk(
     // Gọi lên API backend
     const param = new URLSearchParams({
       patientId: data,
-
       pageSize: 5,
       page: 1,
     });

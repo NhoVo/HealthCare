@@ -66,7 +66,7 @@ function ModelInfoAccount({
         </>
       )}
 
-      {userDoctor.role === "DOCTOR" ? (
+      {userDoctor?.role === "DOCTOR" ? (
         <>
           <ModelWrapper
             className={cx("model-info-acc")}

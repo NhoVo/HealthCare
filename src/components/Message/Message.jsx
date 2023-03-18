@@ -21,7 +21,7 @@ import {
 import styles from "./Message.module.scss";
 import Popper from "../Popper/Popper";
 import MessageItem from "./MessageItem";
-
+import images from "../../assets/images/index";
 import ModelWrapper from "../ModelWrapper/ModelWrapper";
 import MoveMessage from "./MoveMessage";
 
@@ -77,14 +77,14 @@ function Message({ message, own, conversation }) {
                   <Popper className={cx("own-menu-list")}>
                     <div className={cx("options")}>
                       {/* <Tippy
-                                                className={cx('tool-tip')}
-                                                content="Báo cáo tin nhắn"
-                                                delay={[200, 0]}
-                                            >
-                                                <button className={cx('option-btn')} onClick={handleReportClick}>
-                                                    <FontAwesomeIcon className={cx('option-icon')} icon={faFlag} />
-                                                </button>
-                                            </Tippy> */}
+                                        className={cx('tool-tip')}
+                                        content="Báo cáo tin nhắn"
+                                        delay={[200, 0]}
+                                    >
+                                        <button className={cx('option-btn')} onClick={handleReportClick}>
+                                            <FontAwesomeIcon className={cx('option-icon')} icon={faFlag} />
+                                        </button>
+                                    </Tippy> */}
 
                       {/* Show report */}
 
@@ -200,41 +200,25 @@ function Message({ message, own, conversation }) {
                   </div>
                 ) : (
                   <div className={cx("display-action-none")}>
-                    {message?.deleteBy.length === 0 && (
-                      <div className={cx("display-group-preview-image")}>
-                        <MessageItem message={message} own={own} />
-                      </div>
-                    )}
-                    {message?.deleteBy.length === 0 && (
-                      <>
-                        {conversation.isGroup === true ? (
-                          <img
-                            className={cx("message-top-img")}
-                            src={message.user.avatarLink}
-                            alt="avatar"
-                          />
-                        ) : (
-                          <img
-                            className={cx("message-top-img")}
-                            src={message.user.avatarLink}
-                            alt="avatar"
-                          />
-                        )}
-                      </>
-                    )}
+                    <div className={cx("display-group-preview-image")}>
+                      <MessageItem message={message} own={own} />
+                    </div>
+                    <img
+                      className={cx("message-top-img")}
+                      // src={message.user.avatarLink}
+                      src={images.doctor}
+                      alt="avatar"
+                    />
                   </div>
                 )}
               </div>
             </TippyHeadless>
           </div>
-          {message?.deleteBy.length === 0 && (
-            <>
-              {!message?.action && (
-                <span className={cx("message-bottom")}>
-                  {moment(message.createdAt).format("h:mm a")}
-                </span>
-              )}
-            </>
+
+          {!message?.action && (
+            <span className={cx("message-bottom")}>
+              {moment(message.createdAt).format("h:mm a")}
+            </span>
           )}
         </div>
       ) : (
@@ -370,40 +354,12 @@ function Message({ message, own, conversation }) {
                   </div>
                 ) : (
                   <div className={cx("display-action-none-receiver")}>
-                    {message?.deleteBy.length > 0 && (
-                      <>
-                        {conversation.isGroup === true ? (
-                          <img
-                            className={cx("message-top-img")}
-                            src={message?.user.avatarLink}
-                            alt="avatar"
-                          />
-                        ) : (
-                          <img
-                            className={cx("message-top-img")}
-                            src={message?.user?.avatarLink}
-                            alt="avatar"
-                          />
-                        )}
-                      </>
-                    )}
-                    {message?.deleteBy.length === 0 && (
-                      <>
-                        {conversation.isGroup === true ? (
-                          <img
-                            className={cx("message-top-img")}
-                            src={message?.user.avatarLink}
-                            alt="avatar"
-                          />
-                        ) : (
-                          <img
-                            className={cx("message-top-img")}
-                            src={message?.user?.avatarLink}
-                            alt="avatar"
-                          />
-                        )}
-                      </>
-                    )}
+                    <img
+                      className={cx("message-top-img")}
+                      // src={message?.user?.avatarLink}
+                      src={images.logo}
+                      alt="avatar"
+                    />
                     <div>
                       {/* {message?.deleteBy.length === 0 && ( */}
                       <div
@@ -418,23 +374,11 @@ function Message({ message, own, conversation }) {
               </div>
             </TippyHeadless>
           </div>
-          {message?.deleteBy.length > 0 && (
-            <>
-              {!message?.action && (
-                <span className={cx("message-bottom-left")}>
-                  {moment(message?.createdAt).format("h:mm a")}
-                </span>
-              )}
-            </>
-          )}
-          {message?.deleteBy.length === 0 && (
-            <>
-              {!message?.action && (
-                <span className={cx("message-bottom-left")}>
-                  {moment(message?.createdAt).format("h:mm a")}
-                </span>
-              )}
-            </>
+
+          {!message?.action && (
+            <span className={cx("message-bottom-left")}>
+              {moment(message?.createdAt).format("h:mm a")}
+            </span>
           )}
         </div>
       )}

@@ -25,12 +25,11 @@ const Search = () => {
   const [rating, setRating] = useState(3);
   const result = useSelector(resultSearchGG);
   const resultMap = useSelector(resultSearchGGMap);
-  console.log(resultMap);
+
   const dispatch = useDispatch();
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
-        console.log(coords);
         setCoords({
           lat: latitude,
           lng: longitude,

@@ -111,6 +111,11 @@ const Middle = () => {
                                   </div>
                                 </div>
                                 <div className={cx("date-content")}>
+                                  <a href={n?.url}>
+                                    Địa chỉ hiện tại của bệnh nhân
+                                  </a>
+                                </div>
+                                <div className={cx("date-content")}>
                                   {moment(n?.dateOfBirth).format("DD/MM/YYYY")}
                                 </div>
                               </div>
@@ -128,6 +133,11 @@ const Middle = () => {
                                   </div>
                                   {n?.content}
                                 </div>
+                              </div>
+                              <div className={cx("date-content")}>
+                                <a href={n?.url}>
+                                  Địa chỉ hiện tại của bệnh nhân
+                                </a>
                               </div>
                               <div className={cx("date-content")}>
                                 {moment(n?.dateOfBirth).format("DD/MM/YYYY")}

@@ -6,14 +6,20 @@ import styles from "./Rightbar.module.scss";
 import images from "../../../assets/images/index";
 import Messenger from "./Messenger/Messenger";
 import ConversationInfo from "./ConversationInfo/ConversationInfo";
+import { useSelector } from "react-redux";
+import {
+  conversationSlice,
+  listAllConversation,
+} from "../../../Redux/selector";
 
 const cx = classNames.bind(styles);
 
 function Rightbar({ peer }) {
+  const listConversation = useSelector(listAllConversation);
   return (
     <div className={cx("wrapper")}>
       {/* Để show ra Chat current -> get theo conversationId */}
-      {true ? (
+      {listConversation ? (
         <div className={cx("container")}>
           <Messenger peer={peer} />
           <ConversationInfo />

@@ -31,6 +31,8 @@ import {
 } from "../../Redux/selector";
 import { useDispatch, useSelector } from "react-redux";
 import MedicalRecord from "../MedicalRecord/MedicalRecord";
+import MedicalRecordDoctor from "../MedicalRecord/MedicalRecordDoctor";
+
 import {
   fetchAllHRPatient,
   fetchEmergency,
@@ -59,6 +61,8 @@ import {
   fetchGlucosesDoctor,
   fetchHeartbeatsDoctor,
 } from "../../Redux/Features/HealthRecord/HeartbeatPatient";
+import { fetchUserPatients } from "../../Redux/Features/Users/userPatient";
+import useDebounce from "../../components/hooks/useDebounce";
 
 const cx = classNames.bind(styles);
 
@@ -69,7 +73,7 @@ const Information = () => {
   const [CHOLES, setCHOLES] = useState(false);
   const [GLU, setGLU] = useState(false);
   const [TIM, setTIM] = useState(false);
-  // const [healReport, setHealReport] = useState("");
+  // const [healReport?, setHealReport] = useState("");
 
   const medicalRecord = useSelector(nextPageSelector);
   const pageBook = useSelector(nextPageSelectorBook);
@@ -89,8 +93,25 @@ const Information = () => {
   const [healReportPatient, setHealReportPatient] = useState([]);
   const result = useSelector(filterPhonePatient);
   const listPatient = useSelector(userPatients);
+
   const indexPatient = useSelector(allHRecordPaient);
+  const debouncedValue = useDebounce(searchPhone, 500);
   // console.log(listPatient);
+  useEffect(() => {
+    if (searchPhone === "") {
+      setSearchResult(false);
+    } else {
+      dispatch(filterSlice.actions.searchFilterChange(searchPhone));
+      if (result !== 1) {
+        setSearchResult(true);
+        setHealReportPatient(result[0]);
+      } else {
+        toast.error(
+          "Số điện thoại này không tồn tại hoặc chưa được đăng ký tài khoản. Vui lòng thử lại!"
+        );
+      }
+    }
+  }, [searchPhone, debouncedValue]);
   const handleModelOpenInfo = () => {
     setOpenInfo(true);
   };
@@ -133,13 +154,11 @@ const Information = () => {
     setTIM(true);
   };
   const Emergency = () => {
-    console.log("ok");
     dispatch(fetchEmergency());
   };
   //bác sĩ
   const handleSearch = () => {
     dispatch(filterSlice.actions.searchFilterChange(searchPhone));
-    console.log(result[0]);
     if (result !== 1) {
       setSearchResult(true);
       setHealReportPatient(result[0]);
@@ -163,7 +182,13 @@ const Information = () => {
       {userDoctor.role === "DOCTOR" ? (
         <>
           {pageBook || medicalRecord ? (
-            <>{medicalRecord ? <MedicalRecord user={user} /> : <Book />}</>
+            <>
+              {medicalRecord ? (
+                <MedicalRecordDoctor user={user} listPatient={listPatient} />
+              ) : (
+                <Book />
+              )}
+            </>
           ) : (
             <>
               {pageInforDoctor ? (
@@ -235,7 +260,7 @@ const Information = () => {
                   <div className={cx("center-Infor")}>
                     <div className={cx("col-4")}>
                       <div className={cx("title-list")}>
-                        Danh sách bệnh nhân ( {listPatient.length} )
+                        Danh sách bệnh nhân ({listPatient?.length})
                       </div>
                       <div className={cx("strikethrough")}></div>
                       <div className={cx("search-form")}>
@@ -332,6 +357,7 @@ const Information = () => {
                         </div>
                       </div>
                     </div>
+
                     <div className={cx("col-8")}>
                       <div className={cx("chart")}>
                         {BMI ? <Chart BMI /> : null}
@@ -408,7 +434,7 @@ const Information = () => {
                     <div className={cx("col-2")} onClick={HandleBMI}>
                       <DiseaseIndex
                         name="BMI"
-                        index={healReport.indexBmi}
+                        index={healReport?.indexBmi}
                         percent="46%"
                         icon={
                           <ArrowDropDownIcon
@@ -421,7 +447,7 @@ const Information = () => {
                     <div className={cx("col-2")} onClick={HandleHA}>
                       <DiseaseIndex
                         name="Huyết áp"
-                        index={healReport.systolic}
+                        index={healReport?.systolic}
                         percent="46%"
                         icon={
                           <ArrowDropDownIcon
@@ -434,7 +460,7 @@ const Information = () => {
                     <div className={cx("col-2")} onClick={HandleCHOLE}>
                       <DiseaseIndex
                         name="Cholesterol"
-                        index={healReport.cholesterol}
+                        index={healReport?.cholesterol}
                         percent="46%"
                         icon={
                           <ArrowDropDownIcon
@@ -447,7 +473,7 @@ const Information = () => {
                     <div className={cx("col-2")} onClick={HandleGLU}>
                       <DiseaseIndex
                         name="Glucose"
-                        index={healReport.glucose}
+                        index={healReport?.glucose}
                         percent="46%"
                         icon={
                           <ArrowDropDownIcon
@@ -460,7 +486,7 @@ const Information = () => {
                     <div className={cx("col-2")} onClick={HandleTIM}>
                       <DiseaseIndex
                         name="Nhịp Tim"
-                        index={healReport.heartRateIndicator}
+                        index={healReport?.heartRateIndicator}
                         percent="46%"
                         icon={
                           <ArrowDropDownIcon

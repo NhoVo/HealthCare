@@ -369,3 +369,29 @@
   // overflow-y: scroll;
   // overflow-y: overlay;
 }
+///
+.message-container {
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.sender {
+  color: #4287f5;
+}
+
+.timestamp {
+  color: #666;
+}
+
+.message-body {
+  margin-top: 5px;
+  word-wrap: break-word;
+}

@@ -19,7 +19,6 @@ import images from "../../../../assets/images/index";
 // import ModelWrapper from "~/components/ModelWrapper";
 // import ModelInfoAccount from "~/components/ModelWrapper/ModelInfoAccount";
 
-import ModelInfoAccount from "../../../ModelWrapper/ModelInfoAccount/ModelInfoAccount";
 import Popper from "../../../Popper/Popper";
 import ModelWrapper from "../../../ModelWrapper/ModelWrapper";
 
@@ -113,10 +112,6 @@ function MenuItem({ user }) {
   return (
     <>
       <div className={cx("setting-header")}>
-        <div className={cx("setting-option")}>
-          {/* Model info account */}
-          <ModelInfoAccount user={user} />
-        </div>
         <div className={cx("setting-option")}>
           <FontAwesomeIcon className={cx("setting-icon")} icon={faGear} />
           <button className={cx("setting-item-btn")}>Cài đặt</button>
@@ -225,18 +220,6 @@ function MenuItem({ user }) {
       </div>
 
       <div className={cx("separator")}></div>
-
-      <div className={cx("footer")}>
-        <div className={cx("setting-option")}>
-          <FontAwesomeIcon
-            className={cx("setting-icon")}
-            icon={faRightFromBracket}
-          />
-          <button className={cx("setting-item-btn")} onClick={userlogout}>
-            Đăng xuất
-          </button>
-        </div>
-      </div>
     </>
   );
 }

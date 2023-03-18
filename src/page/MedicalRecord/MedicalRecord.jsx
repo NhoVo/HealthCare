@@ -120,10 +120,7 @@ const MedicalRecord = ({ user, userD, allHrecord }) => {
           </div>
         </form>
       </div>
-      <div className={cx("title-table")}>
-        Bảng theo dõi chỉ số <input type="date" />
-        <SearchIcon className={cx("search")} />
-      </div>
+      <div className={cx("title-table")}>Bảng theo dõi chỉ số</div>
       <div className={cx("table-infor")}>
         <table className={cx("table table-striped")}>
           <thead>
@@ -135,7 +132,6 @@ const MedicalRecord = ({ user, userD, allHrecord }) => {
               <th>Cholesterol</th>
               <th>Glucose</th>
               <th>Nhịp Tim</th>
-
               <th>Ngày</th>
             </tr>
           </thead>

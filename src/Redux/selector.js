@@ -36,10 +36,14 @@ export const listBloodPressuresDoctor = (state) =>
 export const listCholesterolDoctor = (state) =>
   state.listHPatient.cholesterolDoctor;
 export const listGlucosesDoctor = (state) => state.listHPatient.glucosesDoctor;
+
+//Cuộc hội thoại
+export const listAllConversation = (state) => state.listConversation.data;
+export const listAllMessage = (state) => state.listConversation.dataMessage;
+
 export const usersRemainingSelector = createSelector(
   userDoctors,
   searchTextSelector,
-
   (users, search) => {
     if (search) {
       if (search.startsWith("0")) {

@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import DoctorBook from "./Features/Book/DoctorBook";
 import PatientBook from "./Features/Book/PatientBook";
+import Conversation from "./Features/Conversation/Conversation";
 import filterSlice from "./Features/filter/filterSlice";
 import searchgg from "./Features/filter/searchgg";
 import HealthRecord from "./Features/HealthRecord/HealthRecord";
@@ -26,6 +27,7 @@ const store = configureStore({
     doctorBook: DoctorBook.reducer,
     listHPatient: HeartbeatPatient.reducer,
     searchGoogle: searchgg.reducer,
+    listConversation: Conversation.reducer,
   },
 });
 

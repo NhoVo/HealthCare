@@ -36,7 +36,8 @@ const ResisterPatient = () => {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [medicalHistory, setMedicalHistory] = useState();
-
+  const [carersFullName, setCarersFullName] = useState();
+  const [carersPhone, setCarersPhone] = useState();
   const { handleSubmit } = useForm();
   const generateRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
@@ -56,6 +57,7 @@ const ResisterPatient = () => {
       setOptionSex("FEMALE");
     }
   };
+
   const handleResisterPatient = () => {
     if (password !== confirmPassword) {
       alert("Mật khẩu không trùng khớp");
@@ -81,6 +83,8 @@ const ResisterPatient = () => {
               job,
               states,
               medicalHistory,
+              carersFullName,
+              carersPhone,
             },
           });
           console.log("Đã gửi mã");
@@ -202,10 +206,32 @@ const ResisterPatient = () => {
                     <div className={cx("input-field")}>
                       <TextInput
                         id="outlined-helperText"
-                        label="Tình trạng"
-                        placeholder="Nhập Tình trạng..."
+                        label="Triệu chứng"
+                        placeholder="Nhập triệu chứng..."
                         value={states}
                         onChange={(e) => setStates(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className={cx("form-group py-1 pb-2")}>
+                  <div className={cx("form-group-1")}>
+                    <div className={cx("input-field")}>
+                      <TextInput
+                        id="outlined-helperText"
+                        label="Tên người thân :"
+                        placeholder="Nhập Tên người thân ...."
+                        value={carersFullName}
+                        onChange={(e) => setCarersFullName(e.target.value)}
+                      />
+                    </div>
+                    <div className={cx("input-field")}>
+                      <TextInput
+                        id="outlined-helperText"
+                        label="Nhập Số điện thoại người thân: "
+                        placeholder="Nhập Số điện thoại người thân..."
+                        value={carersPhone}
+                        onChange={(e) => setCarersPhone(e.target.value)}
                       />
                     </div>
                   </div>
@@ -234,6 +260,7 @@ const ResisterPatient = () => {
                     </div>
                   </div>
                 </div>
+
                 <div className={cx("form-group py-1 pb-2")}>
                   <div className={cx("input-field")}>
                     <TextField
@@ -247,12 +274,10 @@ const ResisterPatient = () => {
                     />
                   </div>
                 </div>
-
                 <div className={cx("btn-register")}>
                   <Button>Đăng Ký</Button>
                   <div id="tam"></div>
                 </div>
-
                 <Link to="/Login">
                   <div className={cx("back")}>
                     <ArrowBackIcon sx={{ fontSize: 20 }} />
