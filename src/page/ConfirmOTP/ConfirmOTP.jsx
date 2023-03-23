@@ -102,7 +102,6 @@ const ConfirmOTP = () => {
   };
   const handleConfirmOTP = () => {
     if (OTP.length === 6) {
-      console.log("trong if");
       generateRecaptcha();
       if (OTP.length === 6) {
         let confirmationResult = window.confirmationResult;
@@ -122,7 +121,7 @@ const ConfirmOTP = () => {
                         "user_login",
                         JSON.stringify(token.access_token)
                       );
-                      console.log("đã đăng nhập");
+
                       navigate("/ChooseDoctor", {
                         state: true,
                       });

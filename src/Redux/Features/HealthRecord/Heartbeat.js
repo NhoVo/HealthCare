@@ -34,8 +34,12 @@ export const fetchHeartbeats = createAsyncThunk(
   async (data) => {
     // Gọi lên API backend
     const getToken = JSON.parse(localStorage.getItem("user_login"));
+    const param = new URLSearchParams({
+      pageSize: 10,
+      page: 1,
+    });
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/get-heartbeat`,
+      `${process.env.REACT_APP_BASE_URL}/get-heartbeat?` + param.toString(),
       {
         method: "GET",
         headers: {
@@ -56,7 +60,7 @@ export const fetchBMI = createAsyncThunk(
   "userPatient/fetchBMI",
   async (data) => {
     const param = new URLSearchParams({
-      pageSize: 5,
+      pageSize: 10,
       page: 1,
     });
     // Gọi lên API backend
@@ -84,7 +88,7 @@ export const fetchBloodPressures = createAsyncThunk(
   async (data) => {
     // Gọi lên API backend
     const param = new URLSearchParams({
-      pageSize: 5,
+      pageSize: 10,
       page: 1,
     });
     const getToken = JSON.parse(localStorage.getItem("user_login"));
@@ -112,7 +116,7 @@ export const fetchCholesterol = createAsyncThunk(
   async (data) => {
     // Gọi lên API backend
     const param = new URLSearchParams({
-      pageSize: 5,
+      pageSize: 10,
       page: 1,
     });
     const getToken = JSON.parse(localStorage.getItem("user_login"));
@@ -139,7 +143,7 @@ export const fetchGlucoses = createAsyncThunk(
   async (data) => {
     // Gọi lên API backend
     const param = new URLSearchParams({
-      pageSize: 5,
+      pageSize: 10,
       page: 1,
     });
     const getToken = JSON.parse(localStorage.getItem("user_login"));

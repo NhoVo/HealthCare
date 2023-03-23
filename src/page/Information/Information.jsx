@@ -96,7 +96,21 @@ const Information = () => {
 
   const indexPatient = useSelector(allHRecordPaient);
   const debouncedValue = useDebounce(searchPhone, 500);
-  // console.log(listPatient);
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const hours = time.getHours().toString().padStart(2, "0");
+  const minutes = time.getMinutes().toString().padStart(2, "0");
+  const seconds = time.getSeconds().toString().padStart(2, "0");
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString("en-GB");
   useEffect(() => {
     if (searchPhone === "") {
       setSearchResult(false);
@@ -116,6 +130,7 @@ const Information = () => {
     setOpenInfo(true);
   };
   const handleModelCloseInfo = () => {
+    dispatch(healthRecordDay());
     setOpenInfo(false);
   };
   const HandleBMI = () => {
@@ -256,6 +271,18 @@ const Information = () => {
                         }
                       />
                     </div>
+                    <div className={cx("col-2")} onClick={HandleTIM}>
+                      <DiseaseIndex
+                        name="Đồng hồ"
+                        index={
+                          <>
+                            {hours}:{minutes}:{seconds}
+                            <br />
+                            {formattedDate}
+                          </>
+                        }
+                      />
+                    </div>
                   </div>
                   <div className={cx("center-Infor")}>
                     <div className={cx("col-4")}>
@@ -320,7 +347,7 @@ const Information = () => {
                                 return (
                                   <div
                                     className={cx("list-conversation")}
-                                    key={user?._id}
+                                    key={user?.id}
                                   >
                                     <img
                                       className={cx("avatar-img")}
@@ -357,15 +384,17 @@ const Information = () => {
                         </div>
                       </div>
                     </div>
-
                     <div className={cx("col-8")}>
-                      <div className={cx("chart")}>
+                      <div className={cx("Chart")}>
                         {BMI ? <Chart BMI /> : null}
                         {HA ? <Chart HA /> : null}
                         {CHOLES ? <Chart CHOLES /> : null}
                         {GLU ? <Chart GLU /> : null}
                         {TIM ? <Chart TIM /> : null}
-                        {/* <ChatBot /> */}
+                        <div className={cx("chatBox")}>
+                          <ChatBot />
+                        </div>
+
                         {/* <ChatIA /> */}
                       </div>
                     </div>
@@ -426,7 +455,9 @@ const Information = () => {
                             />
                           </button>
                         </div>
-                        <AddInformation />
+                        <AddInformation
+                          handleModelCloseInfo={handleModelCloseInfo}
+                        />
                       </div>
                     </ModelWrapper>
                   </div>
@@ -499,7 +530,7 @@ const Information = () => {
                     <div className={cx("col-2")}>
                       <DiseaseIndex
                         name="Tình trạng"
-                        index="Tốt"
+                        index={healReport?.status}
                         icon={
                           <MoodIcon sx={{ fontSize: 20 }} color="success" />
                         }
@@ -513,7 +544,7 @@ const Information = () => {
                       {CHOLES ? <Chart CHOLES /> : null}
                       {GLU ? <Chart GLU /> : null}
                       {TIM ? <Chart TIM /> : null}
-                      {/* <ChatBot /> */}
+                      <ChatBot />
                       {/* <ChatIA /> */}
                     </div>
                   </div>

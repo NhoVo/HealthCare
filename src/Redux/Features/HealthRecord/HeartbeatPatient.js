@@ -35,7 +35,7 @@ export const fetchHeartbeatsDoctor = createAsyncThunk(
     // Gọi lên API backend
     const param = new URLSearchParams({
       patientId: data,
-      pageSize: 5,
+      pageSize: 10,
       page: 1,
     });
     const getToken = JSON.parse(localStorage.getItem("user_login"));
@@ -63,7 +63,7 @@ export const fetchBMIDoctor = createAsyncThunk(
   async (data) => {
     const param = new URLSearchParams({
       patientId: data,
-      pageSize: 5,
+      pageSize: 10,
       page: 1,
     });
     // Gọi lên API backend/v1/get-bmi-doctor
@@ -80,7 +80,7 @@ export const fetchBMIDoctor = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-    console.log(jsonData.data);
+
     return jsonData.data;
   }
 );
@@ -93,7 +93,7 @@ export const fetchBloodPressuresDoctor = createAsyncThunk(
     const param = new URLSearchParams({
       patientId: data,
 
-      pageSize: 5,
+      pageSize: 10,
       page: 1,
     });
     const getToken = JSON.parse(localStorage.getItem("user_login"));
@@ -122,7 +122,7 @@ export const fetchCholesterolDoctor = createAsyncThunk(
     // Gọi lên API backend
     const param = new URLSearchParams({
       patientId: data,
-      pageSize: 5,
+      pageSize: 10,
       page: 1,
     });
     const getToken = JSON.parse(localStorage.getItem("user_login"));
@@ -152,7 +152,7 @@ export const fetchGlucosesDoctor = createAsyncThunk(
     const param = new URLSearchParams({
       patientId: data,
 
-      pageSize: 5,
+      pageSize: 10,
       page: 1,
     });
     const getToken = JSON.parse(localStorage.getItem("user_login"));

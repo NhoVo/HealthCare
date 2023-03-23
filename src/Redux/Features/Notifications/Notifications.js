@@ -35,7 +35,7 @@ export const fetchNotficationsOfDoctor = createAsyncThunk(
 
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-
+    console.log(jsonData.data);
     return jsonData.data;
   }
 );
@@ -45,7 +45,7 @@ export const seenNotifications = createAsyncThunk(
   "user/seenNotifications",
   async (data) => {
     // Gọi lên API backend/v1/notification/{id}/read  /v1/notification/{id}/read
-    console.log(data);
+
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/notification/${data}/read`,
@@ -60,7 +60,7 @@ export const seenNotifications = createAsyncThunk(
 
     // Convert dữ liệu ra json/v1/notification/read-all
     const jsonData = await response.json();
-    console.log(jsonData);
+
     return jsonData;
   }
 );
@@ -85,7 +85,32 @@ export const seenAllNotifications = createAsyncThunk(
 
     // Convert dữ liệu ra json/v1/notification/read-all
     const jsonData = await response.json();
-    console.log(jsonData);
+
+    return jsonData;
+  }
+);
+//Gửi thông báo
+export const postNotification = createAsyncThunk(
+  // Tên action
+  "user/postNotification",
+  async (data) => {
+    // Gọi lên API backend/v1/notification
+
+    const getToken = JSON.parse(localStorage.getItem("user_login"));
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/notification`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    // Convert dữ liệu ra json
+    const jsonData = await response.json();
     return jsonData;
   }
 );

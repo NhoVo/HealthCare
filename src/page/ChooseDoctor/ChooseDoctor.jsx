@@ -38,11 +38,10 @@ const ChooseDoctor = () => {
       alert("chọn bác sĩ thành công");
       navigate("/Home");
     }
-    console.log(user.id);
   };
   const handleSearch = () => {
     dispatch(filterSlice.actions.searchFilterChange(searchPhone));
-    console.log("ok", result);
+
     if (result !== 1) {
       setSearchResult(true);
       setUserD(result[0]);

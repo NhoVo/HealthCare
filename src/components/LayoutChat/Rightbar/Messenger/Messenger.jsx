@@ -12,14 +12,9 @@ import {
   faFaceSmile,
   faFile,
   faImage,
-  faLock,
-  faMicrophone,
-  faMicrophoneSlash,
   faPaperclip,
-  faPhone,
   faThumbsUp,
   faVideo,
-  faVideoSlash,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { CircularProgress } from "@material-ui/core";
@@ -37,20 +32,25 @@ import OnlineStatus from "../../../OnlineStatus/OnlineStatus";
 import PreviewFileMessage from "../../../FileMessage/PreviewFileMessage";
 
 import ModelWrapper from "../../../ModelWrapper/ModelWrapper";
-import Webcam from "react-webcam";
-import images from "../../../../assets/images/index";
-import MessageItem from "../../../Message/MessageItem";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   listAllConversation,
   listAllMessage,
   userLogin,
 } from "../../../../Redux/selector";
-import { fetchPostMessage } from "../../../../Redux/Features/Conversation/Conversation";
+import Conversation, {
+  fetchPostMessage,
+  pushMessage,
+} from "../../../../Redux/Features/Conversation/Conversation";
+import { useMemo } from "react";
+import { io } from "socket.io-client";
+import { socket } from "../../../../App";
+import { fetchAllmessage } from "../../../../Redux/Features/Conversation/Conversation";
 
 const cx = classNames.bind(styles);
 
-function Messenger({ conversationPhoneBook }) {
+function Messenger() {
   const dispatch = useDispatch();
   const [newMessage, setNewMessage] = useState("");
   const [newImageMessage, setNewImageMessage] = useState([]);
@@ -58,14 +58,25 @@ function Messenger({ conversationPhoneBook }) {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [btnClosePreview, setBtnClosePreview] = useState(false);
   const [previewEmoji, setPreviewEmoji] = useState(false);
-
   const listMessage = useSelector(listAllMessage);
+  const listConversation = useSelector(listAllConversation);
+
+  const inForConversation = listConversation.filter((_c) =>
+    listMessage[0]?.conversationId?.includes(_c?.id)
+  );
 
   const user = useSelector(userLogin);
-
   const scrollMessenger = useRef();
-  //const usersFilter = users.filter((_user) => _user.phone === search);
-  const conversationOnlineStatus = listMessage.filter(
+  //call video
+  const [openInfo, setOpenInfo] = useState(false);
+
+  const handleModelOpenInfo = () => {
+    setOpenInfo(true);
+  };
+  const handleModelCloseInfo = () => {
+    setOpenInfo(false);
+  };
+  const conversationOnlineStatus = listMessage?.filter(
     (message) =>
       message?.user.id !== user?.doctor?.id && message?.user.id !== user?.id
   );
@@ -123,6 +134,13 @@ function Messenger({ conversationPhoneBook }) {
     };
   }, [newFileMessage]);
 
+  //socket- nhan tin
+  useEffect(() => {
+    socket.on("newMessage", (data) => {
+      dispatch(Conversation.actions.arrivalMessageFromSocket(data.data));
+    });
+    return () => socket.off("newMessage");
+  }, []);
   // handle preview emoji
   const handlePreviewEmoji = () => {
     setPreviewEmoji(true);
@@ -137,23 +155,12 @@ function Messenger({ conversationPhoneBook }) {
   // handle button send message
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    console.log();
-    //  check size file
-    // if (
-    //   newFileMessage?.size / 1024 / 1024 > 5 ||
-    //   newImageMessage?.size / 1024 / 1024 > 5
-    // ) {
-    //   toast.error(
-    //     "Xin lỗi, file của bạn vượt quá 5 MB. Vui lòng chọn file khác để gửi!"
-    //   );
-    //   return;
-    // }
+
     const data = {
       typeMessage: "TEXT",
       idConversation: listMessage[0].conversationId,
       content: newMessage,
     };
-    console.log(data);
     dispatch(fetchPostMessage(data));
 
     setNewMessage("");
@@ -209,7 +216,10 @@ function Messenger({ conversationPhoneBook }) {
             content="Cuộc gọi video"
             delay={[200, 0]}
           >
-            <button className={cx("btn-click-icon")}>
+            <button
+              className={cx("btn-click-icon")}
+              onClick={handleModelOpenInfo}
+            >
               <FontAwesomeIcon className={cx("icon")} icon={faVideo} />
             </button>
           </Tippy>

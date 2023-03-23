@@ -8,10 +8,96 @@ import MicIcon from "@mui/icons-material/Mic";
 import TippyHeadless from "@tippyjs/react/headless";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { faComment, faComments } from "@fortawesome/free-solid-svg-icons";
+import { Message } from "@chatscope/chat-ui-kit-react";
 
+const API_KEY = "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";
+// "Explain things like you would to a 10 year old learning how to code."
+const systemMessage = {
+  role: "system",
+  content: "Chào mừng bạn đến với N&S HealthCase",
+};
 const cx = classNames.bind(styles);
 const ChatBot = () => {
   const [openIntroVersion, setOpenIntroVersion] = useState(false);
+  const [tam, setTam] = useState("");
+  const [messages, setMessages] = useState([
+    {
+      message: "Chào mừng bạn đến với N&S HealthCase!",
+      sentTime: "just now",
+      sender: "ChatGPT",
+    },
+  ]);
+  const [isTyping, setIsTyping] = useState(false);
+
+  const handleSend = async (message) => {
+    const newMessage = {
+      message,
+      direction: "outgoing",
+      sender: "user",
+    };
+
+    const newMessages = [...messages, newMessage];
+
+    setMessages(newMessages);
+
+    // Initial system message to determine ChatGPT functionality
+    // How it responds, how it talks, etc.
+    setIsTyping(true);
+    await processMessageToChatGPT(newMessages);
+    setTam("");
+  };
+
+  async function processMessageToChatGPT(chatMessages) {
+    // messages is an array of messages
+    // Format messages for chatGPT API
+    // API is expecting objects in format of { role: "user" or "assistant", "content": "message here"}
+    // So we need to reformat
+
+    let apiMessages = chatMessages.map((messageObject) => {
+      let role = "";
+      if (messageObject.sender === "ChatGPT") {
+        role = "assistant";
+      } else {
+        role = "user";
+      }
+      return { role: role, content: messageObject.message };
+    });
+
+    // Get the request body set up with the model we plan to use
+    // and the messages which we formatted above. We add a system message in the front to'
+    // determine how we want chatGPT to act.
+    const apiRequestBody = {
+      model: "gpt-3.5-turbo",
+      messages: [
+        systemMessage, // The system message DEFINES the logic of our chatGPT
+        ...apiMessages, // The messages from our chat with ChatGPT
+      ],
+    };
+
+    await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + API_KEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(apiRequestBody),
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setMessages([
+          ...chatMessages,
+          {
+            message: data.choices[0].message.content,
+            sender: "ChatGPT",
+          },
+        ]);
+        setIsTyping(false);
+      });
+  }
+
   const handleModelOpenIntroVersion = () => {
     setOpenIntroVersion(true);
   };
@@ -29,15 +115,6 @@ const ChatBot = () => {
             : handleModelCloseIntroVersion
         }
       />
-      {/* <img
-        src={images.chatbox}
-        alt=""
-        onClick={
-          openIntroVersion === false
-            ? handleModelOpenIntroVersion
-            : handleModelCloseIntroVersion
-        }
-      /> */}
       {openIntroVersion === true ? (
         <div className={cx("chatbox")}>
           <div className={cx("chatbox")}>
@@ -57,51 +134,49 @@ const ChatBot = () => {
               </div>
               <div className={cx("chatbox__messages")}>
                 <div>
-                  <div className={cx("messages__item")}>
-                    <div className={cx("messages__item--visitor")}>
-                      Chào mừng bạn đến với N&S HealthCase
+                  {messages.map((message, i) => {
+                    return (
+                      <>
+                        {message.sender === "ChatGPT" ? (
+                          <div className={cx("messages__item")}>
+                            <div className={cx("messages__item--visitor")}>
+                              <Message key={i} model={message} />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className={cx("messages__item--operator")}>
+                            <Message key={i} model={message} />
+                          </div>
+                        )}
+                      </>
+                    );
+                  })}
+                  {isTyping ? (
+                    <div className={cx("messages__item")}>
+                      <div className={cx("messages__item--typing")}>
+                        <span className={cx("messages__dot")}>
+                          Đang trả lời...
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div className={cx("messages__item")}>
-                    <div className={cx("messages__item--visitor")}>
-                      Mình có thể hỗ trợ bạn thông tin gì?
-                    </div>
-                  </div>
-                  <div className={cx("messages__item--operator")}>
-                    <div>Sure!</div>
-                  </div>
-                  <div className={cx("messages__item")}>
-                    <div className={cx("messages__item--visitor")}>
-                      Need your help, I need a developer in my site.
-                    </div>
-                  </div>
-                  <div className={cx("messages__item--operator")}>
-                    <div>Hi... What is it? I'm a front-end developer, yay!</div>
-                  </div>
-                  <div className={cx("messages__item--operator")}>
-                    <div>Hi... What is it? I'm a front-end developer, yay!</div>
-                  </div>
-                  <div className={cx("messages__item--operator")}>
-                    <div>Hi... What is it? I'm a front-end developer, yay!</div>
-                  </div>
-                  <div className={cx("messages__item--operator")}>
-                    <div>Hi... What is it? I'm a front-end developer, yay!</div>
-                  </div>
-
-                  <div className={cx("messages__item")}>
-                    <div className={cx("messages__item--typing")}>
-                      <span className={cx("messages__dot")}></span>
-                      <span className={cx("messages__dot")}></span>
-                      <span className={cx("messages__dot")}></span>
-                    </div>
-                  </div>
+                  ) : null}
                 </div>
               </div>
               <div className={cx("chatbox__footer")}>
                 <InsertEmoticonIcon sx={{ fontSize: 20 }} />
                 <MicIcon sx={{ fontSize: 20 }} />
-                <input type="text" placeholder="Write a message..." />
-                <p className={cx("chatbox__send--footer")}>Gửi</p>
+                <input
+                  type="text"
+                  placeholder="Write a message..."
+                  value={tam}
+                  onChange={(e) => setTam(e.target.value)}
+                />
+                <p
+                  className={cx("chatbox__send--footer")}
+                  onClick={() => handleSend(tam)}
+                >
+                  Gửi
+                </p>
                 <AttachFileIcon sx={{ fontSize: 20 }} />
               </div>
             </div>

@@ -58,10 +58,13 @@ export const fetchAllHealthRecord = createAsyncThunk(
   "userDoctors/fetchAllHealthRecord",
   async (data) => {
     // Gọi lên API backend/v1/doctor/{id}
-
+    const param = new URLSearchParams({
+      isAll: true,
+    });
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/health-record-member`,
+      `${process.env.REACT_APP_BASE_URL}/health-record-member?` +
+        param.toString(),
       {
         method: "GET",
         headers: {

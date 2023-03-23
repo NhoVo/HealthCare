@@ -56,6 +56,10 @@ const Login = () => {
               "user_login",
               JSON.stringify(token.access_token)
             );
+            localStorage.setItem(
+              "jwt_refresh_token",
+              JSON.stringify(token.refresh_token)
+            );
             setRoleLogin(token.role);
 
             navigate("/Home", {
@@ -67,11 +71,14 @@ const Login = () => {
               navigate("/Home");
             }, 2000);
           } else {
-            console.log(token.role);
             alert("Đăng nhập thành công");
             localStorage.setItem(
               "user_login",
               JSON.stringify(token.access_token)
+            );
+            localStorage.setItem(
+              "jwt_refresh_token",
+              JSON.stringify(token.refresh_token)
             );
             const role = token.role;
             navigate("/Home", {

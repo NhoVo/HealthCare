@@ -5,7 +5,24 @@ const Conversation = createSlice({
     data: [],
     dataMessage: [],
   },
+  reducers: {
+    arrivalMessageFromSocket: (state, action) => {
+      const newMessage = action.payload;
+      state.dataMessage.push(action.payload);
 
+      // const messageId = state.data.find(
+      //   (message) => message._id === newMessage._id
+      // );
+
+      // // check
+      // if (!messageId) {
+      //   state.data.push(action.payload);
+      // } else {
+      //   console.log("Existing message id!!!");
+      //   return;
+      // }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchConversation.fulfilled, (state, action) => {
       state.data = action.payload;
@@ -49,9 +66,13 @@ export const fetchAllmessage = createAsyncThunk(
   "user/fetchAllmessage",
   async (data) => {
     // Gọi lên API backend
+
+    const param = new URLSearchParams({
+      isAll: true,
+    });
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/chat/${data}`,
+      `${process.env.REACT_APP_BASE_URL}/chat/${data}?` + param.toString(),
       {
         method: "GET",
         headers: {
@@ -62,7 +83,7 @@ export const fetchAllmessage = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-    console.log(jsonData.data);
+
     return jsonData.data;
   }
 );
@@ -89,8 +110,9 @@ export const fetchPostMessage = createAsyncThunk(
 
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-    console.log(jsonData);
+
     return jsonData;
   }
 );
+
 export default Conversation;

@@ -5,7 +5,7 @@ const NextPage = createSlice({
   initialState: {
     medicalRecord: "",
     book: "",
-    infor: "",
+    infor: true,
     inforDoctor: "",
   },
   reducers: {

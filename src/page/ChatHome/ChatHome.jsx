@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 const ChatHome = () => {
   const dispatch = useDispatch();
   const user = useSelector(userLogin);
-  console.log(user);
+
   const debouncedValue = useDebounce(user, 500);
   useEffect(() => {
     dispatch(fetchLoginSlice());

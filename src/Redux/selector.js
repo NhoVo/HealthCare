@@ -10,6 +10,7 @@ export const nextPageSelectorInforDoctor = (state) =>
   state.nextPages.inforDoctor;
 export const userLogin = (state) => state.user.data;
 export const searchTextSelector = (state) => state.filters.search;
+
 export const userDoctors = (state) => state.listUserDoctors.data;
 export const healthRD = (state) => state.healthRecordDay.data;
 export const listHeartbeat = (state) => state.listHeartbeat.data;
@@ -174,19 +175,38 @@ export const listBookPatient = createSelector(patientBookedSchedule, (pb) => {
   const listBookPatient = pb?.filter(
     (_pb) =>
       _pb.statusAppointment !== "CANCELED" &&
-      _pb.statusAppointment !== "APPROVED"
+      _pb.statusAppointment !== "APPROVED" &&
+      _pb.statusAppointment !== "COMPLETED"
   );
-
   return listBookPatient;
 });
-
+//danh sach lich hen da chấp nhận của bệnh nhân
+export const listBookPatientAPPROVED = createSelector(
+  patientBookedSchedule,
+  (pb) => {
+    const listBookPatient = pb?.filter(
+      (_pb) => _pb.statusAppointment === "APPROVED"
+    );
+    return listBookPatient;
+  }
+);
+export const sumBookPatient = createSelector(patientBookedSchedule, (pb) => {
+  const listBookPatient = pb?.filter(
+    (_pb) =>
+      _pb.statusAppointment === "APPROVED" ||
+      _pb.statusAppointment === "CREATED"
+  );
+  return listBookPatient.length;
+});
 //thao tac bac sĩ
 export const getListBookDoctor = createSelector(listBookDoctor, (lb) => {
   const listBookDoctor = lb?.filter(
     (_lb) =>
       _lb.statusAppointment !== "CANCELED" &&
-      _lb.statusAppointment !== "APPROVED"
+      _lb.statusAppointment !== "APPROVED" &&
+      _lb.statusAppointment !== "COMPLETED"
   );
+  console.log("lịch cho", listBookDoctor);
   return listBookDoctor;
 });
 export const getListBookDoctorAccept = createSelector(listBookDoctor, (lb) => {

@@ -5,12 +5,8 @@ import Left from "../../components/Layout/Left/Left";
 import Middle from "../../components/Layout/middle/Middle";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLoginSlice } from "../../Redux/Features/Users/UserLoginSlice";
-import {
-  fetchUserDoctor,
-  fetchUserDoctors,
-} from "../../Redux/Features/Users/UserDoctors";
+import { fetchUserDoctor } from "../../Redux/Features/Users/UserDoctors";
 import { userLogin } from "../../Redux/selector";
-import { useLocation } from "react-router-dom";
 import {
   fetchAllHealthRecord,
   healthRecordDay,
@@ -23,7 +19,6 @@ import {
   fetchHeartbeats,
 } from "../../Redux/Features/HealthRecord/Heartbeat";
 import { fetchBookedSchedule } from "../../Redux/Features/Book/PatientBook";
-import { useState } from "react";
 import { fetchNotficationsOfDoctor } from "../../Redux/Features/Notifications/Notifications";
 import { fetchUserPatients } from "../../Redux/Features/Users/userPatient";
 import { fetchListBookedOfDoctor } from "../../Redux/Features/Book/DoctorBook";
@@ -35,8 +30,6 @@ const Home = () => {
 
   const user = useSelector(userLogin);
 
-  // console.log("333------HOme", userDoctor.role);
-
   useEffect(() => {
     dispatch(fetchLoginSlice());
   }, []);
@@ -44,7 +37,6 @@ const Home = () => {
     dispatch(fetchNotficationsOfDoctor());
     if (user.role === "DOCTOR") {
       dispatch(fetchUserPatients());
-      dispatch(fetchListBookedOfDoctor());
     } else {
       dispatch(healthRecordDay());
       dispatch(fetchHeartbeats());
@@ -53,8 +45,6 @@ const Home = () => {
       dispatch(fetchCholesterol());
       dispatch(fetchGlucoses());
       dispatch(fetchUserDoctor(user.doctorId));
-      dispatch(fetchBookedSchedule());
-      dispatch(fetchAllHealthRecord());
     }
   }, [user]);
 

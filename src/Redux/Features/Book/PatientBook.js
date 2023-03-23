@@ -97,7 +97,6 @@ export const fetchBookDetail = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-
     return jsonData.data;
   }
 );

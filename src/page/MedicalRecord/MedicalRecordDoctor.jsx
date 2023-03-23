@@ -44,7 +44,7 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
   }, [searchPhone, debouncedValue]);
   const handleSearch = () => {
     dispatch(filterSlice.actions.searchFilterChange(searchPhone));
-    console.log(result[0]);
+
     if (result !== 1) {
       setSearchResult(true);
       setHealReportPatient(result[0]);
@@ -328,7 +328,8 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
                       </div>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Chỉ số huyết áp:</b>{patient?.indexBmi}
+                          <b>Chỉ số huyết áp:</b>
+                          {patient?.indexBmi}
                         </label>
                       </div>
                     </div>

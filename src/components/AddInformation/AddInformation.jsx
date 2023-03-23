@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { postHealthRecord } from "../../Redux/Features/HealthRecord/HealthRecord";
 const cx = classNames.bind(styles);
-const AddInformation = () => {
+const AddInformation = ({ handleModelCloseInfo }) => {
   const { handleSubmit } = useForm();
   const [weight, setWeight] = useState("");
   const [hight, setHight] = useState("");
@@ -31,6 +31,7 @@ const AddInformation = () => {
     if (add) {
       alert("thêm thông tin thành công");
     }
+    handleModelCloseInfo();
   };
   return (
     <div className={cx("header-title")}>
