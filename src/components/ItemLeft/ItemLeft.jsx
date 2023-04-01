@@ -1,7 +1,6 @@
-import React from "react";
 import classNames from "classnames/bind";
+import React from "react";
 import styles from "./ItemLeft.module.scss";
-import EditIcon from "@mui/icons-material/Edit";
 const cx = classNames.bind(styles);
 
 const ItemLeft = (props) => {

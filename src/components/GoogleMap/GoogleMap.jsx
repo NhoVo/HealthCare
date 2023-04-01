@@ -1,9 +1,7 @@
-import React from "react";
 import classNames from "classnames/bind";
-import styles from "./GoogleMap.module.scss";
 import GoogleMapReact from "google-map-react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React from "react";
+import styles from "./GoogleMap.module.scss";
 
 import { HiLocationMarker } from "react-icons/hi";
 import { MdOutlineAddLocation } from "react-icons/md";

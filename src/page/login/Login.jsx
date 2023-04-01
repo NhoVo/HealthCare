@@ -1,19 +1,14 @@
-import React, { useState } from "react";
-import classNames from "classnames/bind";
-import styles from "./Login.module.scss";
-import { TextField } from "@material-ui/core";
 import { PhoneIphone } from "@mui/icons-material";
-import LockIcon from "@mui/icons-material/Lock";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import LockIcon from "@mui/icons-material/Lock";
+import classNames from "classnames/bind";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import Button from "../../components/Button/Button";
 import FormPage from "../../components/FormPage/FormPage";
 import TextInput from "../../components/TextInput/TextInput";
-import Button from "../../components/Button/Button";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import userLoginSlice, {
-  fetchLoginSlice,
-} from "../../Redux/Features/Users/UserLoginSlice";
+import styles from "./Login.module.scss";
 
 const cx = classNames.bind(styles);
 

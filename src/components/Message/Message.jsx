@@ -1,28 +1,28 @@
 // libs
-import classNames from "classnames/bind";
-import TippyHeadless from "@tippyjs/react/headless";
 import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
+import TippyHeadless from "@tippyjs/react/headless";
+import classNames from "classnames/bind";
 import moment from "moment";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import "tippy.js/dist/tippy.css";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import {
   faCopy,
   faEllipsis,
+  faFlag,
   faRepeat,
   faShare,
   faTrash,
-  faFlag,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // me
-import styles from "./Message.module.scss";
-import Popper from "../Popper/Popper";
-import MessageItem from "./MessageItem";
 import images from "../../assets/images/index";
 import ModelWrapper from "../ModelWrapper/ModelWrapper";
+import Popper from "../Popper/Popper";
+import styles from "./Message.module.scss";
+import MessageItem from "./MessageItem";
 import MoveMessage from "./MoveMessage";
 
 const cx = classNames.bind(styles);

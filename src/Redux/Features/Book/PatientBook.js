@@ -6,6 +6,7 @@ const PatientBook = createSlice({
     bookedSchedule: [],
     bookDetail: [],
     cancelBook: [],
+    createBookPatient: [],
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPatientBook.fulfilled, (state, action) => {
@@ -19,6 +20,9 @@ const PatientBook = createSlice({
     });
     builder.addCase(fetchPatientBookCancel.fulfilled, (state, action) => {
       state.cancelBook = action.payload;
+    });
+    builder.addCase(fetchBookedScheduleCreate.fulfilled, (state, action) => {
+      state.createBookPatient = action.payload;
     });
   },
 });
@@ -62,9 +66,16 @@ export const fetchBookedSchedule = createAsyncThunk(
   "patientBook/fetchBookedSchedule",
   async (data) => {
     // Gọi lên API backend
+    const param = new URLSearchParams({
+      isAll: true,
+      page: 1,
+      pageSize: 10,
+      status: "APPROVED",
+    });
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/get-appointment-patient`,
+      `${process.env.REACT_APP_BASE_URL}/get-appointment-patient?` +
+        param.toString(),
       {
         method: "GET",
         headers: {
@@ -75,7 +86,35 @@ export const fetchBookedSchedule = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-
+    return jsonData.data;
+  }
+);
+// danh created của bệnh nhân
+export const fetchBookedScheduleCreate = createAsyncThunk(
+  // Tên action
+  "patientBook/fetchBookedScheduleCreate",
+  async (data) => {
+    // Gọi lên API backend
+    const param = new URLSearchParams({
+      isAll: true,
+      page: 1,
+      pageSize: 10,
+      status: "CREATED",
+    });
+    const getToken = JSON.parse(localStorage.getItem("user_login"));
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/get-appointment-patient?` +
+        param.toString(),
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken}`,
+        },
+      }
+    );
+    // Convert dữ liệu ra json
+    const jsonData = await response.json();
     return jsonData.data;
   }
 );

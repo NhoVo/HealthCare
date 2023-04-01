@@ -1,24 +1,16 @@
 // libs
 import classNames from "classnames/bind";
-import { format } from "timeago.js";
-import { MoreHoriz } from "@material-ui/icons";
-import { faEllipsis, faKey } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
-import TippyHeadless from "@tippyjs/react/headless";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { format } from "timeago.js";
+import "tippy.js/dist/tippy.css";
 
 // me
 import styles from "./Conversation.module.scss";
-import Popper from "../Popper/Popper";
 
-import ModelInfoAccount from "../ModelWrapper/ModelInfoAccount/ModelInfoAccount";
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import images from "../../assets/images/index";
 import { userLogin } from "../../Redux/selector";
-import { useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 
 function Conversation({ conversation, isPhoneBook, Group, conversationInfo }) {

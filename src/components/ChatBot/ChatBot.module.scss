@@ -120,7 +120,7 @@
 .chatbox__footer input {
   border: none;
   padding: 10px 10px;
-  width: 210px;
+  width: 260px;
   border-radius: 10px;
 }
 
@@ -141,28 +141,23 @@
   position: sticky;
   top: 0;
 }
-// .chatbox__messages {
-//   margin-top: auto;
-//   display: flex;
-//   flex-direction: column;
-//   overflow-y: scroll;
-//   flex-direction: column-reverse;
-// }
-// .messages__item {
-//   max-width: 60.6%;
-//   width: fit-content;
-// }
-// .messages__item--operator {
-//   margin-left: auto;
-// }
+.chatbox__mic {
+  animation: pulse 1s infinite;
+}
 
-// .messages__item--visitor {
-//   margin-right: auto;
-// }
-/* FOOTER */
-// .chatbox__footer {
-//   position: sticky;
-//   bottom: 0;
-// }
-////
-///
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

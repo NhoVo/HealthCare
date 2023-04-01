@@ -1,9 +1,7 @@
 .container {
-  margin: 0px;
-  padding: 0px;
-  height: 680px;
-  background-color: #f5f6f8;
-  margin-left: -13px;
+  height: 669px;
+  background-color: #f0f2fa;
+  width: 100%;
 }
 .col-12 {
   display: flex;
@@ -11,13 +9,16 @@
 
 .addIndex {
   border: none;
-  margin-top: 10px;
+  margin-top: 18px;
+  margin-left: 10px;
+  color: var(--primary);
+  cursor: pointer;
 }
 .addIndex-bell {
   border: none;
-  margin-top: 10px;
-
+  margin-top: 16px;
   color: red;
+  cursor: pointer;
 }
 .addIndex-lable {
   font-family: var(--font-family);
@@ -29,13 +30,17 @@
 }
 .title {
   font-family: var(--font-family);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   margin-top: 20px;
   margin-left: 30px;
 }
 .Chart {
   display: flex;
-  width: 88%;
+}
+.Chart-bot {
+  position: absolute;
+  margin-left: 690px;
+  margin-top: 40px;
 }
 .chatBox {
   margin-left: -130px;
@@ -103,8 +108,9 @@
 .center-Infor .col-4 {
   border-radius: 10px;
   border: 1px solid silver;
-  width: 300px;
-  margin-left: 10px;
+  width: 320px;
+  height: 375px;
+  margin-left: 25px;
   margin-top: 20px;
 }
 .title-list {
@@ -112,7 +118,8 @@
   font-weight: bold;
   font-family: var(--font-family);
   text-align: center;
-  margin-top: 10px;
+  line-height: 30px;
+  height: 30px;
 }
 .strikethrough {
   border: 1px solid silver;
@@ -124,13 +131,21 @@
 }
 .search {
   position: relative;
-
-  box-shadow: 0 0 40px rgba(51, 51, 51, 0.1);
+}
+.search-form {
+  background-color: #dadada;
+  height: 342px;
+  padding-top: 5px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 .search input {
-  height: 30px;
+  height: 35px;
   text-indent: 15px;
   border: 2px solid #d6d4d4;
+  margin-left: 10px;
+  border-radius: 5px;
+  width: 230px;
 }
 .search input:focus {
   box-shadow: none;
@@ -138,32 +153,42 @@
 }
 .search .item {
   position: absolute;
-  top: 8px;
-  left: 5px;
+  top: 10px;
+  left: 15px;
 }
 .search button {
   position: absolute;
   top: 0px;
-  right: 0px;
-  height: 30px;
+  right: 10px;
+  height: 35px;
   width: 60px;
   background-color: var(--primary);
+}
+.search-form .list-sum {
+  width: 95%;
+  height: 310px;
+  border-collapse: collapse;
+  flex-flow: column;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .list-conversation {
   display: flex;
   align-items: center;
-
+  width: 300px;
   margin-top: 10px;
+  background-color: white;
+  border-radius: 10px;
   &:hover {
-    width: 300px;
     cursor: pointer;
-    background-color: rgb(248, 233, 233);
+    background-color: #f0eeed;
     transition: background-color ease-in-out 200ms;
   }
 }
 .avatar-img {
-  width: 58px;
-  height: 58px;
+  width: 40px;
+  height: 40px;
+  margin-left: 5px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -171,12 +196,13 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-left: 10px;
-  margin-top: 10px;
+
+  padding: 5px;
 }
 
 .username {
   font-size: 1.6rem;
+  font-weight: bold;
 }
 
 .message {
@@ -188,7 +214,7 @@
   border-radius: 6px;
   background-color: var(--primary);
   color: var(--white);
-
+  margin-right: 5px;
   width: 80px;
   &:hover {
     cursor: pointer;
@@ -196,3 +222,12 @@
   }
 }
 //
+.bmi-index {
+  display: flex;
+}
+.bmi-index p {
+  font-size: 1.5rem;
+  font-family: var(--font-family);
+  margin-left: 5px;
+  margin-top: -3px;
+}

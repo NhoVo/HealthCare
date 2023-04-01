@@ -1,26 +1,22 @@
 // libs
-import classNames from "classnames/bind";
-import TippyHeadless from "@tippyjs/react/headless";
-import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faGear,
-  faFloppyDisk,
   faAngleRight,
-  faGlobe,
   faCircleInfo,
-  faRightFromBracket,
+  faFloppyDisk,
+  faGear,
+  faGlobe,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import TippyHeadless from "@tippyjs/react/headless";
+import classNames from "classnames/bind";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // me
-import styles from "./Menu.module.scss";
 import images from "../../../../assets/images/index";
-// import Popper from "~/components/Popper";
-// import ModelWrapper from "~/components/ModelWrapper";
-// import ModelInfoAccount from "~/components/ModelWrapper/ModelInfoAccount";
+import styles from "./Menu.module.scss";
 
-import Popper from "../../../Popper/Popper";
 import ModelWrapper from "../../../ModelWrapper/ModelWrapper";
+import Popper from "../../../Popper/Popper";
 
 const cx = classNames.bind(styles);
 

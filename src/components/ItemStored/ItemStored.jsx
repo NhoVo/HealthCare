@@ -1,12 +1,12 @@
 // libs
-import React from "react";
-import classNames from "classnames/bind";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
+import React from "react";
 
 // me
-import styles from "./ItemStored.module.scss";
 import FileMessage from "../FileMessage/FileMessage";
+import styles from "./ItemStored.module.scss";
 
 const cx = classNames.bind(styles);
 

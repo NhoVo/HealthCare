@@ -1,8 +1,8 @@
-import React from "react";
 import classNames from "classnames/bind";
-import styles from "./Welcome.module.scss";
+import React from "react";
 import { Link } from "react-router-dom";
 import FormPage from "../../components/FormPage/FormPage";
+import styles from "./Welcome.module.scss";
 const cx = classNames.bind(styles);
 const Welcome = () => {
   return (

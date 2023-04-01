@@ -1,18 +1,9 @@
-import TippyHeadless from "@tippyjs/react/headless";
-import { useState, useEffect } from "react";
-import moment from "moment";
-import { faEllipsis, faKey } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MoreHoriz } from "@material-ui/icons";
-import Tippy from "@tippyjs/react";
 import classNames from "classnames/bind";
-import Popper from "../Popper/Popper";
+import { useState } from "react";
 
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import styles from "./UserInGroup.module.scss";
-import ModelInfoAccount from "../ModelWrapper/ModelInfoAccount/ModelInfoAccount";
 
 const cx = classNames.bind(styles);
 

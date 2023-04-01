@@ -16,10 +16,11 @@ import { useMemo } from "react";
 import { io } from "socket.io-client";
 import { fetchNotficationsOfDoctor } from "./Redux/Features/Notifications/Notifications";
 import { useDispatch } from "react-redux";
-import HomeZoom from "./page/RooomChat/HomeZoom";
+
 import Room from "./page/RooomChat/Room";
+import ConfirmOTPDoctor from "./page/ConfirmOTP/ConfirmOTPDoctor";
 const getToken = JSON.parse(localStorage.getItem("jwt_refresh_token"));
-export let socketChat = io.connect("http://localhost:8989");
+
 export let socket = io(process.env.REACT_APP_BASE_URL_SOCKET_IO, {
   transports: ["websocket"],
   query: `Authorization=${getToken}`,
@@ -33,6 +34,7 @@ const App = () => {
         transports: ["websocket"],
         query: `Authorization=${getToken}`,
       });
+
       socket.on("newNotification", (data) => {
         dispatch(fetchNotficationsOfDoctor());
       });
@@ -46,11 +48,11 @@ const App = () => {
         <Route path="/Login" element={<Login />} />
         <Route path="/RegisterDoctor" element={<RegisterDoctor />} />
         <Route path="/ConfirmOTP" element={<ConfirmOTP />} />
+        <Route path="/ConfirmOTPDoctor" element={<ConfirmOTPDoctor />} />
         <Route path="/ResisterPatient" element={<ResisterPatient />} />
         <Route path="/Home" element={<Home />} />
         <Route path="/ChatHome" element={<ChatHome />} />
         <Route path="/ChooseDoctor" element={<ChooseDoctor />} />
-        <Route path="/HomeZoom" element={<HomeZoom />} />
         <Route path="/room/:roomID" element={<Room />} />
       </Routes>
     </Fragment>

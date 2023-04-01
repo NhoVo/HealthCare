@@ -1,37 +1,106 @@
-import React from "react";
 import classNames from "classnames/bind";
-import styles from "./MedicalRecord.module.scss";
-import SearchIcon from "@mui/icons-material/Search";
 import moment from "moment/moment";
+import React from "react";
+import styles from "./MedicalRecord.module.scss";
+import { useState } from "react";
 
 const cx = classNames.bind(styles);
 const MedicalRecord = ({ user, userD, allHrecord }) => {
+  const [currentPage, setcurrentPage] = useState(1);
+  const [itemsPerPage, setitemsPerPage] = useState(10);
+
+  const [pageNumberLimit, setpageNumberLimit] = useState(3);
+  const [maxPageNumberLimit, setmaxPageNumberLimit] = useState(3);
+  const [minPageNumberLimit, setminPageNumberLimit] = useState(0);
+  const handleClick = (event) => {
+    setcurrentPage(Number(event.target.id));
+  };
+
+  const pages = [];
+  for (let i = 1; i <= Math.ceil(allHrecord.length / itemsPerPage); i++) {
+    pages.push(i);
+  }
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = allHrecord.slice(indexOfFirstItem, indexOfLastItem);
+
+  const renderPageNumbers = pages.map((number) => {
+    if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
+      return (
+        <li
+          key={number}
+          id={number}
+          onClick={handleClick}
+          className={cx(currentPage === number ? "active" : null)}
+        >
+          {number}
+        </li>
+      );
+    } else {
+      return null;
+    }
+  });
+  const handleNextbtn = () => {
+    if (currentPage !== pages[pages.length - 1]) {
+      setcurrentPage(currentPage + 1);
+
+      if (currentPage + 1 > maxPageNumberLimit) {
+        setmaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+        setminPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+      }
+    }
+  };
+
+  const handlePrevbtn = () => {
+    if (currentPage !== pages[0]) {
+      setcurrentPage(currentPage - 1);
+
+      if ((currentPage - 1) % pageNumberLimit == 0) {
+        setmaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+        setminPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+      }
+    }
+  };
+
+  let pageIncrementBtn = null;
+  if (pages.length > maxPageNumberLimit) {
+    pageIncrementBtn = <li onClick={handleNextbtn}> &hellip; </li>;
+  }
+
+  let pageDecrementBtn = null;
+  if (minPageNumberLimit >= 1) {
+    pageDecrementBtn = <li onClick={handlePrevbtn}> &hellip; </li>;
+  }
   return (
-    <div className={cx("Title")}>
-      <h1>HỒ SƠ BỆNH ÁN</h1>
+    <div className={cx("title")}>
+      <div className={cx("title-name")}>
+        <span>HỒ SƠ BỆNH ÁN</span>
+      </div>
+
       <div className={cx("panel-body p-2")}>
         <form>
           <div className={cx("form-group py-1")}>
             <div className={cx("form-group-1")}>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Họ và tên:</b> {user.fullName}
+                  <b>Họ và tên:</b> <span>{user.fullName}</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
                   <b>Ngày sinh:</b>
-                  {moment(user?.dateOfBirth).format("DD/MM/YYYY")}
+                  <span>{moment(user?.dateOfBirth).format("DD/MM/YYYY")}</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Số điện thoại:</b> {user.phone}
+                  <b>Số điện thoại:</b> <span>{user.phone}</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Giới tính:</b> {user.gender ? "Nam" : "Nữ"}
+                  <b>Giới tính:</b> <span>{user.gender ? "Nam" : "Nữ"}</span>
                 </label>
               </div>
             </div>
@@ -39,81 +108,73 @@ const MedicalRecord = ({ user, userD, allHrecord }) => {
             <div className={cx("form-group-1")}>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Số bảo hiểm:</b> {user.insuranceNumber}
+                  <b>Số bảo hiểm:</b> <span>{user.insuranceNumber}</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Ngày cấp:</b> 09/01/2019
+                  <b>Nghề nghiệp:</b> <span> {user.job}</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Nghề nghiệp:</b> {user.job}
+                  <b>Địa chỉ:</b> <span>{user.address}</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Cơ quan/ Đơn vị công tác:</b> An Giang
+                  <b>Ngày điều trị:</b>
+                  <span> {moment(user?.createdAt).format("DD/MM/YYYY")}</span>
                 </label>
               </div>
             </div>
             <div className={cx("form-group-1")}>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Bác sĩ điều trị:</b> {userD?.fullName}
+                  <b>Họ tên người thân 1:</b> <span>Lê Tuấn</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Bệnh viện:</b> {userD?.workPlace}
+                  <b>Số điện thoại người thân 1:</b> <span>0123456789</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Chuyên môn:</b> {userD?.specialize}
+                  <b>Bác sĩ điều trị:</b>
+                  <span>{userD?.fullName}</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Số điện thoại bác sĩ:</b> {userD?.phone}
+                  <b>Bệnh viện:</b> <span>{userD?.workPlace}</span>
                 </label>
               </div>
             </div>
             <div className={cx("form-group-1")}>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Họ tên người thân 1:</b> Lê Tuấn
+                  <b>Địa chỉ bác sĩ:</b>
+                  <span>{userD?.address}</span>
+                </label>
+              </div>
+
+              <div className={cx("input-field")}>
+                <label>
+                  <b>Chuyên môn:</b>
+                  <span> {userD?.specialize}</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Số điện thoại người thân 1:</b> 0123456789
+                  <b>Số điện thoại bác sĩ:</b>
+                  <span>{userD?.phone}</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Họ tên người thân 2:</b> Lê Tuấn
-                </label>
-              </div>
-              <div className={cx("input-field")}>
-                <label>
-                  <b>Số điện thoại người thân 2:</b> 0123456789
-                </label>
-              </div>
-            </div>
-            <div className={cx("form-group-1")}>
-              <div className={cx("input-field")}>
-                <label>
-                  <b>Địa chỉ:</b> {user.address}
-                </label>
-              </div>
-            </div>
-            <div className={cx("form-group-1")}>
-              <div className={cx("input-field-2")}>
-                <label>
-                  <b>tiểu sử bệnh:</b>
-                  {user.medicalHistory}
+                  <b>Triệu chứng:</b>
+                  <span>{user.medicalHistory}</span>
                 </label>
               </div>
             </div>
@@ -122,7 +183,7 @@ const MedicalRecord = ({ user, userD, allHrecord }) => {
       </div>
       <div className={cx("title-table")}>Bảng theo dõi chỉ số</div>
       <div className={cx("table-infor")}>
-        <table className={cx("table table-striped")}>
+        <table className={cx("table")}>
           <thead>
             <tr>
               <th>STT</th>
@@ -136,7 +197,7 @@ const MedicalRecord = ({ user, userD, allHrecord }) => {
             </tr>
           </thead>
           <tbody>
-            {allHrecord?.map((hr, index) => {
+            {currentItems?.map((hr, index) => {
               return (
                 <tr key={hr.id}>
                   <td>{index + 1}</td>
@@ -153,6 +214,14 @@ const MedicalRecord = ({ user, userD, allHrecord }) => {
           </tbody>
         </table>
       </div>
+      <ul className={cx("pageNumbers")}>
+        <li onClick={handlePrevbtn}>&lt;</li>
+        {pageDecrementBtn}
+        {renderPageNumbers}
+        {pageIncrementBtn}
+
+        <li onClick={handleNextbtn}>&gt;</li>
+      </ul>
     </div>
   );
 };

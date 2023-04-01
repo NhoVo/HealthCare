@@ -117,13 +117,7 @@
 .btn-register {
   margin-left: 15px;
 }
-.col-4 {
-  background-color: white;
-  margin-left: 10px;
-  border-radius: 10px;
-  height: 250px;
-  width: 470px;
-}
+
 .col-4-doctor {
   background-color: white;
   margin-left: 10px;
@@ -247,31 +241,35 @@
 }
 //
 .col-3 {
-  margin-top: 70px;
-  height: 200px;
-  width: auto;
-
+  height: 250px;
+  width: 450px;
+  margin-left: 10px;
   background-color: white;
-
+  border-radius: 10px;
+}
+.col-3-patient {
+  margin-top: 20px;
+  height: 250px;
+  width: 450px;
+  margin-left: 10px;
+  background-color: white;
   border-radius: 10px;
 }
 .col-3-doctor {
-  margin-top: 30px;
-  height: 200px;
+  margin-top: 10px;
+  height: 300px;
   width: auto;
-
   background-color: white;
-
   border-radius: 10px;
 }
 //
 .table-infor table {
   font-size: 1.5rem;
-  // display: flex;
+  display: flex;
   border-collapse: collapse;
   flex-flow: column;
   width: 99.5%;
-  height: 200px;
+  height: 230px;
 }
 .table-infor thead {
   background-color: black;

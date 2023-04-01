@@ -1,17 +1,15 @@
-import React from "react";
 import classNames from "classnames/bind";
-import styles from "./Chart.module.scss";
+import React from "react";
+import { useSelector } from "react-redux";
 import {
-  ResponsiveContainer,
-  LineChart,
+  CartesianGrid,
+  Legend,
   Line,
+  LineChart,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
 } from "recharts";
-import { useSelector } from "react-redux";
 import {
   ChartBloodPressures,
   ChartBloodPressuresDoctor,
@@ -23,9 +21,9 @@ import {
   ChartGlucosesDoctor,
   ChartHeartbeat,
   ChartHeartbeatDoctor,
-  listHeartbeat,
   userLogin,
 } from "../../Redux/selector";
+import styles from "./Chart.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -48,7 +46,7 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
     <>
       {userDoctor.role === "DOCTOR" ? (
         <>
-          <div className={cx("Chart")}>
+          <div className={cx("Chart-doctor")}>
             {BMI ? (
               <LineChart
                 width={800}
@@ -64,7 +62,7 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
                 <Line
                   type="monotone"
                   dataKey="indexBmi"
-                  stroke="#003000"
+                  stroke="#00B7EB"
                   activeDot={{ r: 8 }}
                   strokeWidth={3}
                   name="BMI"
@@ -87,7 +85,7 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
                 <Line
                   type="monotone"
                   dataKey="systolic"
-                  stroke="#82ca9d"
+                  stroke="#249544"
                   name="Tâm thu"
                   activeDot={{ r: 8 }}
                   strokeWidth={3}
@@ -95,7 +93,7 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
                 <Line
                   type="monotone"
                   dataKey="diastolic"
-                  stroke="#8884d8"
+                  stroke="#2F7CEE"
                   name="Tâm trương"
                   activeDot={{ r: 8 }}
                   strokeWidth={3}
@@ -138,7 +136,7 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
                 <Line
                   type="monotone"
                   dataKey="glucose"
-                  stroke="#0851FF"
+                  stroke="#17FF01"
                   activeDot={{ r: 8 }}
                   strokeWidth={3}
                 />
@@ -159,7 +157,7 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
                 <Line
                   type="monotone"
                   dataKey="heartRateIndicator"
-                  stroke="#8884d8"
+                  stroke="#E64034"
                   activeDot={{ r: 8 }}
                   strokeWidth={3}
                   name="Tim mạch"
@@ -186,7 +184,7 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
                 <Line
                   type="monotone"
                   dataKey="indexBmi"
-                  stroke="#003000"
+                  stroke="#00B7EB"
                   activeDot={{ r: 8 }}
                   strokeWidth={3}
                   name="BMI"
@@ -209,7 +207,7 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
                 <Line
                   type="monotone"
                   dataKey="systolic"
-                  stroke="#82ca9d"
+                  stroke="#249544"
                   name="Tâm thu"
                   activeDot={{ r: 8 }}
                   strokeWidth={3}
@@ -217,7 +215,7 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
                 <Line
                   type="monotone"
                   dataKey="diastolic"
-                  stroke="#8884d8"
+                  stroke="#2F7CEE"
                   name="Tâm trương"
                   activeDot={{ r: 8 }}
                   strokeWidth={3}
@@ -260,7 +258,7 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
                 <Line
                   type="monotone"
                   dataKey="glucose"
-                  stroke="#0851FF"
+                  stroke="#17FF01"
                   activeDot={{ r: 8 }}
                   strokeWidth={3}
                 />
@@ -281,7 +279,7 @@ const Chart = ({ BMI, HA, CHOLES, GLU, TIM }) => {
                 <Line
                   type="monotone"
                   dataKey="heartRateIndicator"
-                  stroke="#8884d8"
+                  stroke="#E64034"
                   activeDot={{ r: 8 }}
                   strokeWidth={3}
                   name="Tim mạch"

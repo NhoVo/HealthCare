@@ -1,26 +1,16 @@
 // libs
-import classNames from "classnames/bind";
 import Tippy from "@tippyjs/react";
+import classNames from "classnames/bind";
 import "tippy.js/dist/tippy.css";
 
-import { NavLink } from "react-router-dom";
+import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import HomeIcon from "@mui/icons-material/Home";
-import {
-  faComment,
-  faAddressBook,
-  faGear,
-  faSquareCheck,
-  faVideo,
-  faToolbox,
-  faCloud,
-} from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
 import images from "../../../assets/images/index";
 // me
 import styles from "./Sidebar.module.scss";
 
-import Menu from "../../Popper/Menu/Menu";
-import MenuSetting from "./Menu/Menu";
 const cx = classNames.bind(styles);
 
 function Sidebar() {

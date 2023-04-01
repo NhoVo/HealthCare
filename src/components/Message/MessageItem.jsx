@@ -4,8 +4,6 @@ import { useState } from "react";
 
 // me
 import styles from "./Message.module.scss";
-import ModelWrapper from "../ModelWrapper/ModelWrapper";
-import FileMessage from "../FileMessage/FileMessage";
 
 const cx = classNames.bind(styles);
 

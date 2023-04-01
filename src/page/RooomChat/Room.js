@@ -16,7 +16,7 @@ const Room = () => {
   });
   const meeting = async (element) => {
     const appID = 1646990952;
-    const serverSecret = process.env.CHATGPT_API_KEY;
+    const serverSecret = "b46f09ad8c3782def3f33c6224082d7e";
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
       appID,
       serverSecret,

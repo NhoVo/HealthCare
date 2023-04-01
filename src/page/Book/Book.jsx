@@ -1,48 +1,44 @@
-import React, { useEffect, useState } from "react";
-import classNames from "classnames/bind";
-import styles from "./Book.module.scss";
-import TextInput from "../../components/TextInput/TextInput";
-import { Stack, TextField } from "@mui/material";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Button from "../../components/Button/Button";
-import ModelWrapper from "../../components/ModelWrapper/ModelWrapper";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import InformationSchedule from "../../components/InformationSchedule/InformationSchedule";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import { Stack, TextField } from "@mui/material";
+import classNames from "classnames/bind";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Button from "../../components/Button/Button";
+import InformationSchedule from "../../components/InformationSchedule/InformationSchedule";
+import ModelWrapper from "../../components/ModelWrapper/ModelWrapper";
+import TextInput from "../../components/TextInput/TextInput";
 import {
-  getListBookDoctor,
+  fetchDoctorBookAccept,
+  fetchListBookedOfDoctor,
+  fetchListBookedOfDoctorCreate,
+} from "../../Redux/Features/Book/DoctorBook";
+import {
+  fetchBookDetail,
+  fetchBookedSchedule,
+  fetchBookedScheduleCreate,
+  fetchPatientBook,
+  fetchPatientBookCancel,
+} from "../../Redux/Features/Book/PatientBook";
+import { postNotification } from "../../Redux/Features/Notifications/Notifications";
+import {
   getListBookDoctorAccept,
-  listBookPatient,
-  listBookPatientAPPROVED,
+  listBookDoctorCreate,
+  patientBookCreate,
   patientBookeDetail,
   patientBookedSchedule,
   sumBookPatient,
   userDoctorPatient,
   userLogin,
-  userPatients,
 } from "../../Redux/selector";
-import { fetchUserDoctor } from "../../Redux/Features/Users/UserDoctors";
-import moment from "moment";
-import { useForm } from "react-hook-form";
-import {
-  fetchBookDetail,
-  fetchBookedSchedule,
-  fetchPatientBook,
-  fetchPatientBookCancel,
-} from "../../Redux/Features/Book/PatientBook";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
-import { color } from "@mui/system";
-import {
-  fetchDoctorBookAccept,
-  fetchListBookedOfDoctor,
-} from "../../Redux/Features/Book/DoctorBook";
-import { useNavigate } from "react-router-dom";
-import filterSlice from "../../Redux/Features/filter/filterSlice";
-import { postNotification } from "../../Redux/Features/Notifications/Notifications";
+import styles from "./Book.module.scss";
 const cx = classNames.bind(styles);
 const Book = () => {
   const user = useSelector(userLogin);
@@ -63,23 +59,27 @@ const Book = () => {
   const [dateMeeting, setDateMeeting] = useState("");
   const [note, setNote] = useState("");
   const [timeMeeting, setTimeMeeting] = useState("");
-  const inforBook = useSelector(listBookPatient);
-  const listAPatient = useSelector(listBookPatientAPPROVED);
+  const inforBook = useSelector(patientBookCreate);
+  const listAPatient = useSelector(patientBookedSchedule);
+  console.log(listAPatient);
   const sum = useSelector(sumBookPatient);
   const bookDetail = useSelector(patientBookeDetail);
 
   ///bác sĩ
   // const userPatient = useSelector(userPatients);
-  const listBDoctor = useSelector(getListBookDoctor);
-
+  const listBDoctor = useSelector(listBookDoctorCreate);
+  console.log(listBDoctor);
   const listADoctor = useSelector(getListBookDoctorAccept);
 
+  const currentDate = new Date();
   /// tính h
 
   //lich hen realtime
   useEffect(() => {
     dispatch(fetchBookedSchedule());
     dispatch(fetchListBookedOfDoctor());
+    dispatch(fetchListBookedOfDoctorCreate());
+    dispatch(fetchBookedScheduleCreate());
     setLoadingBook(false);
   }, [loadingBook === true]);
   const handleModelCloseInfo = () => {
@@ -136,7 +136,7 @@ const Book = () => {
   const handleCreateRoom = (b) => {
     const data = {
       userId: b.patient.id,
-      typeNotification: "WARNING",
+      typeNotification: "SYSTEM",
       content: "Bác sĩ đã tạo phòng họp",
       title: "Lịch hẹn",
     };
@@ -152,6 +152,7 @@ const Book = () => {
     //   alert("Phòng chưa sẵn sàng? Vui lòng đợi bác sĩ mở phòng");
     // }
   };
+
   const handleComplete = () => {};
   return (
     <>
@@ -166,10 +167,10 @@ const Book = () => {
                   <table className={cx("table table-striped")}>
                     <thead>
                       <tr>
-                        <th style={{ width: 30 }}>STT</th>
+                        <th style={{ width: 50 }}>STT</th>
                         <th>Tên bệnh nhân</th>
-                        <th>Thời gian hẹn</th>
-                        <th>Ngày hẹn</th>
+                        <th>Ngày</th>
+                        <th>Thời gian</th>
                         <th>Chi tiết</th>
                         <th>Chấp nhận</th>
                         <th>Từ trối</th>
@@ -179,7 +180,7 @@ const Book = () => {
                       {listBDoctor.map((b, index) => {
                         return (
                           <tr key={b.id}>
-                            <td style={{ width: 30 }}>{index + 1}</td>
+                            <td style={{ width: 50 }}>{index + 1}</td>
                             <td>{b?.fullName}</td>
                             <td>
                               {moment(b?.dateMeeting).format("DD/MM/YYYY")}
@@ -196,7 +197,9 @@ const Book = () => {
                               </button>
                             </td>
                             <td>
-                              <button>Từ trối</button>
+                              <button style={{ "background-color": "silver" }}>
+                                Từ trối
+                              </button>
                             </td>
                           </tr>
                         );
@@ -212,10 +215,10 @@ const Book = () => {
                     <table className={cx("table table-striped")}>
                       <thead>
                         <tr>
-                          <th style={{ width: 30 }}>STT</th>
+                          <th style={{ width: 50 }}>STT</th>
                           <th>Tên bệnh nhân</th>
-                          <th>Thời gian hẹn</th>
-                          <th>Ngày hẹn</th>
+                          <th>Ngày</th>
+                          <th>Thời gian</th>
                           <th>Chi tiết</th>
                           <th>Phòng</th>
                           <th>Trạng thái</th>
@@ -226,7 +229,7 @@ const Book = () => {
                         {listADoctor.map((b, index) => {
                           return (
                             <tr key={b.id}>
-                              <td style={{ width: 30 }}>{index + 1}</td>
+                              <td style={{ width: 50 }}>{index + 1}</td>
                               <td>{b?.fullName}</td>
                               <td>
                                 {moment(b?.dateMeeting).format("DD/MM/YYYY")}
@@ -238,14 +241,24 @@ const Book = () => {
                                 </button>
                               </td>
                               <td>
-                                <button onClick={() => handleCreateRoom(b)}>
-                                  Tạo Phòng
-                                </button>
+                                {moment(b?.dateMeeting).format("DD/MM/YYYY") ===
+                                moment(currentDate).format("DD/MM/YYYY") ? (
+                                  <button onClick={() => handleCreateRoom(b)}>
+                                    Tạo Phòng
+                                  </button>
+                                ) : (
+                                  <td>Đang chờ</td>
+                                )}
                               </td>
                               <td>
-                                <button onClick={handleComplete}>
-                                  Đang chờ
-                                </button>
+                                {moment(b?.dateMeeting).format("DD/MM/YYYY") ===
+                                moment(currentDate).format("DD/MM/YYYY") ? (
+                                  <button onClick={handleComplete}>
+                                    Hoàn thành
+                                  </button>
+                                ) : (
+                                  <td>Đang chờ</td>
+                                )}
                               </td>
                               <td>
                                 <button
@@ -441,42 +454,10 @@ const Book = () => {
             </div>
 
             <div className={cx("col-4")}>
-              <label>Danh Sách Lịch Hẹn Chờ </label>
-              <div className={cx("infor-book")}>
-                {inforBook.map((b) => {
-                  return (
-                    <div className={cx("schedule")} key={b?.id}>
-                      <div className={cx("title-schedule")}>Lịch hẹn</div>
-                      <div className={cx("doctorName-schedule")}>
-                        <b>Tên bác sĩ:</b> {b?.doctor?.fullName}
-                      </div>
-                      <div className={cx("doctorName-schedule")}>
-                        <b>Thời gian: </b> {b?.timeMeeting}
-                      </div>
-                      <div className={cx("doctorName-schedule")}>
-                        <b>ngày hẹn: </b>{" "}
-                        {moment(b?.dateMeeting).format("DD/MM/YYYY")}
-                      </div>
-                      <div className={cx("button-schedule")}>
-                        <div className={cx("button-seen")}>
-                          <button onClick={() => handleSeendetail(b)}>
-                            Xem
-                          </button>
-                        </div>
-                        <div className={cx("button-cancel")}>
-                          <button onClick={() => handleCanceletail(b)}>
-                            Hủy
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
               <div className={cx("col-3")}>
-                <label>Bảng Thông Tin Lịch Hẹn</label>
+                <label>Danh Sách Lịch Hẹn Chờ </label>
                 <div className={cx("infor-book")}>
-                  {listAPatient.map((b) => {
+                  {inforBook.map((b) => {
                     return (
                       <div className={cx("schedule")} key={b?.id}>
                         <div className={cx("title-schedule")}>Lịch hẹn</div>
@@ -496,9 +477,51 @@ const Book = () => {
                               Xem
                             </button>
                           </div>
-                          <div className={cx("button-seen")}>
-                            <button onClick={handleGoRoom}>Vào phòng</button>
+                          <div className={cx("button-cancel")}>
+                            <button onClick={() => handleCanceletail(b)}>
+                              Hủy
+                            </button>
                           </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className={cx("col-3-patient")}>
+                <label>Bảng Thông Tin Lịch Hẹn</label>
+                <div className={cx("infor-book")}>
+                  {listAPatient.map((b) => {
+                    return (
+                      <div className={cx("schedule")} key={b?.id}>
+                        <div className={cx("title-schedule")}>Lịch hẹn</div>
+                        <div className={cx("doctorName-schedule")}>
+                          <b>Tên bác sĩ:</b> {b?.doctor?.fullName}
+                        </div>
+                        <div className={cx("doctorName-schedule")}>
+                          <b>Thời gian: </b> {b?.timeMeeting}
+                        </div>
+                        <div className={cx("doctorName-schedule")}>
+                          <b>ngày hẹn: </b>
+                          {moment(b?.dateMeeting).format("DD/MM/YYYY")}
+                        </div>
+                        <div className={cx("button-schedule")}>
+                          <div className={cx("button-seen")}>
+                            <button onClick={() => handleSeendetail(b)}>
+                              Xem
+                            </button>
+                          </div>
+
+                          {moment(b?.dateMeeting).format("DD/MM/YYYY") ===
+                          moment(currentDate).format("DD/MM/YYYY") ? (
+                            <div className={cx("button-seen")}>
+                              <button onClick={handleGoRoom}>Vào phòng</button>
+                            </div>
+                          ) : (
+                            <div className={cx("doctorName-schedule")}>
+                              <b>Đang chờ </b>
+                            </div>
+                          )}
                         </div>
                       </div>
                     );

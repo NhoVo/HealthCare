@@ -1,32 +1,41 @@
-import React, { useState } from "react";
 import classNames from "classnames/bind";
-import styles from "./Left.module.scss";
+import React from "react";
 import images from "../../../assets/images/index";
-import ItemLeft from "../../ItemLeft/ItemLeft";
-import EditIcon from "@mui/icons-material/Edit";
-import ChatIcon from "@mui/icons-material/Chat";
-import PersonIcon from "@mui/icons-material/Person";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import styles from "./Left.module.scss";
+
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { useNavigate } from "react-router-dom";
+import ChatIcon from "@mui/icons-material/Chat";
+import EditIcon from "@mui/icons-material/Edit";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import PersonIcon from "@mui/icons-material/Person";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  fetchListBookedOfDoctor,
+  fetchListBookedOfDoctorCreate,
+} from "../../../Redux/Features/Book/DoctorBook";
+import {
+  fetchBookedSchedule,
+  fetchBookedScheduleCreate,
+} from "../../../Redux/Features/Book/PatientBook";
+import { fetchAllHealthRecord } from "../../../Redux/Features/HealthRecord/HealthRecord";
 import NextPage from "../../../Redux/Features/NextPage";
 import {
   nextPageSelector,
   nextPageSelectorBook,
   nextPageSelectorInfor,
   nextPageSelectorInforDoctor,
+  userLogin,
 } from "../../../Redux/selector";
-import { fetchAllHealthRecord } from "../../../Redux/Features/HealthRecord/HealthRecord";
-import { fetchBookedSchedule } from "../../../Redux/Features/Book/PatientBook";
-import { fetchListBookedOfDoctor } from "../../../Redux/Features/Book/DoctorBook";
+import { getRatingOfDoctor } from "../../../Redux/Features/Rating/RatingDoctor";
 
 const cx = classNames.bind(styles);
 
 const Left = ({ role }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector(userLogin);
+  console.log(user);
   const medicalRecord = useSelector(nextPageSelector);
   const pageBook = useSelector(nextPageSelectorBook);
   const pageInfor = useSelector(nextPageSelectorInfor);
@@ -51,12 +60,15 @@ const Left = ({ role }) => {
   const handleBook = () => {
     dispatch(fetchBookedSchedule());
     dispatch(fetchListBookedOfDoctor());
+    dispatch(fetchListBookedOfDoctorCreate());
+    dispatch(fetchBookedScheduleCreate());
     dispatch(NextPage.actions.NextPageChange(false));
     dispatch(NextPage.actions.NextPageChangeInfor(false));
     dispatch(NextPage.actions.NextPageChangeBook(true));
     dispatch(NextPage.actions.NextPageChangeInforDoctor(false));
   };
   const handleInformationDoctor = () => {
+    //   dispatch(getRatingOfDoctor(user.doctorId));
     dispatch(NextPage.actions.NextPageChange(false));
     dispatch(NextPage.actions.NextPageChangeInfor(false));
     dispatch(NextPage.actions.NextPageChangeBook(false));
@@ -71,40 +83,46 @@ const Left = ({ role }) => {
       </div>
       <div className={cx("separator")}></div>
       {pageInfor ? (
-        <div style={{ background: "#33CCFF" }} className={cx("itemLeft")}>
+        <div
+          style={{ background: "#33CCFF", color: "white" }}
+          className={cx("itemLeft")}
+        >
           <div className={cx("group-item")} onClick={handleInformation}>
-            <EditIcon className={cx("icon")} />
-            <h1>Thông tin</h1>
+            <EditIcon className={cx("icons")} />
+            <span>Thông tin</span>
           </div>
         </div>
       ) : (
         <div className={cx("itemLeft")}>
           <div className={cx("group-item")} onClick={handleInformation}>
             <EditIcon className={cx("icon")} />
-            <h1>Thông tin</h1>
+            <span>Thông tin</span>
           </div>
         </div>
       )}
       <div className={cx("itemLeft")}>
         <div className={cx("group-item")} onClick={handleChat}>
           <ChatIcon className={cx("icon")} />
-          <h1>Hội thoại</h1>
+          <span>Hội thoại</span>
         </div>
       </div>
       {role ? (
         <>
           {medicalRecord ? (
-            <div style={{ background: "#33CCFF" }} className={cx("itemLeft")}>
+            <div
+              style={{ background: "#33CCFF", color: "white" }}
+              className={cx("itemLeft")}
+            >
               <div className={cx("group-item")} onClick={handleMedicalRecord}>
-                <FormatListBulletedIcon className={cx("icon")} />
-                <h1>Hồ sơ bệnh nhân</h1>
+                <FormatListBulletedIcon className={cx("icons")} />
+                <span>Hồ sơ bệnh nhân</span>
               </div>
             </div>
           ) : (
             <div className={cx("itemLeft")}>
               <div className={cx("group-item")} onClick={handleMedicalRecord}>
                 <FormatListBulletedIcon className={cx("icon")} />
-                <h1>Hồ sơ bệnh nhân</h1>
+                <span>Hồ sơ bệnh nhân</span>
               </div>
             </div>
           )}
@@ -112,17 +130,20 @@ const Left = ({ role }) => {
       ) : (
         <>
           {medicalRecord ? (
-            <div style={{ background: "#33CCFF" }} className={cx("itemLeft")}>
+            <div
+              style={{ background: "#33CCFF", color: "white" }}
+              className={cx("itemLeft")}
+            >
               <div className={cx("group-item")} onClick={handleMedicalRecord}>
-                <FormatListBulletedIcon className={cx("icon")} />
-                <h1>Hồ sơ bệnh nhân</h1>
+                <FormatListBulletedIcon className={cx("icons")} />
+                <span>Hồ sơ bệnh án</span>
               </div>
             </div>
           ) : (
             <div className={cx("itemLeft")}>
               <div className={cx("group-item")} onClick={handleMedicalRecord}>
                 <FormatListBulletedIcon className={cx("icon")} />
-                <h1>Hồ sơ bệnh án</h1>
+                <span>Hồ sơ bệnh án</span>
               </div>
             </div>
           )}
@@ -131,17 +152,20 @@ const Left = ({ role }) => {
       {role ? (
         <>
           {pageBook ? (
-            <div style={{ background: "#33CCFF" }} className={cx("itemLeft")}>
+            <div
+              style={{ background: "#33CCFF", color: "white" }}
+              className={cx("itemLeft")}
+            >
               <div className={cx("group-item")} onClick={handleBook}>
-                <CalendarMonthIcon className={cx("icon")} />
-                <h1>Danh sách lịch hẹn</h1>
+                <CalendarMonthIcon className={cx("icons")} />
+                <span>Danh sách lịch hẹn</span>
               </div>
             </div>
           ) : (
             <div className={cx("itemLeft")}>
               <div className={cx("group-item")} onClick={handleBook}>
                 <CalendarMonthIcon className={cx("icon")} />
-                <h1>Danh sách lịch hẹn</h1>
+                <span>Danh sách lịch hẹn</span>
               </div>
             </div>
           )}
@@ -149,34 +173,40 @@ const Left = ({ role }) => {
       ) : (
         <>
           {pageBook ? (
-            <div style={{ background: "#33CCFF" }} className={cx("itemLeft")}>
+            <div
+              style={{ background: "#33CCFF", color: "white" }}
+              className={cx("itemLeft")}
+            >
               <div className={cx("group-item")} onClick={handleBook}>
-                <CalendarMonthIcon className={cx("icon")} />
-                <h1>Đặt lịch hẹn</h1>
+                <CalendarMonthIcon className={cx("icons")} />
+                <span>Đặt lịch hẹn</span>
               </div>
             </div>
           ) : (
             <div className={cx("itemLeft")}>
               <div className={cx("group-item")} onClick={handleBook}>
                 <CalendarMonthIcon className={cx("icon")} />
-                <h1>Đặt lịch hẹn</h1>
+                <span>Đặt lịch hẹn</span>
               </div>
             </div>
           )}
         </>
       )}
       {pageInforDoctor ? (
-        <div style={{ background: "#33CCFF" }} className={cx("itemLeft")}>
+        <div
+          style={{ background: "#33CCFF", color: "white" }}
+          className={cx("itemLeft")}
+        >
           <div className={cx("group-item")} onClick={handleInformationDoctor}>
-            <PersonIcon className={cx("icon")} />
-            <h1>Thông tin bác sĩ</h1>
+            <PersonIcon className={cx("icons")} />
+            <span>Thông tin bác sĩ</span>
           </div>
         </div>
       ) : (
         <div className={cx("itemLeft")}>
           <div className={cx("group-item")} onClick={handleInformationDoctor}>
             <PersonIcon className={cx("icon")} />
-            <h1>Thông tin bác sĩ</h1>
+            <span>Thông tin bác sĩ</span>
           </div>
         </div>
       )}

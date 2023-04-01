@@ -1,7 +1,4 @@
 // libs
-import classNames from "classnames/bind";
-import { ArrowBackIos } from "@material-ui/icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCamera,
   faCaretDown,
@@ -14,24 +11,23 @@ import {
   faUserPlus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ArrowBackIos } from "@material-ui/icons";
+import classNames from "classnames/bind";
 
-import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { useState } from "react";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // me
-import styles from "./ConversationInfo.module.scss";
 import images from "../../../../assets/images/index";
 import ItemStored from "../../../ItemStored/ItemStored";
-import FileMessage from "../../../FileMessage/FileMessage";
+import styles from "./ConversationInfo.module.scss";
 
 import ModelInfoAccount from "../../../ModelWrapper/ModelInfoAccount/ModelInfoAccount";
 
-import ModelWrapper from "../../../ModelWrapper/ModelWrapper";
-import Conversation from "../../../Conversation/Conversation";
 import AddGroup from "../../../AddGroup/AddGroup";
-
-import UserInGroup from "../../../UserInGroup/UserInGroup";
+import ModelWrapper from "../../../ModelWrapper/ModelWrapper";
 
 const cx = classNames.bind(styles);
 

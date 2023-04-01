@@ -2,15 +2,12 @@
 import classNames from "classnames/bind";
 
 // me
-import styles from "./Rightbar.module.scss";
-import images from "../../../assets/images/index";
-import Messenger from "./Messenger/Messenger";
-import ConversationInfo from "./ConversationInfo/ConversationInfo";
 import { useSelector } from "react-redux";
-import {
-  conversationSlice,
-  listAllConversation,
-} from "../../../Redux/selector";
+import images from "../../../assets/images/index";
+import { listAllConversation } from "../../../Redux/selector";
+import ConversationInfo from "./ConversationInfo/ConversationInfo";
+import Messenger from "./Messenger/Messenger";
+import styles from "./Rightbar.module.scss";
 
 const cx = classNames.bind(styles);
 

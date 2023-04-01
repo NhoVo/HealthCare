@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import classNames from "classnames/bind";
-import styles from "./ChatBot.module.scss";
-import images from "../../assets/images/index";
-import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
+import { Message } from "@chatscope/chat-ui-kit-react";
+import { faComments } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MicIcon from "@mui/icons-material/Mic";
-import TippyHeadless from "@tippyjs/react/headless";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import { faComment, faComments } from "@fortawesome/free-solid-svg-icons";
-import { Message } from "@chatscope/chat-ui-kit-react";
+import classNames from "classnames/bind";
+import React, { useState } from "react";
+import images from "../../assets/images/index";
+import styles from "./ChatBot.module.scss";
 
-const API_KEY = "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";
+const API_KEY = "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";
 // "Explain things like you would to a 10 year old learning how to code."
 const systemMessage = {
   role: "system",
@@ -28,23 +25,28 @@ const ChatBot = () => {
     },
   ]);
   const [isTyping, setIsTyping] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
 
   const handleSend = async (message) => {
-    const newMessage = {
-      message,
-      direction: "outgoing",
-      sender: "user",
-    };
+    if (message === "") {
+      return;
+    } else {
+      const newMessage = {
+        message,
+        direction: "outgoing",
+        sender: "user",
+      };
 
-    const newMessages = [...messages, newMessage];
+      const newMessages = [...messages, newMessage];
 
-    setMessages(newMessages);
+      setMessages(newMessages);
 
-    // Initial system message to determine ChatGPT functionality
-    // How it responds, how it talks, etc.
-    setIsTyping(true);
-    await processMessageToChatGPT(newMessages);
-    setTam("");
+      // Initial system message to determine ChatGPT functionality
+      // How it responds, how it talks, etc.
+      setIsTyping(true);
+      await processMessageToChatGPT(newMessages);
+      setTam("");
+    }
   };
 
   async function processMessageToChatGPT(chatMessages) {
@@ -103,6 +105,27 @@ const ChatBot = () => {
   };
   const handleModelCloseIntroVersion = () => {
     setOpenIntroVersion(false);
+  };
+
+  const recognition = new window.webkitSpeechRecognition();
+  recognition.continuous = true; // Sử dụng chế độ nhận dạng liên tục
+  recognition.lang = "vi-VN"; // Thiết lập ngôn ngữ của giọng nói
+  recognition.interimResults = true; // Cho phép kết quả tạm thời
+
+  recognition.onresult = (event) => {
+    const speechToText = event.results[0][0].transcript;
+    setTam(speechToText);
+    setIsRecording(false);
+    recognition.stop();
+  };
+
+  const startListening = () => {
+    setIsRecording(true);
+    recognition.start();
+  };
+  const closeListening = () => {
+    setIsRecording(false);
+    recognition.stop();
   };
   return (
     <div className={cx("ChatBot")}>
@@ -163,11 +186,29 @@ const ChatBot = () => {
                 </div>
               </div>
               <div className={cx("chatbox__footer")}>
-                <InsertEmoticonIcon sx={{ fontSize: 20 }} />
-                <MicIcon sx={{ fontSize: 20 }} />
+                {isRecording ? (
+                  <MicIcon
+                    sx={{
+                      fontSize: 30,
+                      cursor: "pointer",
+                      color: "#FFFFFF",
+                    }}
+                    onClick={closeListening}
+                    className={cx("chatbox__mic")}
+                  />
+                ) : (
+                  <MicIcon
+                    sx={{
+                      fontSize: 30,
+                      cursor: "pointer",
+                      color: "#FFFFFF",
+                    }}
+                    onClick={startListening}
+                  />
+                )}
                 <input
                   type="text"
-                  placeholder="Write a message..."
+                  placeholder="Nhập câu hỏi..."
                   value={tam}
                   onChange={(e) => setTam(e.target.value)}
                 />
@@ -177,7 +218,6 @@ const ChatBot = () => {
                 >
                   Gửi
                 </p>
-                <AttachFileIcon sx={{ fontSize: 20 }} />
               </div>
             </div>
           </div>

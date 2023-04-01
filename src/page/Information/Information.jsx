@@ -1,59 +1,48 @@
-import React, { useEffect, useState } from "react";
-import classNames from "classnames/bind";
-import styles from "./Information.module.scss";
-import DiseaseIndex from "../../components/DiseaseIndex/DiseaseIndex";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import AddAlertIcon from "@mui/icons-material/AddAlert";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import MoodIcon from "@mui/icons-material/Mood";
-import { Chair } from "@mui/icons-material";
+import classNames from "classnames/bind";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import AddInformation from "../../components/AddInformation/AddInformation";
 import Chart from "../../components/Chart/Chart";
 import ChatBot from "../../components/ChatBot/ChatBot";
-import ChatIA from "../../components/ChatBot/ChatIA";
-import Book from "../Book/Book";
+import DiseaseIndex from "../../components/DiseaseIndex/DiseaseIndex";
 import ModelWrapper from "../../components/ModelWrapper/ModelWrapper";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AddInformation from "../../components/AddInformation/AddInformation";
-import AddAlertIcon from "@mui/icons-material/AddAlert";
 import {
   allHealthRecord,
   allHRecordPaient,
   filterPhonePatient,
-  getNextPageBook,
   healthRD,
+  healthWarningDay,
   nextPageSelector,
   nextPageSelectorBook,
   nextPageSelectorInfor,
   nextPageSelectorInforDoctor,
+  tam,
   userDoctorPatient,
   userLogin,
   userPatients,
 } from "../../Redux/selector";
-import { useDispatch, useSelector } from "react-redux";
+import Book from "../Book/Book";
 import MedicalRecord from "../MedicalRecord/MedicalRecord";
 import MedicalRecordDoctor from "../MedicalRecord/MedicalRecordDoctor";
+import styles from "./Information.module.scss";
 
+import SearchIcon from "@mui/icons-material/Search";
+import moment from "moment";
+import { toast } from "react-toastify";
+import images from "../../assets/images/index";
+import useDebounce from "../../components/hooks/useDebounce";
+import filterSlice from "../../Redux/Features/filter/filterSlice";
 import {
   fetchAllHRPatient,
   fetchEmergency,
   healthRecordDay,
 } from "../../Redux/Features/HealthRecord/HealthRecord";
-import {
-  fetchBloodPressures,
-  fetchBMI,
-  fetchCholesterol,
-  fetchGlucoses,
-  fetchHeartbeats,
-} from "../../Redux/Features/HealthRecord/Heartbeat";
-import { fetchUserDoctor } from "../../Redux/Features/Users/UserDoctors";
-import InformationDoctor from "../InformationDoctor/InformationDoctor";
-import { fetchLoginSlice } from "../../Redux/Features/Users/UserLoginSlice";
-import { fetchBookedSchedule } from "../../Redux/Features/Book/PatientBook";
-import SearchIcon from "@mui/icons-material/Search";
-import images from "../../assets/images/index";
-import moment from "moment";
-import filterSlice from "../../Redux/Features/filter/filterSlice";
-import { toast } from "react-toastify";
 import {
   fetchBloodPressuresDoctor,
   fetchBMIDoctor,
@@ -61,13 +50,16 @@ import {
   fetchGlucosesDoctor,
   fetchHeartbeatsDoctor,
 } from "../../Redux/Features/HealthRecord/HeartbeatPatient";
-import { fetchUserPatients } from "../../Redux/Features/Users/userPatient";
-import useDebounce from "../../components/hooks/useDebounce";
+import WarningIcon from "@mui/icons-material/Warning";
+import FlashOnIcon from "@mui/icons-material/FlashOn";
+import { postNotification } from "../../Redux/Features/Notifications/Notifications";
+import InformationDoctor from "../InformationDoctor/InformationDoctor";
 
 const cx = classNames.bind(styles);
 
 const Information = () => {
   const [openInfo, setOpenInfo] = useState(false);
+
   const [BMI, setBMI] = useState(true);
   const [HA, setHA] = useState(false);
   const [CHOLES, setCHOLES] = useState(false);
@@ -83,6 +75,8 @@ const Information = () => {
   const user = useSelector(userLogin);
   const userDoctor = useSelector(userLogin);
   const healReport = useSelector(healthRD);
+  const healtDay = useSelector(tam);
+
   const allHrecord = useSelector(allHealthRecord);
   const userD = useSelector(userDoctorPatient);
   const dispatch = useDispatch();
@@ -133,6 +127,7 @@ const Information = () => {
     dispatch(healthRecordDay());
     setOpenInfo(false);
   };
+
   const HandleBMI = () => {
     setBMI(true);
     setHA(false);
@@ -271,18 +266,6 @@ const Information = () => {
                         }
                       />
                     </div>
-                    <div className={cx("col-2")} onClick={HandleTIM}>
-                      <DiseaseIndex
-                        name="Đồng hồ"
-                        index={
-                          <>
-                            {hours}:{minutes}:{seconds}
-                            <br />
-                            {formattedDate}
-                          </>
-                        }
-                      />
-                    </div>
                   </div>
                   <div className={cx("center-Infor")}>
                     <div className={cx("col-4")}>
@@ -314,73 +297,75 @@ const Information = () => {
                               </button>
                             </div>
                           </div>
-                          {searchResult ? (
-                            <div className={cx("list-conversation")}>
-                              <img
-                                className={cx("avatar-img")}
-                                // src={phoneNumber.avatar}
-                                src={images.logo}
-                                alt="avatar"
-                              />
-                              <div className={cx("content")}>
-                                <h4 className={cx("username")}>
-                                  {healReportPatient?.fullName}
-                                </h4>
-                                <p className={cx("message")}>
-                                  {healReportPatient?.phone}
-                                </p>
-                                <p className={cx("message")}>
-                                  Ngày sinh:
-                                  {moment(
-                                    healReportPatient?.dateOfBirth
-                                  ).format("DD/MM/YYYY")}
-                                </p>
-                              </div>
+                          <div className={cx("list-sum")}>
+                            {searchResult ? (
+                              <div className={cx("list-conversation")}>
+                                <img
+                                  className={cx("avatar-img")}
+                                  // src={phoneNumber.avatar}
+                                  src={images.logo}
+                                  alt="avatar"
+                                />
+                                <div className={cx("content")}>
+                                  <span className={cx("username")}>
+                                    {healReportPatient?.fullName}
+                                  </span>
+                                  <span className={cx("message")}>
+                                    {healReportPatient?.phone}
+                                  </span>
+                                  <span className={cx("message")}>
+                                    Ngày sinh:
+                                    {moment(
+                                      healReportPatient?.dateOfBirth
+                                    ).format("DD/MM/YYYY")}
+                                  </span>
+                                </div>
 
-                              <div className={cx("result-add-friend")}>
-                                <button onClick={handleChoose}>Xem</button>
+                                <div className={cx("result-add-friend")}>
+                                  <button onClick={handleChoose}>Xem</button>
+                                </div>
                               </div>
-                            </div>
-                          ) : (
-                            <>
-                              {listPatient?.map((user) => {
-                                return (
-                                  <div
-                                    className={cx("list-conversation")}
-                                    key={user?.id}
-                                  >
-                                    <img
-                                      className={cx("avatar-img")}
-                                      // src={phoneNumber.avatar}
-                                      src={images.logo}
-                                      alt="avatar"
-                                    />
-                                    <div className={cx("content")}>
-                                      <h4 className={cx("username")}>
-                                        {user.fullName}
-                                      </h4>
-                                      <p className={cx("message")}>
-                                        {user.phone}
-                                      </p>
-                                      <p className={cx("message")}>
-                                        Ngày sinh:
-                                        {moment(user?.dateOfBirth).format(
-                                          "DD/MM/YYYY"
-                                        )}
-                                      </p>
+                            ) : (
+                              <>
+                                {listPatient?.map((user) => {
+                                  return (
+                                    <div
+                                      className={cx("list-conversation")}
+                                      key={user?.id}
+                                    >
+                                      <img
+                                        className={cx("avatar-img")}
+                                        // src={phoneNumber.avatar}
+                                        src={images.logo}
+                                        alt="avatar"
+                                      />
+                                      <div className={cx("content")}>
+                                        <span className={cx("username")}>
+                                          {user.fullName}
+                                        </span>
+                                        <span className={cx("message")}>
+                                          {user.phone}
+                                        </span>
+                                        <span className={cx("message")}>
+                                          Ngày sinh:
+                                          {moment(user?.dateOfBirth).format(
+                                            "DD/MM/YYYY"
+                                          )}
+                                        </span>
+                                      </div>
+                                      <div className={cx("result-add-friend")}>
+                                        <button
+                                          onClick={() => handleChoose(user)}
+                                        >
+                                          Xem
+                                        </button>
+                                      </div>
                                     </div>
-                                    <div className={cx("result-add-friend")}>
-                                      <button
-                                        onClick={() => handleChoose(user)}
-                                      >
-                                        Xem
-                                      </button>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </>
-                          )}
+                                  );
+                                })}
+                              </>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -391,7 +376,7 @@ const Information = () => {
                         {CHOLES ? <Chart CHOLES /> : null}
                         {GLU ? <Chart GLU /> : null}
                         {TIM ? <Chart TIM /> : null}
-                        <div className={cx("chatBox")}>
+                        <div className={cx("Chart-bot")}>
                           <ChatBot />
                         </div>
 
@@ -426,16 +411,16 @@ const Information = () => {
                 <>
                   <div className={cx("col-12")}>
                     <h1 className={cx("title")}>Thêm thông tin</h1>
-                    <button
+                    <div
                       className={cx("addIndex")}
                       onClick={handleModelOpenInfo}
                     >
-                      <ControlPointIcon sx={{ fontSize: 40 }} />
-                    </button>
+                      <ControlPointIcon sx={{ fontSize: 30 }} />
+                    </div>
                     <label className={cx("addIndex-lable")}>Cấp Cứu</label>
-                    <button className={cx("addIndex-bell")} onClick={Emergency}>
-                      <AddAlertIcon sx={{ fontSize: 40 }} />
-                    </button>
+                    <div className={cx("addIndex-bell")} onClick={Emergency}>
+                      <AddAlertIcon sx={{ fontSize: 30 }} />
+                    </div>
 
                     <ModelWrapper
                       className={cx("model-add-information")}
@@ -457,6 +442,7 @@ const Information = () => {
                         </div>
                         <AddInformation
                           handleModelCloseInfo={handleModelCloseInfo}
+                          user={user}
                         />
                       </div>
                     </ModelWrapper>
@@ -528,13 +514,35 @@ const Information = () => {
                       />
                     </div>
                     <div className={cx("col-2")}>
-                      <DiseaseIndex
-                        name="Tình trạng"
-                        index={healReport?.status}
-                        icon={
-                          <MoodIcon sx={{ fontSize: 20 }} color="success" />
-                        }
-                      />
+                      {healReport?.status === "SAFE" ? (
+                        <DiseaseIndex
+                          name="Tình trạng"
+                          index="Bình thường"
+                          icon={
+                            <MoodIcon sx={{ fontSize: 40 }} color="success" />
+                          }
+                        />
+                      ) : null}
+                      {healReport?.status === "DANGER" ? (
+                        <DiseaseIndex
+                          name="Tình trạng"
+                          index="Nguy hiểm"
+                          icon={
+                            <FlashOnIcon sx={{ fontSize: 40, color: "red" }} />
+                          }
+                        />
+                      ) : null}
+                      {healReport?.status === "CRITIAL" ? (
+                        <DiseaseIndex
+                          name="Tình trạng"
+                          index="Báo Động"
+                          icon={
+                            <WarningIcon
+                              sx={{ fontSize: 40, color: "Yellow" }}
+                            />
+                          }
+                        />
+                      ) : null}
                     </div>
                   </div>
                   <div className={cx("col-12")}>

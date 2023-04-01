@@ -1,25 +1,90 @@
-import React from "react";
+import React, { useState } from "react";
 
 import classNames from "classnames/bind";
-import styles from "./RegisterDoctor.module.scss";
 import FormPage from "../../components/FormPage/FormPage";
+import styles from "./RegisterDoctor.module.scss";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Link } from "react-router-dom";
-import TextInput from "../../components/TextInput/TextInput";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
+import TextInput from "../../components/TextInput/TextInput";
 
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Radio,
-  Select,
-  Stack,
-  TextField,
-} from "@mui/material";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "@firebase/auth";
+import { Radio, Stack, TextField } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { authentication } from "../../util/firebase";
 const cx = classNames.bind(styles);
 const RegisterDoctor = () => {
+  const navigate = useNavigate();
+  const [phone, setPhone] = useState();
+  const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
+  const [email, setEmail] = useState();
+  const [name, setName] = useState();
+  const [birthday, setBirthday] = useState();
+  const [optionSex, setOptionSex] = useState("");
+  const [address, setAddress] = useState();
+  const [experience, setExperience] = useState();
+  const [workPlace, setWorkPlace] = useState();
+  const [specialize, setSpecialize] = useState();
+  const [description, setDescription] = useState();
+  const { handleSubmit } = useForm();
+  const generateRecaptcha = () => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "tam",
+      {
+        size: "invisible",
+        callback: (response) => {},
+      },
+      authentication
+    );
+  };
+  const handleChange = (e) => {
+    const sex = e.target.value;
+    if (sex === "MALE") {
+      setOptionSex("MALE");
+    } else {
+      setOptionSex("FEMALE");
+    }
+  };
+  const handleResisterDoctor = () => {
+    if (password !== confirmPassword) {
+      alert("Mật khẩu không trùng khớp");
+    } else {
+      generateRecaptcha();
+      const phoneNumbers = "+84" + phone.slice(1);
+      const appVerifier = window.recaptchaVerifier;
+      signInWithPhoneNumber(authentication, phoneNumbers, appVerifier)
+        .then((confirmationResult) => {
+          // SMS sent. Prompt user to type the code from the message, then sign the
+          // user in with confirmationResult.confirm(code).
+          window.confirmationResult = confirmationResult;
+          // ...
+          navigate("/ConfirmOTPDoctor", {
+            state: {
+              name,
+              phone,
+              password,
+              email,
+              optionSex,
+              address,
+              birthday,
+              experience,
+              workPlace,
+              specialize,
+              description,
+            },
+          });
+          console.log("Đã gửi mã");
+        })
+        .catch((error) => {
+          // Error; SMS not sent
+          // ...
+          //alert('Tài khoản đã yêu cầu quá nhiều lần!!!');
+          console.log("Chưa gửi về OTP" + error);
+        });
+    }
+  };
   return (
     <FormPage>
       <div className={cx("container")}>
@@ -31,7 +96,7 @@ const RegisterDoctor = () => {
               </h3>
             </div>
             <div className={cx("panel-body p-3")}>
-              <form>
+              <form onSubmit={handleSubmit(handleResisterDoctor)}>
                 <div className={cx("form-group py-2")}>
                   <div className={cx("form-group-1")}>
                     <div className={cx("input-field")}>
@@ -39,7 +104,8 @@ const RegisterDoctor = () => {
                         id="outlined-helperText"
                         label="Số điện thoại"
                         placeholder="Nhập số điện thoại..."
-                        className={cx("tam")}
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                       />
                     </div>
                     <div className={cx("input-field")}>
@@ -47,6 +113,8 @@ const RegisterDoctor = () => {
                         id="outlined-helperText"
                         label="Họ và tên"
                         placeholder="Nhập họ và tên..."
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                       />
                     </div>
                   </div>
@@ -57,17 +125,17 @@ const RegisterDoctor = () => {
                       <label>Giới tính: </label>&ensp;
                       <label>Nam</label>
                       <Radio
-                        // checked={selectedValue === "a"}
-                        // onChange={handleChange}
-                        value="a"
+                        checked={optionSex === "MALE"}
+                        onChange={handleChange}
+                        value="MALE"
                         name="radio-buttons"
                         inputProps={{ "aria-label": "A" }}
                       />
                       <label>Nữ</label>
                       <Radio
-                        // checked={selectedValue === "b"}
-                        // onChange={handleChange}
-                        value="b"
+                        checked={optionSex === "FEMALE"}
+                        onChange={handleChange}
+                        value="FEMALE"
                         name="radio-buttons"
                         inputProps={{ "aria-label": "B" }}
                       />
@@ -77,53 +145,9 @@ const RegisterDoctor = () => {
                         id="outlined-helperText"
                         label="Địa chỉ"
                         placeholder="Nhập địa chỉ..."
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
                       />
-                    </div>
-                  </div>
-                </div>
-                <div className={cx("form-group py-1 pb-2")}>
-                  <div className={cx("form-group-1")}>
-                    <div className={cx("input-field")}>
-                      <FormControl variant="standard" sx={{ width: 333 }}>
-                        <InputLabel id="demo-simple-select-standard-label">
-                          Quận/Huyện
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-standard-label"
-                          id="demo-simple-select-standard"
-                          //  value={age}
-                          // onChange={handleChange}
-                          label="Chọn quận/Huyện"
-                        >
-                          <MenuItem value="">
-                            <em>Chọn quận/Huyện</em>
-                          </MenuItem>
-                          <MenuItem value={10}>1</MenuItem>
-                          <MenuItem value={20}>2</MenuItem>
-                          <MenuItem value={30}>3</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-                    <div className={cx("input-field")}>
-                      <FormControl variant="standard" sx={{ width: 333 }}>
-                        <InputLabel id="demo-simple-select-standard-label">
-                          Nơi công tác
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-standard-label"
-                          id="demo-simple-select-standard"
-                          //  value={age}
-                          // onChange={handleChange}
-                          label="Chọn Bệnh Viện"
-                        >
-                          <MenuItem value="">
-                            <em>Chọn Nơi công tác</em>
-                          </MenuItem>
-                          <MenuItem value={10}>1</MenuItem>
-                          <MenuItem value={20}>2</MenuItem>
-                          <MenuItem value={30}>3</MenuItem>
-                        </Select>
-                      </FormControl>
                     </div>
                   </div>
                 </div>
@@ -133,13 +157,14 @@ const RegisterDoctor = () => {
                       <Stack component="form" noValidate spacing={1}>
                         <TextField
                           id="date"
-                          label="Birthday"
+                          label="Ngày sinh"
                           type="date"
-                          defaultValue="2017-05-24"
                           sx={{ width: 333, marginTop: 1 }}
                           InputLabelProps={{
                             shrink: true,
                           }}
+                          value={birthday}
+                          onChange={(e) => setBirthday(e.target.value)}
                         />
                       </Stack>
                     </div>
@@ -148,6 +173,8 @@ const RegisterDoctor = () => {
                         id="outlined-helperText"
                         label="Email"
                         placeholder="Nhập Email..."
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                   </div>
@@ -157,15 +184,32 @@ const RegisterDoctor = () => {
                     <div className={cx("input-field")}>
                       <TextInput
                         id="outlined-helperText"
-                        label="Kinh nghiệm làm việc"
-                        placeholder="Nhập Kinh nghiệm làm việc..."
+                        label="Nơi làm việc"
+                        placeholder="Nhập Nơi làm việc..."
+                        value={workPlace}
+                        onChange={(e) => setWorkPlace(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className={cx("form-group py-1 pb-2")}>
+                  <div className={cx("form-group-1")}>
+                    <div className={cx("input-field")}>
+                      <TextInput
+                        id="outlined-helperText"
+                        label="Kinh nghiệm"
+                        placeholder="Nhập Kinh nghiệm..."
+                        value={experience}
+                        onChange={(e) => setExperience(e.target.value)}
                       />
                     </div>
                     <div className={cx("input-field")}>
                       <TextInput
                         id="outlined-helperText"
-                        label="Cấp bậc"
-                        placeholder="Nhập Cấp bậc..."
+                        label="Chuyên Môn"
+                        placeholder="Nhập Chuyên môn..."
+                        value={specialize}
+                        onChange={(e) => setSpecialize(e.target.value)}
                       />
                     </div>
                   </div>
@@ -178,6 +222,8 @@ const RegisterDoctor = () => {
                         type="password"
                         label="Mật khẩu"
                         placeholder="Nhập mật khẩu..."
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
                     <div className={cx("input-field")}>
@@ -186,6 +232,8 @@ const RegisterDoctor = () => {
                         type="password"
                         label="Nhập lại mật khẩu"
                         placeholder="Nhập lại mật khẩu..."
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                       />
                     </div>
                   </div>
@@ -195,17 +243,17 @@ const RegisterDoctor = () => {
                     <TextField
                       id="outlined-helperText"
                       label="Giới thiệu bản thân"
-                      placeholder="Nhập họ và tên..."
+                      placeholder="Nhập giới thiệu bản thân..."
                       className={cx("intro")}
                       sx={{ width: 685 }}
                     />
                   </div>
                 </div>
-                <Link to="/ConfirmOTP">
-                  <div className={cx("btn-register")}>
-                    <Button>Đăng Ký</Button>
-                  </div>
-                </Link>
+
+                <div className={cx("btn-register")}>
+                  <Button>Đăng Ký</Button>
+                  <div id="tam"></div>
+                </div>
                 <Link to="/Login">
                   <div className={cx("back")}>
                     <ArrowBackIcon sx={{ fontSize: 20 }} />

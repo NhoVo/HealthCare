@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import classNames from "classnames/bind";
-import styles from "./ChooseDoctor.module.scss";
-import FormPage from "../../components/FormPage/FormPage";
 import SearchIcon from "@mui/icons-material/Search";
-import images from "../../assets/images";
-import filterSlice from "../../Redux/Features/filter/filterSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { userDoctors, usersRemainingSelector } from "../../Redux/selector";
-import { fetchUserDoctors } from "../../Redux/Features/Users/UserDoctors";
-import { toast } from "react-toastify";
+import classNames from "classnames/bind";
 import moment from "moment/moment";
-import { Navigate, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import images from "../../assets/images";
+import FormPage from "../../components/FormPage/FormPage";
 import { fetchChooseDoctor } from "../../Redux/Features/Doctor/ChooseDoctor";
+import filterSlice from "../../Redux/Features/filter/filterSlice";
+import { fetchUserDoctors } from "../../Redux/Features/Users/UserDoctors";
+import { userDoctors, usersRemainingSelector } from "../../Redux/selector";
+import styles from "./ChooseDoctor.module.scss";
 
 const cx = classNames.bind(styles);
 const ChooseDoctor = () => {

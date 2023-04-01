@@ -1,13 +1,19 @@
-import React, { useState } from "react";
 import classNames from "classnames/bind";
-import styles from "./AddInformation.module.scss";
-import TextInput from "../TextInput/TextInput";
-import Button from "../Button/Button";
+import React, { useEffect, useState } from "react";
+
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { postHealthRecord } from "../../Redux/Features/HealthRecord/HealthRecord";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  healthRecordDay,
+  postHealthRecord,
+} from "../../Redux/Features/HealthRecord/HealthRecord";
+import { postNotification } from "../../Redux/Features/Notifications/Notifications";
+import { healthWarningDay, tam } from "../../Redux/selector";
+import Button from "../Button/Button";
+import TextInput from "../TextInput/TextInput";
+import styles from "./AddInformation.module.scss";
 const cx = classNames.bind(styles);
-const AddInformation = ({ handleModelCloseInfo }) => {
+const AddInformation = ({ handleModelCloseInfo, user }) => {
   const { handleSubmit } = useForm();
   const [weight, setWeight] = useState("");
   const [hight, setHight] = useState("");
@@ -16,7 +22,12 @@ const AddInformation = ({ handleModelCloseInfo }) => {
   const [glucose, setGlucose] = useState("");
   const [cholesterol, setCholesterol] = useState("");
   const [heartbeat, setHeartbeat] = useState("");
+  const healtDay = useSelector(tam);
   const dispatch = useDispatch();
+  const [tt, settt] = useState(false);
+  useEffect(() => {
+    console.log(healtDay);
+  }, [tt === true]);
   const handleHealthRecord = () => {
     const data = {
       height: hight,
@@ -27,10 +38,46 @@ const AddInformation = ({ handleModelCloseInfo }) => {
       glucose: glucose,
       cholesterol: cholesterol,
     };
-    const add = dispatch(postHealthRecord(data));
-    if (add) {
-      alert("thêm thông tin thành công");
-    }
+    dispatch(postHealthRecord(data));
+    settt(true);
+    // const data5 = {
+    //   userId: user?.id,
+    //   typeNotification: "SYSTEM",
+    //   content: healtDay?.data?.recordBloodhealtDay.message,
+    //   title: "Chỉ số sức khỏe hôm nay",
+    // };
+    // dispatch(postNotification(data5));
+    // const data1 = {
+    //   userId: user.id,
+    //   typeNotification: "SYSTEM",
+    //   content: healtDay?.data?.recordBmi.message,
+    //   title: "Chỉ số sức khỏe hôm nay",
+    // };
+    // dispatch(postNotification(data1));
+    // const data2 = {
+    //   userId: user.id,
+    //   typeNotification: "SYSTEM",
+    //   content: healtDay?.data?.recordCholesterol.message,
+    //   title: "Chỉ số sức khỏe hôm nay",
+    // };
+    // dispatch(postNotification(data2));
+    // const data3 = {
+    //   userId: user.id,
+    //   typeNotification: "SYSTEM",
+    //   content: healtDay?.data?.recordGlucose.message,
+    //   title: "Chỉ số sức khỏe hôm nay",
+    // };
+    // dispatch(postNotification(data3));
+    // const data4 = {
+    //   userId: user.id,
+    //   typeNotification: "SYSTEM",
+    //   content: healtDay?.data?.recordHeartBeat.message,
+    //   title: "Chỉ số sức khỏe hôm nay",
+    // };
+    // dispatch(postNotification(data4));
+
+    alert("thêm thông tin thành công");
+
     handleModelCloseInfo();
   };
   return (

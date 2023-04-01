@@ -1,13 +1,10 @@
 // lib
 import classNames from "classnames/bind";
-import { useState, useEffect } from "react";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
 
 // me
-import styles from "./OnlineStatus.module.scss";
 import images from "../../assets/images/index";
+import styles from "./OnlineStatus.module.scss";
 const cx = classNames.bind(styles);
 
 function OnlineStatus({ onlineUsers, conversation }) {

@@ -10,7 +10,7 @@ import TextInput from "../../components/TextInput/TextInput";
 import { authentication } from "../../util/firebase";
 import styles from "./ConfirmOTP.module.scss";
 const cx = classNames.bind(styles);
-const ConfirmOTP = () => {
+const ConfirmOTPDoctor = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -22,18 +22,17 @@ const ConfirmOTP = () => {
 
   const address = location.state?.address;
   const birthday = location.state?.birthday;
-  const insuranceNumber = location.state?.insuranceNumber;
-  const job = location.state?.job;
-  const states = location.state?.states;
-  const medicalHistory = location.state?.medicalHistory;
-  const carersFullName = location.state?.carersFullName;
-  const carersPhone = location.state?.carersPhone;
+  const email = location.state?.email;
+  const experience = location.state?.experience;
+  const workPlace = location.state?.workPlace;
+  const specialize = location.state?.specialize;
+  const description = location.state?.description;
 
   const [OTP, setOTP] = useState("");
   //API Register
   const register = () => {
     return fetch(
-      `${process.env.REACT_APP_BASE_URL}/auth/user/register/patient`,
+      `${process.env.REACT_APP_BASE_URL}/auth/user/register/doctor`,
       {
         method: "POST",
         headers: {
@@ -41,22 +40,17 @@ const ConfirmOTP = () => {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
-          fullName: name,
           phone: phone,
           password: password,
+          email: email,
+          fullName: name,
+          dateOfBirth: birthday,
           gender: optionSex,
           address: address,
-          dateOfBirth: birthday,
-          insuranceNumber: insuranceNumber,
-          job: job,
-          state: states,
-          medicalHistory: medicalHistory,
-          carers: [
-            {
-              phone: carersPhone,
-              fullName: carersFullName,
-            },
-          ],
+          experience: experience,
+          workPlace: workPlace,
+          specialize: specialize,
+          description: description,
         }),
       }
     )
@@ -122,11 +116,11 @@ const ConfirmOTP = () => {
                         JSON.stringify(token.access_token)
                       );
 
-                      navigate("/ChooseDoctor", {
+                      navigate("/Home", {
                         state: true,
                       });
                       setTimeout(() => {
-                        navigate("/ChooseDoctor");
+                        navigate("/Home");
                       }, 2000);
                     }
                   })
@@ -183,7 +177,7 @@ const ConfirmOTP = () => {
                   <Button>
                     Xác nhận <div id="tam"></div>
                   </Button>
-                  <Link to="/ResisterPatient">
+                  <Link to="/RegisterDoctor">
                     <div className={cx("back")}>
                       <ArrowBackIcon sx={{ fontSize: 20 }} />
                       <h3>Quay lại</h3>
@@ -199,4 +193,4 @@ const ConfirmOTP = () => {
   );
 };
 
-export default ConfirmOTP;
+export default ConfirmOTPDoctor;

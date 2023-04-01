@@ -1,15 +1,14 @@
 // lib
 import classNames from "classnames/bind";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 
 // me
-import styles from "./FileMessage.module.scss";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import images from "../../assets/images/index";
 import ModelWrapper from "../ModelWrapper/ModelWrapper";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
+import styles from "./FileMessage.module.scss";
 
 const cx = classNames.bind(styles);
 

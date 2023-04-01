@@ -1,12 +1,10 @@
 .item {
   height: 60px;
-  margin-left: 1px;
-
   background-color: var(--white);
   cursor: pointer;
   &:hover {
     opacity: 0.8;
-    background-color: var(--not-active);
+    background-color: #eff0f6;
     color: var(--primary);
   }
 }
@@ -17,11 +15,9 @@
   color: var(--primary);
   font-size: 30px;
   margin-top: 10px;
-  margin-left: 10px;
 }
 .group-item h1 {
   margin-top: 15px;
-  margin-left: 5px;
   font-family: var(--font-family);
   font-size: 2rem;
 }

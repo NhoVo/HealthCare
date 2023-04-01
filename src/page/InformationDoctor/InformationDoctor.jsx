@@ -1,30 +1,44 @@
-import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
-import styles from "./InformationDoctor.module.scss";
-import images from "../../assets/images";
 import moment from "moment";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userDoctorPatient, userLogin } from "../../Redux/selector";
-import { fetchUserDoctor } from "../../Redux/Features/Users/UserDoctors";
+import images from "../../assets/images";
 import GoogleMap from "../../components/GoogleMap/GoogleMap";
-import Button from "../../components/Button/Button";
+import { fetchUserDoctor } from "../../Redux/Features/Users/UserDoctors";
+import {
+  ratingOfDoctor,
+  userDoctorPatient,
+  userLogin,
+} from "../../Redux/selector";
+import styles from "./InformationDoctor.module.scss";
 
 import { geocodeByAddress, getLatLng } from "react-google-places-autocomplete";
+import useDebounce from "../../components/hooks/useDebounce";
+import ReactStars from "react-rating-stars-component";
+import {
+  getRatingOfDoctor,
+  postRatingOfDoctor,
+} from "../../Redux/Features/Rating/RatingDoctor";
+import { postNotification } from "../../Redux/Features/Notifications/Notifications";
 const cx = classNames.bind(styles);
 
 const InformationDoctor = () => {
   const userD = useSelector(userDoctorPatient);
+
   const dispatch = useDispatch();
   const user = useSelector(userLogin);
+  const debouncedValue = useDebounce(user, 500);
   //bac si
   const userDoctor = useSelector(userLogin);
-
+  //  const ratingDoctor = useSelector(ratingOfDoctor);
+  // console.log(ratingDoctor);
   const [coordinates, setCoordinates] = useState(null);
   const [coordinatesP, setCoordinatesP] = useState(null);
-
+  const [rating, setRating] = useState("");
   useEffect(() => {
     dispatch(fetchUserDoctor(user.doctorId));
-  }, []);
+  }, [user, debouncedValue]);
+
   useEffect(() => {
     if (userDoctor.role === "DOCTOR") {
       const getCoords = async () => {
@@ -51,7 +65,23 @@ const InformationDoctor = () => {
       userD && getCoordsP();
     }
   }, [userD, userDoctor]);
-
+  const ratingChanged = (rating) => {
+    setRating(rating);
+  };
+  const handleRating = () => {
+    const data = {
+      doctorId: user.doctorId,
+      rating: rating,
+    };
+    dispatch(postRatingOfDoctor(data));
+    const data1 = {
+      userId: user.doctorId,
+      typeNotification: "SYSTEM",
+      content: "Bệnh nhân" + "" + user.fullName + "" + " đã đánh giá bạn",
+      title: "Đánh giá",
+    };
+    dispatch(postNotification(data1));
+  };
   return (
     <>
       {userDoctor.role === "DOCTOR" ? (
@@ -178,7 +208,14 @@ const InformationDoctor = () => {
                   alt="avatar"
                 />
                 <div className={cx("updateDoctor")}>
-                  <button>Thay đổi</button>
+                  <button onClick={handleRating}>Đánh giá</button>
+                  <ReactStars
+                    count={5}
+                    // onChange={ratingChanged}
+                    value={rating}
+                    size={30}
+                    activeColor="#ffd700"
+                  />
                 </div>
               </div>
               <div className={cx("panel-body p-2")}>

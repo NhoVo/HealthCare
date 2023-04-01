@@ -1,20 +1,18 @@
-import React from "react";
-import classNames from "classnames/bind";
-import styles from "./MedicalRecordDoctor.module.scss";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchIcon from "@mui/icons-material/Search";
+import classNames from "classnames/bind";
 import moment from "moment/moment";
-import { useState } from "react";
-import images from "../../assets/images/index";
-import filterSlice from "../../Redux/Features/filter/filterSlice";
-import { allHRecordPaient, filterPhonePatient } from "../../Redux/selector";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import images from "../../assets/images/index";
 import useDebounce from "../../components/hooks/useDebounce";
-import { useEffect } from "react";
-import { fetchAllHRPatient } from "../../Redux/Features/HealthRecord/HealthRecord";
 import ModelWrapper from "../../components/ModelWrapper/ModelWrapper";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import filterSlice from "../../Redux/Features/filter/filterSlice";
+import { fetchAllHRPatient } from "../../Redux/Features/HealthRecord/HealthRecord";
+import { allHRecordPaient, filterPhonePatient } from "../../Redux/selector";
+import styles from "./MedicalRecordDoctor.module.scss";
 const cx = classNames.bind(styles);
 const MedicalRecordDoctor = ({ user, listPatient }) => {
   const dispatch = useDispatch();
@@ -278,18 +276,6 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
                       <div className={cx("input-field")}>
                         <label>
                           <b>Số điện thoại người thân 1:</b> 0123456789
-                        </label>
-                      </div>
-                    </div>
-                    <div className={cx("form-group-1")}>
-                      <div className={cx("input-field")}>
-                        <label>
-                          <b>Họ tên người thân 2:</b> Lê Tuấn
-                        </label>
-                      </div>
-                      <div className={cx("input-field")}>
-                        <label>
-                          <b>Số điện thoại người thân 2:</b> 0123456789
                         </label>
                       </div>
                     </div>

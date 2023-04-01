@@ -1,17 +1,14 @@
 // libs
 import classNames from "classnames/bind";
-import { useEffect } from "react";
-
-import { CircularProgress } from "@material-ui/core";
 
 // me
 import styles from "./Middle.module.scss";
 // import Conversation from "~/components/Conversation";
-import Search from "../../SearchChat/Search";
-import Conversation from "../../Conversation/Conversation";
 import { useDispatch, useSelector } from "react-redux";
-import { listAllConversation, userLogin } from "../../../Redux/selector";
 import { fetchAllmessage } from "../../../Redux/Features/Conversation/Conversation";
+import { listAllConversation } from "../../../Redux/selector";
+import Conversation from "../../Conversation/Conversation";
+import Search from "../../SearchChat/Search";
 
 const cx = classNames.bind(styles);
 

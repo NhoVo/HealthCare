@@ -1,26 +1,18 @@
 import React, { useState } from "react";
 
 import classNames from "classnames/bind";
-import styles from "./ResisterPatient.module.scss";
 import FormPage from "../../components/FormPage/FormPage";
 import { authentication } from "../../util/firebase";
+import styles from "./ResisterPatient.module.scss";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link, useNavigate } from "react-router-dom";
-import TextInput from "../../components/TextInput/TextInput";
 import Button from "../../components/Button/Button";
+import TextInput from "../../components/TextInput/TextInput";
 
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Radio,
-  Select,
-  Stack,
-  TextField,
-} from "@mui/material";
-import { useForm } from "react-hook-form";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "@firebase/auth";
+import { Radio, Stack, TextField } from "@mui/material";
+import { useForm } from "react-hook-form";
 
 const cx = classNames.bind(styles);
 const ResisterPatient = () => {

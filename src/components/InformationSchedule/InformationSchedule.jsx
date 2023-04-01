@@ -1,7 +1,7 @@
-import React from "react";
 import classNames from "classnames/bind";
-import styles from "./InformationSchedule.module.scss";
 import moment from "moment";
+import React from "react";
+import styles from "./InformationSchedule.module.scss";
 const cx = classNames.bind(styles);
 
 const InformatioSchedule = ({ user }) => {

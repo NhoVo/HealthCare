@@ -22,7 +22,7 @@ export const postHealthRecord = createAsyncThunk(
     // Convert dữ liệu ra json
     const jsonData = await response.json();
 
-    return jsonData;
+    return jsonData.data;
   }
 );
 //xem thông tin hằng ngày
@@ -75,7 +75,6 @@ export const fetchAllHealthRecord = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-
     return jsonData.data;
   }
 );
@@ -134,10 +133,11 @@ export const fetchEmergency = createAsyncThunk(
 );
 const HealthRecord = createSlice({
   name: "user",
-  initialState: { data: "", allHrecord: [], allHRPatient: [] },
+  initialState: { dataDay: [], data: "", allHrecord: [], allHRPatient: [] },
   extraReducers: (builder) => {
     builder.addCase(postHealthRecord.fulfilled, (state, action) => {
-      state.data = action.payload;
+      state.dataDay = action.payload;
+      console.log(state.dataDay);
     });
     builder.addCase(healthRecordDay.fulfilled, (state, action) => {
       state.data = action.payload;

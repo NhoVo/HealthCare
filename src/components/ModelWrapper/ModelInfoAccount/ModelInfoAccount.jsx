@@ -1,15 +1,15 @@
 // libs
-import classNames from "classnames/bind";
-import { useState } from "react";
-import moment from "moment";
+import { faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark, faUser } from "@fortawesome/free-solid-svg-icons";
+import classNames from "classnames/bind";
+import moment from "moment";
+import { useState } from "react";
 // me
 import styles from "./ModelInfoAccount.module.scss";
 // import ModelWrapper from "~/components/ModelWrapper";
-import SubModelInfoAccount from "./SubModelInfoAccount";
 import images from "../../../assets/images/index";
 import ModelWrapper from "../ModelWrapper";
+import SubModelInfoAccount from "./SubModelInfoAccount";
 
 const cx = classNames.bind(styles);
 

@@ -1,14 +1,14 @@
 // lib
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useState } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
 
 // me
-import styles from "./FileMessage.module.scss";
 import images from "../../assets/images/index";
 import ModelWrapper from "../ModelWrapper/ModelWrapper";
+import styles from "./FileMessage.module.scss";
 
 const cx = classNames.bind(styles);
 

@@ -9,6 +9,7 @@ import Heartbeat from "./Features/HealthRecord/Heartbeat";
 import HeartbeatPatient from "./Features/HealthRecord/HeartbeatPatient";
 import NextPage from "./Features/NextPage";
 import Notifications from "./Features/Notifications/Notifications";
+import RatingDoctor from "./Features/Rating/RatingDoctor";
 import UserDoctors from "./Features/Users/UserDoctors";
 import userLoginSlice from "./Features/Users/UserLoginSlice";
 import userPatient from "./Features/Users/userPatient";
@@ -28,6 +29,7 @@ const store = configureStore({
     listHPatient: HeartbeatPatient.reducer,
     searchGoogle: searchgg.reducer,
     listConversation: Conversation.reducer,
+    ratingDoctor: RatingDoctor.reducer,
   },
 });
 

@@ -1,41 +1,46 @@
-.Title h1 {
-  font-weight: 500;
+.title-name {
+  font-weight: bold;
   font-family: var(--font-family);
-  padding-top: 20px;
-  text-align: center;
+  font-size: 2.5rem;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
 }
 .input-field {
-  font-size: 1.5rem;
-  font-weight: 500;
   font-family: var(--font-family);
-  width: 350px;
-
-  margin-left: 10px;
+  width: 450px;
+  margin-left: 40px;
+}
+.input-field b {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+.input-field span {
+  font-weight: 500;
+  font-size: 1.2rem;
 }
 .form-group-1 {
   display: flex;
-  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 98%;
 }
 
-.input-field-2 {
-  font-size: 1.5rem;
-  font-weight: 500;
-  font-family: var(--font-family);
-  margin-left: 10px;
-  padding-bottom: 17px;
-}
 .table-infor table {
   font-size: 1.5rem;
-  width: 100%;
+  margin-left: 40px;
   display: flex;
   border-collapse: collapse;
   flex-flow: column;
-  width: 99.5%;
-  height: 350px;
+  background-color: white;
+  width: 90%;
+  height: 380px;
+  border-radius: 20px;
 }
+
 .table-infor thead {
-  background-color: black;
-  color: white;
+  border-radius: 20px;
+  color: #566a7f;
 }
 .table-infor tbody {
   flex: 1 1 auto;
@@ -50,8 +55,41 @@
 }
 .title-table {
   font-size: 1.8rem;
-
   font-weight: bold;
   font-family: var(--font-family);
-  margin-left: 10px;
+  margin-left: 40px;
+  margin-bottom: 10px;
+}
+//phan trang
+.pageNumbers {
+  list-style: none;
+  display: flex;
+  margin-left: 910px;
+}
+
+.pageNumbers li {
+  border-radius: 8px;
+  font-size: 1rem;
+  padding: 10px;
+  cursor: pointer;
+  background-color: white;
+  margin: 2px;
+  &:hover {
+    background-color: #eff0f6;
+    color: black;
+  }
+}
+
+.pageNumbers li.active {
+  background-color: #eff0f6;
+  color: black;
+}
+.pageNumbers li button {
+  border: none;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+.pageNumbers li button:focus {
+  outline: none;
 }

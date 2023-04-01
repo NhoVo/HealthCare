@@ -1,32 +1,27 @@
-import classNames from "classnames/bind";
 import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
 import TippyHeadless from "@tippyjs/react/headless";
-import { useState, useEffect, useRef } from "react";
+import classNames from "classnames/bind";
+import { useState } from "react";
+import "tippy.js/dist/tippy.css";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faMagnifyingGlass,
   faCircleXmark,
+  faMagnifyingGlass,
   faSpinner,
-  faUserPlus,
   faUserGroup,
+  faUserPlus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // me
 import styles from "./Search.module.scss";
-// import Popper from "../Popper";
-// import Conversation from "../Conversation";
-// import ModelWrapper from "../ModelWrapper";
+
 import AddFriend from "../AddFriend/AddFriend";
 import AddGroup from "../AddGroup/AddGroup";
-// import filterSlice from "~/redux/features/filter/filterSlice";
-// import { useDispatch, useSelector } from 'react-redux';
 
-import { toast } from "react-toastify";
-import Popper from "../Popper/Popper";
 import ModelWrapper from "../ModelWrapper/ModelWrapper";
+import Popper from "../Popper/Popper";
 const cx = classNames.bind(styles);
 
 function Search() {

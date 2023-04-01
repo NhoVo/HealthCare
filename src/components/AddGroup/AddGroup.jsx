@@ -4,13 +4,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import images from "../../assets/images";
 
-import styles from "./AddGroup.module.scss";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import styles from "./AddGroup.module.scss";
 
 const cx = classNames.bind(styles);
 

@@ -13,6 +13,8 @@ export const searchTextSelector = (state) => state.filters.search;
 
 export const userDoctors = (state) => state.listUserDoctors.data;
 export const healthRD = (state) => state.healthRecordDay.data;
+export const healthWarningDay = (state) => state.healthRecordDay.dataDay;
+
 export const listHeartbeat = (state) => state.listHeartbeat.data;
 export const listBMI = (state) => state.listHeartbeat.bmi;
 export const listBloodPressures = (state) => state.listHeartbeat.bloodPressures;
@@ -21,6 +23,8 @@ export const listGlucoses = (state) => state.listHeartbeat.glucoses;
 export const userDoctorPatient = (state) => state.listUserDoctors.userDoctor;
 export const patientBookedSchedule = (state) =>
   state.patientBook.bookedSchedule;
+export const patientBookCreate = (state) => state.patientBook.createBookPatient;
+
 export const patientBookeDetail = (state) => state.patientBook.bookDetail;
 
 export const allNotifiDoctor = (state) => state.notifications.allNotifications;
@@ -29,6 +33,8 @@ export const allHealthRecord = (state) => state.healthRecordDay.allHrecord;
 //bác sĩ
 export const userPatients = (state) => state.listUserPatient.userPatients;
 export const listBookDoctor = (state) => state.doctorBook.listBookDoctor;
+export const listBookDoctorCreate = (state) =>
+  state.doctorBook.listCreateDoctor;
 export const allHRecordPaient = (state) => state.healthRecordDay.allHRPatient;
 export const listHeartbeatDoctor = (state) => state.listHPatient.dataDoctor;
 export const listBMIDoctor = (state) => state.listHPatient.bmiDoctor;
@@ -41,7 +47,13 @@ export const listGlucosesDoctor = (state) => state.listHPatient.glucosesDoctor;
 //Cuộc hội thoại
 export const listAllConversation = (state) => state.listConversation.data;
 export const listAllMessage = (state) => state.listConversation.dataMessage;
+//Rating
+export const ratingOfDoctor = (state) => state.ratingDoctor.ratingData;
 
+export const tam = createSelector(healthWarningDay, (index) => {
+  console.log(index);
+  return index;
+});
 export const usersRemainingSelector = createSelector(
   userDoctors,
   searchTextSelector,
@@ -170,45 +182,16 @@ export const ChartGlucoses = createSelector(listGlucoses, (lg) => {
     createdAt: moment(c.createdAt).format("DD/MM/YYYY"),
   }));
 });
-//danh sach lich hen
-export const listBookPatient = createSelector(patientBookedSchedule, (pb) => {
-  const listBookPatient = pb?.filter(
-    (_pb) =>
-      _pb.statusAppointment !== "CANCELED" &&
-      _pb.statusAppointment !== "APPROVED" &&
-      _pb.statusAppointment !== "COMPLETED"
-  );
-  return listBookPatient;
-});
-//danh sach lich hen da chấp nhận của bệnh nhân
-export const listBookPatientAPPROVED = createSelector(
+
+export const sumBookPatient = createSelector(
   patientBookedSchedule,
-  (pb) => {
-    const listBookPatient = pb?.filter(
-      (_pb) => _pb.statusAppointment === "APPROVED"
-    );
-    return listBookPatient;
+  patientBookCreate,
+  (pb, pc) => {
+    const sum = pb.length + pc.length;
+    return sum;
   }
 );
-export const sumBookPatient = createSelector(patientBookedSchedule, (pb) => {
-  const listBookPatient = pb?.filter(
-    (_pb) =>
-      _pb.statusAppointment === "APPROVED" ||
-      _pb.statusAppointment === "CREATED"
-  );
-  return listBookPatient.length;
-});
-//thao tac bac sĩ
-export const getListBookDoctor = createSelector(listBookDoctor, (lb) => {
-  const listBookDoctor = lb?.filter(
-    (_lb) =>
-      _lb.statusAppointment !== "CANCELED" &&
-      _lb.statusAppointment !== "APPROVED" &&
-      _lb.statusAppointment !== "COMPLETED"
-  );
-  console.log("lịch cho", listBookDoctor);
-  return listBookDoctor;
-});
+
 export const getListBookDoctorAccept = createSelector(listBookDoctor, (lb) => {
   const listAccept = lb?.filter((_lb) => _lb.statusAppointment === "APPROVED");
   return listAccept;

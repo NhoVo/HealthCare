@@ -2,12 +2,10 @@
 import classNames from "classnames/bind";
 import { useState } from "react";
 
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // me
 import styles from "./Message.module.scss";
-import Conversation from "../Conversation/Conversation";
 
 const cx = classNames.bind(styles);
 

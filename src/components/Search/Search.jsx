@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from "react";
-import classNames from "classnames/bind";
-import styles from "./Search.module.scss";
 import SearchIcon from "@mui/icons-material/Search";
+import classNames from "classnames/bind";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styles from "./Search.module.scss";
 
-import ModelWrapper from "../ModelWrapper/ModelWrapper";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faXmark } from "@fortawesome/free-solid-svg-icons";
-import images from "../../assets/images/index";
 import GoogleMapReact from "google-map-react";
-import { MdOutlineAddLocation } from "react-icons/md";
 import { HiLocationMarker } from "react-icons/hi";
+import { MdOutlineAddLocation } from "react-icons/md";
 import ReactStars from "react-rating-stars-component";
 import { searchGG, searchGGMap } from "../../Redux/Features/filter/searchgg";
 import { resultSearchGG, resultSearchGGMap } from "../../Redux/selector";
-import { positions } from "@mui/system";
+import ModelWrapper from "../ModelWrapper/ModelWrapper";
 const cx = classNames.bind(styles);
 const Position = ({ text }) => <div>{text}</div>;
 
@@ -22,7 +20,7 @@ const Search = () => {
   const [search, setSearch] = useState();
   const [openInfo, setOpenInfo] = useState(false);
   const [coords, setCoords] = useState(null);
-  const [rating, setRating] = useState(3);
+
   const result = useSelector(resultSearchGG);
   const resultMap = useSelector(resultSearchGGMap);
 
@@ -50,11 +48,7 @@ const Search = () => {
 
   return (
     <div className={cx("form-search")}>
-      <div
-        className={cx(
-          "row height d-flex justify-content-center align-items-center"
-        )}
-      >
+      <div className={cx("row height d-flex align-items-center")}>
         <div className={cx("col-md-6")}>
           <div className={cx("form")}>
             <div onClick={handleSearch}>
@@ -158,8 +152,7 @@ const Search = () => {
                         activeColor="#ffd700"
                       />
                       <div className={cx("search-map-rating")}>
-                        {" "}
-                        {m.ratingCount}{" "}
+                        {m.ratingCount}
                       </div>
                     </div>
                     <div className={cx("search-map-address")}>
