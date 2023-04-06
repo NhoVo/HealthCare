@@ -37,10 +37,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   listAllConversation,
   listAllMessage,
+  listImage,
   userLogin,
 } from "../../../../Redux/selector";
 import Conversation, {
   fetchPostMessage,
+  fetchUploadFiles,
   pushMessage,
 } from "../../../../Redux/Features/Conversation/Conversation";
 import { useMemo } from "react";
@@ -64,18 +66,12 @@ function Messenger() {
   const inForConversation = listConversation.filter((_c) =>
     listMessage[0]?.conversationId?.includes(_c?.id)
   );
+  const imgMessage = useSelector(listImage);
 
   const user = useSelector(userLogin);
   const scrollMessenger = useRef();
   //call video
-  const [openInfo, setOpenInfo] = useState(false);
 
-  const handleModelOpenInfo = () => {
-    setOpenInfo(true);
-  };
-  const handleModelCloseInfo = () => {
-    setOpenInfo(false);
-  };
   const conversationOnlineStatus = listMessage?.filter(
     (message) =>
       message?.user.id !== user?.doctor?.id && message?.user.id !== user?.id
@@ -114,9 +110,7 @@ function Messenger() {
   // handle change file
   const handleChangeFileMessage = (e) => {
     const file = e.target.files[0];
-
     file.previewFile = URL.createObjectURL(file);
-
     setNewFileMessage(file);
     setBtnClosePreview(true); // !btnClosePreview
   };
@@ -156,13 +150,27 @@ function Messenger() {
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
-    const data = {
-      typeMessage: "TEXT",
-      idConversation: listMessage[0].conversationId,
-      content: newMessage,
-    };
-    dispatch(fetchPostMessage(data));
-
+    console.log(newImageMessage);
+    if (newImageMessage === null) {
+      const data = {
+        typeMessage: "TEXT",
+        idConversation: listMessage[0].conversationId,
+        content: newMessage,
+      };
+      dispatch(fetchPostMessage(data));
+    } else {
+      const dataImg = {
+        files: newImageMessage,
+      };
+      dispatch(fetchUploadFiles(dataImg));
+      const data = {
+        typeMessage: "IMAGE",
+        idConversation: listMessage[0].conversationId,
+        content: newMessage,
+        file: imgMessage[0].id,
+      };
+      dispatch(fetchPostMessage(data));
+    }
     setNewMessage("");
     setNewImageMessage([]);
     setNewFileMessage(null);
@@ -216,10 +224,7 @@ function Messenger() {
             content="Cuộc gọi video"
             delay={[200, 0]}
           >
-            <button
-              className={cx("btn-click-icon")}
-              onClick={handleModelOpenInfo}
-            >
+            <button className={cx("btn-click-icon")}>
               <FontAwesomeIcon className={cx("icon")} icon={faVideo} />
             </button>
           </Tippy>

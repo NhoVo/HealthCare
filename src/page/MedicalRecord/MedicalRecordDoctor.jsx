@@ -11,20 +11,89 @@ import useDebounce from "../../components/hooks/useDebounce";
 import ModelWrapper from "../../components/ModelWrapper/ModelWrapper";
 import filterSlice from "../../Redux/Features/filter/filterSlice";
 import { fetchAllHRPatient } from "../../Redux/Features/HealthRecord/HealthRecord";
-import { allHRecordPaient, filterPhonePatient } from "../../Redux/selector";
+import {
+  allHRecordPaient,
+  filterPhonePatient,
+  inforPatient,
+} from "../../Redux/selector";
 import styles from "./MedicalRecordDoctor.module.scss";
+import { fetchInformationPatient } from "../../Redux/Features/HealthRecord/HeartbeatPatient";
 const cx = classNames.bind(styles);
 const MedicalRecordDoctor = ({ user, listPatient }) => {
   const dispatch = useDispatch();
   const [searchPhone, setSearchPhone] = useState("");
   const [searchResult, setSearchResult] = useState(false);
   const [healReportPatient, setHealReportPatient] = useState([]);
-  const [patient, setPatient] = useState([]);
+  // const [patient, setPatient] = useState([]);
   const [openInfo, setOpenInfo] = useState(false);
   const result = useSelector(filterPhonePatient);
   const debouncedValue = useDebounce(searchPhone, 500);
   const indexPatient = useSelector(allHRecordPaient);
+  const patient = useSelector(inforPatient);
+  const [currentPage, setcurrentPage] = useState(1);
+  const [itemsPerPage, setitemsPerPage] = useState(14);
+  const [pageNumberLimit, setpageNumberLimit] = useState(3);
+  const [maxPageNumberLimit, setmaxPageNumberLimit] = useState(3);
+  const [minPageNumberLimit, setminPageNumberLimit] = useState(0);
+  const handleClick = (event) => {
+    setcurrentPage(Number(event.target.id));
+  };
+  const pages = [];
+  for (let i = 1; i <= Math.ceil(indexPatient.length / itemsPerPage); i++) {
+    pages.push(i);
+  }
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = indexPatient.slice(indexOfFirstItem, indexOfLastItem);
+
+  const renderPageNumbers = pages.map((number) => {
+    if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
+      return (
+        <li
+          key={number}
+          id={number}
+          onClick={handleClick}
+          className={cx(currentPage === number ? "active" : null)}
+        >
+          {number}
+        </li>
+      );
+    } else {
+      return null;
+    }
+  });
+  const handleNextbtn = () => {
+    if (currentPage !== pages[pages.length - 1]) {
+      setcurrentPage(currentPage + 1);
+
+      if (currentPage + 1 > maxPageNumberLimit) {
+        setmaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+        setminPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+      }
+    }
+  };
+
+  const handlePrevbtn = () => {
+    if (currentPage !== pages[0]) {
+      setcurrentPage(currentPage - 1);
+
+      if ((currentPage - 1) % pageNumberLimit == 0) {
+        setmaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+        setminPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+      }
+    }
+  };
+
+  let pageIncrementBtn = null;
+  if (pages.length > maxPageNumberLimit) {
+    pageIncrementBtn = <li onClick={handleNextbtn}> &hellip; </li>;
+  }
+
+  let pageDecrementBtn = null;
+  if (minPageNumberLimit >= 1) {
+    pageDecrementBtn = <li onClick={handlePrevbtn}> &hellip; </li>;
+  }
   useEffect(() => {
     if (searchPhone === "") {
       setSearchResult(false);
@@ -54,22 +123,22 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
   };
   const handleChoose = (users) => {
     dispatch(fetchAllHRPatient(users.id));
-    setPatient(users);
+    dispatch(fetchInformationPatient(users.id));
   };
   const handleModelOpenInfo = () => {
+    console.log(patient);
     setOpenInfo(true);
   };
   const handleModelCloseInfo = () => {
     setOpenInfo(false);
   };
   return (
-    <div className={cx("Title")}>
-      <h1>HỒ SƠ BỆNH NHÂN</h1>
-      <div className={cx("content")}>
+    <div className={cx("title")}>
+      <div className={cx("center-Infor")}>
         <div className={cx("listPatient")}>
           <div className={cx("col-4")}>
             <div className={cx("title-list")}>
-              Danh sách bệnh nhân ( {listPatient?.length} )
+              Danh sách bệnh nhân ({listPatient?.length})
             </div>
             <div className={cx("strikethrough")}></div>
             <div className={cx("search-form")}>
@@ -96,110 +165,78 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
                     </button>
                   </div>
                 </div>
-                {searchResult ? (
-                  <div className={cx("list-conversation")}>
-                    <img
-                      className={cx("avatar-img")}
-                      // src={phoneNumber.avatar}
-                      src={images.logo}
-                      alt="avatar"
-                    />
-                    <div className={cx("content-s")}>
-                      <h4 className={cx("username")}>
-                        {healReportPatient?.fullName}
-                      </h4>
-                      <p className={cx("message")}>
-                        {healReportPatient?.phone}
-                      </p>
-                      <p className={cx("message")}>
-                        Ngày sinh:
-                        {moment(healReportPatient?.dateOfBirth).format(
-                          "DD/MM/YYYY"
-                        )}
-                      </p>
-                    </div>
+                <div className={cx("list-sum")}>
+                  {searchResult ? (
+                    <div className={cx("list-conversation")}>
+                      <img
+                        className={cx("avatar-img")}
+                        // src={phoneNumber.avatar}
+                        src={images.logo}
+                        alt="avatar"
+                      />
+                      <div className={cx("content")}>
+                        <span className={cx("username")}>
+                          {healReportPatient?.fullName}
+                        </span>
+                        <span className={cx("message")}>
+                          {healReportPatient?.phone}
+                        </span>
+                        <span className={cx("message")}>
+                          Ngày sinh:
+                          {moment(healReportPatient?.dateOfBirth).format(
+                            "DD/MM/YYYY"
+                          )}
+                        </span>
+                      </div>
 
-                    <div className={cx("result-add-friend")}>
-                      <button onClick={handleChoose}>Xem</button>
+                      <div className={cx("result-add-friend")}>
+                        <button onClick={handleChoose}>Xem</button>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <>
-                    {listPatient?.map((users) => {
-                      return (
-                        <div
-                          className={cx("list-conversation")}
-                          key={users?._id}
-                        >
-                          <img
-                            className={cx("avatar-img")}
-                            // src={phoneNumber.avatar}
-                            src={images.logo}
-                            alt="avatar"
-                          />
-                          <div className={cx("content-s")}>
-                            <h4 className={cx("username")}>{users.fullName}</h4>
-                            <p className={cx("message")}>{users.phone}</p>
-                            <p className={cx("message")}>
-                              Ngày sinh:
-                              {moment(users?.dateOfBirth).format("DD/MM/YYYY")}
-                            </p>
+                  ) : (
+                    <>
+                      {listPatient?.map((user) => {
+                        return (
+                          <div
+                            className={cx("list-conversation")}
+                            key={user?.id}
+                          >
+                            <img
+                              className={cx("avatar-img")}
+                              // src={phoneNumber.avatar}
+                              src={images.logo}
+                              alt="avatar"
+                            />
+                            <div className={cx("content")}>
+                              <span className={cx("username")}>
+                                {user?.fullName}
+                              </span>
+                              <span className={cx("message")}>
+                                {user?.phone}
+                              </span>
+                              <span className={cx("message")}>
+                                Ngày sinh:
+                                {moment(user?.dateOfBirth).format("DD/MM/YYYY")}
+                              </span>
+                            </div>
+                            <div className={cx("result-add-friend")}>
+                              <button onClick={() => handleChoose(user)}>
+                                Xem
+                              </button>
+                            </div>
                           </div>
-                          <div className={cx("result-add-friend")}>
-                            <button onClick={() => handleChoose(users)}>
-                              Xem
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </>
-                )}
+                        );
+                      })}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div className={cx("informationPatient")}>
-          <h1>Thông tin bệnh nhân</h1>
-          <div className={cx("panel-body p-2")}>
-            <form>
-              <div className={cx("form-group py-1")}>
-                <div className={cx("form-group-1")}>
-                  <div className={cx("input-field")}>
-                    <label>
-                      <b>Họ và tên:</b> {patient?.fullName}
-                    </label>
-                  </div>
-                  <div className={cx("input-field")}>
-                    <label>
-                      <b>Ngày sinh:</b>
-                      {moment(patient?.dateOfBirth).format("DD/MM/YYYY")}
-                    </label>
-                  </div>
-                  <div className={cx("input-field")}>
-                    <label>
-                      <b>Số điện thoại:</b> {patient?.phone}
-                    </label>
-                  </div>
-                  <div className={cx("input-field")}>
-                    <label>
-                      <b>Giới tính:</b> {patient?.gender ? "Nam" : "Nữ"}
-                    </label>
-                  </div>
-                </div>
-                <div className={cx("form-group-1")}>
-                  <div className={cx("input-field-2")}>
-                    <label>
-                      <b>Địa chỉ:</b>
-                      {patient?.address}
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
           <div className={cx("title-table")}>
-            Bảng theo dõi chỉ số{" "}
+            <span>Bảng theo dõi chỉ số</span>
             <button onClick={handleModelOpenInfo}>Xem chi tiết</button>
           </div>
           <ModelWrapper
@@ -209,9 +246,7 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
           >
             <div className={cx("model-add-information-bg")}>
               <div className={cx("add-information-title")}>
-                <span className={cx("information-title")}>
-                  Thông tin bệnh nhân
-                </span>
+                <span className={cx("information-title")}></span>
                 <button className={cx("close-btn")}>
                   <FontAwesomeIcon
                     className={cx("close-ic")}
@@ -221,74 +256,94 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
                 </button>
               </div>
               <div className={cx("panel-body p-2")}>
+                <div className={cx("title-name")}>
+                  <span>HỒ SƠ BỆNH ÁN</span>
+                </div>
                 <form>
                   <div className={cx("form-group py-1")}>
                     <div className={cx("form-group-1")}>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Họ và tên:</b> {patient.fullName}
+                          <b>Họ và tên:</b> <span>{patient[0]?.fullName}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
                           <b>Ngày sinh:</b>
-                          {moment(patient?.dateOfBirth).format("DD/MM/YYYY")}
+                          <span>
+                            {moment(patient[0]?.dateOfBirth).format(
+                              "DD/MM/YYYY"
+                            )}
+                          </span>
                         </label>
                       </div>
                     </div>
                     <div className={cx("form-group-1")}>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Số điện thoại:</b> {patient.phone}
+                          <b>Số điện thoại:</b> <span>{patient[0]?.phone}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Giới tính:</b> {patient.gender ? "Nam" : "Nữ"}
-                        </label>
-                      </div>
-                    </div>
-                    <div className={cx("form-group-1")}>
-                      <div className={cx("input-field")}>
-                        <label>
-                          <b>Số bảo hiểm:</b> {patient.insuranceNumber}
+                          <b>Giới tính:</b>{" "}
+                          <span>{patient[0]?.gender ? "Nam" : "Nữ"}</span>
                         </label>
                       </div>
                     </div>
                     <div className={cx("form-group-1")}>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Nghề nghiệp:</b> {patient.job}
+                          <b>Số bảo hiểm:</b>{" "}
+                          <span>{patient[0]?.insuranceNumber}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Địa chỉ:</b> {patient.address}
-                        </label>
-                      </div>
-                    </div>
-                    <div className={cx("form-group-1")}>
-                      <div className={cx("input-field")}>
-                        <label>
-                          <b>Họ tên người thân 1:</b> Lê Tuấn
-                        </label>
-                      </div>
-                      <div className={cx("input-field")}>
-                        <label>
-                          <b>Số điện thoại người thân 1:</b> 0123456789
+                          <b>Nghề nghiệp:</b> <span>{patient[0]?.job}</span>
                         </label>
                       </div>
                     </div>
                     <div className={cx("form-group-1")}>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Ngày điều trị:</b>{" "}
-                          {moment(patient?.createdAt).format("DD/MM/YYYY")}
+                          <b>Địa chỉ:</b> <span>{patient[0]?.address}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Triệu chứng:</b> khó thở, mệt mỏi(DỮ liệu tạm)
+                          <b>Họ tên người thân:</b>
+                          <span>{patient[0]?.carer[0]?.fullName}</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className={cx("form-group-1")}>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Số điện thoại người thân:</b>
+                          <span>{patient[0]?.carer[0]?.phone}</span>
+                        </label>
+                      </div>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Ngày điều trị:</b>
+                          <span>
+                            {moment(patient[0]?.createdAt).format("DD/MM/YYYY")}
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className={cx("form-group-1")}>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Triệu chứng:</b>{" "}
+                          <span>{patient[0]?.medicalHistory}</span>
+                        </label>
+                      </div>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Chỉ số nhịp:</b>{" "}
+                          <span>{patient[0]?.heartRateIndicator}</span>
                         </label>
                       </div>
                     </div>
@@ -296,26 +351,26 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
                       <div className={cx("input-field")}>
                         <label>
                           <b>Chiều cao (cm): </b>
-                          {patient?.height}
+                          <span>{patient[0]?.height}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
                           <b>Cân nặng (kq):</b>
-                          {patient?.weight}
+                          <span>{patient[0]?.weight}</span>
                         </label>
                       </div>
                     </div>
                     <div className={cx("form-group-1")}>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Chỉ số BMI:</b> {patient?.indexBmi}
+                          <b>Chỉ số BMI:</b> <span>{patient[0]?.indexBmi}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Chỉ số huyết áp:</b>
-                          {patient?.indexBmi}
+                          <b>Chỉ số huyết áp:</b>{" "}
+                          <span>{patient[0]?.systolic}</span>
                         </label>
                       </div>
                     </div>
@@ -323,26 +378,13 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
                       <div className={cx("input-field")}>
                         <label>
                           <b>Chỉ số Cholesterol:</b>
+                          <span>{patient[0]?.cholesterol}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Chỉ số Glucose:</b>
-                        </label>
-                      </div>
-                    </div>
-                    <div className={cx("form-group-1")}>
-                      <div className={cx("input-field")}>
-                        <label>
-                          <b>Chỉ số nhịp:</b>
-                        </label>
-                      </div>
-                    </div>
-                    <div className={cx("form-group-1")}>
-                      <div className={cx("input-field-2")}>
-                        <label>
-                          <b>tiểu sử bệnh:</b>
-                          {patient.medicalHistory}
+                          <b>Chỉ số Glucose:</b>{" "}
+                          <span>{patient[0]?.glucose}</span>
                         </label>
                       </div>
                     </div>
@@ -352,37 +394,43 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
             </div>
           </ModelWrapper>
           <div className={cx("table-infor")}>
-            <table className={cx("table table-striped")}>
+            <table className={cx("table")}>
               <thead>
                 <tr>
-                  <th>STT</th>
+                  <th>Ngày</th>
                   <th>BMI</th>
                   <th>Tâm thu</th>
                   <th>Tâm trương</th>
                   <th>Cholesterol</th>
                   <th>Glucose</th>
                   <th>Nhịp Tim</th>
-                  <th>Ngày</th>
                 </tr>
               </thead>
               <tbody>
-                {indexPatient?.map((hr, index) => {
+                {currentItems?.map((hr, index) => {
                   return (
                     <tr key={hr.id}>
-                      <td>{index + 1}</td>
+                      <td>{moment(hr.createdAt).format("DD/MM/YYYY")}</td>
                       <td>{hr.indexBmi}</td>
                       <td>{hr.systolic}</td>
                       <td>{hr.diastolic}</td>
                       <td>{hr.cholesterol}</td>
                       <td>{hr.glucose}</td>
                       <td>{hr.heartRateIndicator}</td>
-                      <td>{moment(hr.createdAt).format("DD/MM/YYYY")}</td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
           </div>
+          <ul className={cx("pageNumbers")}>
+            <li onClick={handlePrevbtn}>&lt;</li>
+            {pageDecrementBtn}
+            {renderPageNumbers}
+            {pageIncrementBtn}
+
+            <li onClick={handleNextbtn}>&gt;</li>
+          </ul>
         </div>
       </div>
     </div>

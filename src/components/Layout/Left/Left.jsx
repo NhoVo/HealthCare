@@ -35,7 +35,7 @@ const Left = ({ role }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(userLogin);
-  console.log(user);
+
   const medicalRecord = useSelector(nextPageSelector);
   const pageBook = useSelector(nextPageSelectorBook);
   const pageInfor = useSelector(nextPageSelectorInfor);
@@ -68,7 +68,6 @@ const Left = ({ role }) => {
     dispatch(NextPage.actions.NextPageChangeInforDoctor(false));
   };
   const handleInformationDoctor = () => {
-    //   dispatch(getRatingOfDoctor(user.doctorId));
     dispatch(NextPage.actions.NextPageChange(false));
     dispatch(NextPage.actions.NextPageChangeInfor(false));
     dispatch(NextPage.actions.NextPageChangeBook(false));

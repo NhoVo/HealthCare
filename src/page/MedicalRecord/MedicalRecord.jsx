@@ -8,7 +8,6 @@ const cx = classNames.bind(styles);
 const MedicalRecord = ({ user, userD, allHrecord }) => {
   const [currentPage, setcurrentPage] = useState(1);
   const [itemsPerPage, setitemsPerPage] = useState(10);
-
   const [pageNumberLimit, setpageNumberLimit] = useState(3);
   const [maxPageNumberLimit, setmaxPageNumberLimit] = useState(3);
   const [minPageNumberLimit, setminPageNumberLimit] = useState(0);
@@ -131,12 +130,14 @@ const MedicalRecord = ({ user, userD, allHrecord }) => {
             <div className={cx("form-group-1")}>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Họ tên người thân 1:</b> <span>Lê Tuấn</span>
+                  <b>Họ tên người thân:</b>
+                  <span>{user?.carer[0]?.fullName}</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
                 <label>
-                  <b>Số điện thoại người thân 1:</b> <span>0123456789</span>
+                  <b>Số điện thoại người thân:</b>
+                  <span>{user?.carer[0]?.phone}</span>
                 </label>
               </div>
               <div className={cx("input-field")}>
@@ -186,28 +187,26 @@ const MedicalRecord = ({ user, userD, allHrecord }) => {
         <table className={cx("table")}>
           <thead>
             <tr>
-              <th>STT</th>
+              <th>Ngày</th>
               <th>BMI</th>
               <th>Tâm thu</th>
               <th>Tâm trương</th>
               <th>Cholesterol</th>
               <th>Glucose</th>
               <th>Nhịp Tim</th>
-              <th>Ngày</th>
             </tr>
           </thead>
           <tbody>
             {currentItems?.map((hr, index) => {
               return (
                 <tr key={hr.id}>
-                  <td>{index + 1}</td>
+                  <td>{moment(hr.createdAt).format("DD/MM/YYYY")}</td>
                   <td>{hr.indexBmi}</td>
                   <td>{hr.systolic}</td>
                   <td>{hr.diastolic}</td>
                   <td>{hr.cholesterol}</td>
                   <td>{hr.glucose}</td>
                   <td>{hr.heartRateIndicator}</td>
-                  <td>{moment(hr.createdAt).format("DD/MM/YYYY")}</td>
                 </tr>
               );
             })}

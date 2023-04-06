@@ -124,8 +124,50 @@ const Information = () => {
     setOpenInfo(true);
   };
   const handleModelCloseInfo = () => {
-    dispatch(healthRecordDay());
-    setOpenInfo(false);
+    console.log("tao ơ day", healtDay);
+    if (healtDay.length === 0) {
+      dispatch(healthRecordDay());
+      setOpenInfo(false);
+      console.log("tao ơ day");
+    } else {
+      const data5 = {
+        userId: user?.id,
+        typeNotification: "SYSTEM",
+        content: healtDay?.recordBloodhealtDay?.message,
+        title: "Chỉ số sức khỏe hôm nay",
+      };
+      dispatch(postNotification(data5));
+      const data1 = {
+        userId: user.id,
+        typeNotification: "SYSTEM",
+        content: healtDay?.recordBmi?.message,
+        title: "Chỉ số sức khỏe hôm nay",
+      };
+      dispatch(postNotification(data1));
+      const data2 = {
+        userId: user.id,
+        typeNotification: "SYSTEM",
+        content: healtDay?.recordCholesterol?.message,
+        title: "Chỉ số sức khỏe hôm nay",
+      };
+      dispatch(postNotification(data2));
+      const data3 = {
+        userId: user.id,
+        typeNotification: "SYSTEM",
+        content: healtDay?.recordGlucose?.message,
+        title: "Chỉ số sức khỏe hôm nay",
+      };
+      dispatch(postNotification(data3));
+      const data4 = {
+        userId: user.id,
+        typeNotification: "SYSTEM",
+        content: healtDay?.recordHeartBeat?.message,
+        title: "Chỉ số sức khỏe hôm nay",
+      };
+      dispatch(postNotification(data4));
+      dispatch(healthRecordDay());
+      setOpenInfo(false);
+    }
   };
 
   const HandleBMI = () => {

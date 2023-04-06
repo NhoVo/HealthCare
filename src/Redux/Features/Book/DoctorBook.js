@@ -103,4 +103,44 @@ export const fetchDoctorBookAccept = createAsyncThunk(
     return jsonData.data;
   }
 );
+export const fetchDoctorBookComplete = createAsyncThunk(
+  // Tên action/v1/appointment/{id}/complete
+  "userPatient/fetchDoctorBookComplete",
+  async (data) => {
+    const getToken = JSON.parse(localStorage.getItem("user_login"));
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/appointment/${data}/complete`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken}`,
+        },
+      }
+    );
+    // Convert dữ liệu ra json
+    const jsonData = await response.json();
+    return jsonData.data;
+  }
+);
+export const fetchDoctorBookReFuse = createAsyncThunk(
+  // Tên action/v1/appointment/{id}/complete/v1/appointment/{id}/refuse
+  "userPatient/fetchDoctorBookReFuse",
+  async (data) => {
+    const getToken = JSON.parse(localStorage.getItem("user_login"));
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/appointment/${data}/refuse`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken}`,
+        },
+      }
+    );
+    // Convert dữ liệu ra json
+    const jsonData = await response.json();
+    return jsonData.data;
+  }
+);
 export default DoctorBook;

@@ -30,41 +30,26 @@ const InformationDoctor = () => {
   const debouncedValue = useDebounce(user, 500);
   //bac si
   const userDoctor = useSelector(userLogin);
-  //  const ratingDoctor = useSelector(ratingOfDoctor);
-  // console.log(ratingDoctor);
+  const ratingDoctor = useSelector(ratingOfDoctor);
+
   const [coordinates, setCoordinates] = useState(null);
   const [coordinatesP, setCoordinatesP] = useState(null);
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useState(ratingDoctor?.rate);
   useEffect(() => {
     dispatch(fetchUserDoctor(user.doctorId));
+    dispatch(getRatingOfDoctor(user.doctorId));
   }, [user, debouncedValue]);
 
   useEffect(() => {
-    if (userDoctor.role === "DOCTOR") {
-      const getCoords = async () => {
-        // const addressArr = userD?.address?.split(",");
-        const results = await geocodeByAddress(userDoctor.doctor?.address);
-        const latlng = await getLatLng(results[0]);
-        setCoordinates(latlng);
-      };
-      userDoctor && getCoords();
-    } else {
-      const getCoords = async () => {
-        // const addressArr = userD?.address?.split(",");
-        const results = await geocodeByAddress(userD?.address);
-        const latlng = await getLatLng(results[0]);
-        setCoordinates(latlng);
-      };
-      userD && getCoords();
-      const getCoordsP = async () => {
-        // const addressArr = userD?.address?.split(",");
-        const resultsP = await geocodeByAddress(user?.address);
-        const latlngP = await getLatLng(resultsP[0]);
-        setCoordinatesP(latlngP);
-      };
-      userD && getCoordsP();
-    }
-  }, [userD, userDoctor]);
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        setCoordinatesP({
+          lat: latitude,
+          lng: longitude,
+        });
+      }
+    );
+  }, []);
   const ratingChanged = (rating) => {
     setRating(rating);
   };
@@ -81,12 +66,13 @@ const InformationDoctor = () => {
       title: "Đánh giá",
     };
     dispatch(postNotification(data1));
+    alert("Đánh giá thành công");
   };
   return (
     <>
       {userDoctor.role === "DOCTOR" ? (
         <div className={cx("title")}>
-          <h1>Bác Sĩ Điều Trị</h1>
+          <div className={cx("title-table")}>Thông tin cái nhân</div>
           <div className={cx("col-8")}>
             <div className={cx("Content")}>
               <div className={cx("Content-img")}>
@@ -107,16 +93,18 @@ const InformationDoctor = () => {
                       <div className={cx("input-field")}>
                         <label>
                           <b>Họ và tên:</b>
-                          {userDoctor.doctor?.fullName}
+                          <span>{userDoctor?.doctor?.fullName}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Ngày sinh:</b>
-
-                          {moment(userDoctor.doctor?.dateOfBirth).format(
-                            "DD/MM/YYYY"
-                          )}
+                          <b>Ngày sinh:</b>{" "}
+                          <span>
+                            {" "}
+                            {moment(userDoctor?.doctor?.dateOfBirth).format(
+                              "DD/MM/YYYY"
+                            )}
+                          </span>
                         </label>
                       </div>
                     </div>
@@ -124,14 +112,17 @@ const InformationDoctor = () => {
                       <div className={cx("input-field")}>
                         <label>
                           <b>Số điện thoại:</b>
-                          {userDoctor.doctor?.phone}
+                          <span>{userDoctor?.doctor?.phone}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
                           <b>Giới tính:</b>
-
-                          {userDoctor.doctor?.gender === "MALE" ? "Nam" : "Nữ"}
+                          <span>
+                            {userDoctor?.doctor?.gender === "MALE"
+                              ? "Nam"
+                              : "Nữ"}
+                          </span>
 
                           {/* {moment(user?.dateOfBirth).format("DD/MM/YYYY")} */}
                         </label>
@@ -141,13 +132,13 @@ const InformationDoctor = () => {
                       <div className={cx("input-field")}>
                         <label>
                           <b>Email:</b>
-                          {userDoctor.doctor?.email}
+                          <span> {userDoctor?.doctor?.email}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
                           <b>Nơi công tác:</b>
-                          {userDoctor.doctor?.workPlace}
+                          <span>{userDoctor?.doctor?.workPlace}</span>
                         </label>
                       </div>
                     </div>
@@ -155,34 +146,41 @@ const InformationDoctor = () => {
                       <div className={cx("input-field")}>
                         <label>
                           <b>Chuyên môn:</b>
-                          {userDoctor.doctor?.specialize}
+                          <span>{userDoctor?.doctor?.specialize}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
                           <b>Số năm kinh nghiệm:</b>
-                          {userDoctor.doctor?.experience}
+                          <span>{userDoctor?.doctor?.experience}</span>
                         </label>
                       </div>
                     </div>
                     <div className={cx("form-group-1")}>
-                      <div className={cx("input-field")}>
-                        <label>
-                          <b>Trình độ: Tiến sĩ</b>
-                        </label>
-                      </div>
                       <div className={cx("input-field")}>
                         <label>
                           <b>Địa chỉ:</b>
-                          {userDoctor.doctor?.address}
+                          <span>{userDoctor?.doctor?.address}</span>
+                        </label>
+                      </div>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Đánh giá:</b>
+
+                          <ReactStars
+                            count={5}
+                            value={userDoctor?.doctor?.rate}
+                            size={20}
+                            activeColor="#ffd700"
+                          />
                         </label>
                       </div>
                     </div>
                     <div className={cx("form-group-1")}>
-                      <div className={cx("input-field-2")}>
+                      <div className={cx("input-field")}>
                         <label>
                           <b>Mô tả:</b>
-                          {userDoctor.doctor?.description}
+                          <span> {userDoctor.doctor?.description}</span>
                         </label>
                       </div>
                     </div>
@@ -191,13 +189,13 @@ const InformationDoctor = () => {
               </div>
             </div>
             <div className={cx("col-4")}>
-              <GoogleMap coords={coordinates} />
+              <GoogleMap coords={coordinatesP} />
             </div>
           </div>
         </div>
       ) : (
         <div className={cx("title")}>
-          <h1>Bác Sĩ Điều Trị</h1>
+          <div className={cx("title-table")}>Thông tin bác sĩ</div>
           <div className={cx("col-8")}>
             <div className={cx("Content")}>
               <div className={cx("Content-img")}>
@@ -211,7 +209,7 @@ const InformationDoctor = () => {
                   <button onClick={handleRating}>Đánh giá</button>
                   <ReactStars
                     count={5}
-                    // onChange={ratingChanged}
+                    onChange={ratingChanged}
                     value={rating}
                     size={30}
                     activeColor="#ffd700"
@@ -225,14 +223,16 @@ const InformationDoctor = () => {
                       <div className={cx("input-field")}>
                         <label>
                           <b>Họ và tên:</b>
-                          {userD?.fullName}
+                          <span>{userD?.fullName}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Ngày sinh:</b>
-
-                          {moment(userD?.dateOfBirth).format("DD/MM/YYYY")}
+                          <b>Ngày sinh:</b>{" "}
+                          <span>
+                            {" "}
+                            {moment(userD?.dateOfBirth).format("DD/MM/YYYY")}
+                          </span>
                         </label>
                       </div>
                     </div>
@@ -240,14 +240,13 @@ const InformationDoctor = () => {
                       <div className={cx("input-field")}>
                         <label>
                           <b>Số điện thoại:</b>
-                          {userD?.phone}
+                          <span>{userD?.phone}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
                           <b>Giới tính:</b>
-
-                          {userD?.gender === "MALE" ? "Nam" : "Nữ"}
+                          <span>{userD?.gender === "MALE" ? "Nam" : "Nữ"}</span>
 
                           {/* {moment(user?.dateOfBirth).format("DD/MM/YYYY")} */}
                         </label>
@@ -257,13 +256,13 @@ const InformationDoctor = () => {
                       <div className={cx("input-field")}>
                         <label>
                           <b>Email:</b>
-                          {userD?.email}
+                          <span> {userD?.email}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
                           <b>Nơi công tác:</b>
-                          {userD?.workPlace}
+                          <span>{userD?.workPlace}</span>
                         </label>
                       </div>
                     </div>
@@ -271,34 +270,27 @@ const InformationDoctor = () => {
                       <div className={cx("input-field")}>
                         <label>
                           <b>Chuyên môn:</b>
-                          {userD?.specialize}
+                          <span>{userD?.specialize}</span>
                         </label>
                       </div>
                       <div className={cx("input-field")}>
                         <label>
                           <b>Số năm kinh nghiệm:</b>
-                          {userD?.experience}
+                          <span>{userD?.experience}</span>
                         </label>
                       </div>
                     </div>
                     <div className={cx("form-group-1")}>
-                      <div className={cx("input-field")}>
-                        <label>
-                          <b>Trình độ: Tiến sĩ</b>
-                        </label>
-                      </div>
                       <div className={cx("input-field")}>
                         <label>
                           <b>Địa chỉ:</b>
-                          {userD?.address}
+                          <span>{userD?.address}</span>
                         </label>
                       </div>
-                    </div>
-                    <div className={cx("form-group-1")}>
-                      <div className={cx("input-field-2")}>
+                      <div className={cx("input-field")}>
                         <label>
                           <b>Mô tả:</b>
-                          {userD?.description}
+                          <span>{userD?.description}</span>
                         </label>
                       </div>
                     </div>
@@ -307,7 +299,7 @@ const InformationDoctor = () => {
               </div>
             </div>
             <div className={cx("col-4")}>
-              <GoogleMap addressP={coordinatesP} coords={coordinates} />
+              <GoogleMap coords={coordinatesP} />
             </div>
           </div>
         </div>

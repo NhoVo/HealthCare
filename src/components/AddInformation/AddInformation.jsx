@@ -23,11 +23,9 @@ const AddInformation = ({ handleModelCloseInfo, user }) => {
   const [cholesterol, setCholesterol] = useState("");
   const [heartbeat, setHeartbeat] = useState("");
   const healtDay = useSelector(tam);
+
   const dispatch = useDispatch();
-  const [tt, settt] = useState(false);
-  useEffect(() => {
-    console.log(healtDay);
-  }, [tt === true]);
+
   const handleHealthRecord = () => {
     const data = {
       height: hight,
@@ -39,47 +37,54 @@ const AddInformation = ({ handleModelCloseInfo, user }) => {
       cholesterol: cholesterol,
     };
     dispatch(postHealthRecord(data));
-    settt(true);
-    // const data5 = {
-    //   userId: user?.id,
-    //   typeNotification: "SYSTEM",
-    //   content: healtDay?.data?.recordBloodhealtDay.message,
-    //   title: "Chỉ số sức khỏe hôm nay",
-    // };
-    // dispatch(postNotification(data5));
-    // const data1 = {
-    //   userId: user.id,
-    //   typeNotification: "SYSTEM",
-    //   content: healtDay?.data?.recordBmi.message,
-    //   title: "Chỉ số sức khỏe hôm nay",
-    // };
-    // dispatch(postNotification(data1));
-    // const data2 = {
-    //   userId: user.id,
-    //   typeNotification: "SYSTEM",
-    //   content: healtDay?.data?.recordCholesterol.message,
-    //   title: "Chỉ số sức khỏe hôm nay",
-    // };
-    // dispatch(postNotification(data2));
-    // const data3 = {
-    //   userId: user.id,
-    //   typeNotification: "SYSTEM",
-    //   content: healtDay?.data?.recordGlucose.message,
-    //   title: "Chỉ số sức khỏe hôm nay",
-    // };
-    // dispatch(postNotification(data3));
-    // const data4 = {
-    //   userId: user.id,
-    //   typeNotification: "SYSTEM",
-    //   content: healtDay?.data?.recordHeartBeat.message,
-    //   title: "Chỉ số sức khỏe hôm nay",
-    // };
-    // dispatch(postNotification(data4));
 
     alert("thêm thông tin thành công");
-
-    handleModelCloseInfo();
+    setWeight("");
+    setHight("");
+    setSystolic("");
+    setDiastolic("");
+    setGlucose("");
+    setCholesterol("");
+    setHeartbeat("");
+    // handleModelCloseInfo();
   };
+
+  // const data5 = {
+  //   userId: user?.id,
+  //   typeNotification: "SYSTEM",
+  //   content: healtDay?.recordBloodhealtDay?.message,
+  //   title: "Chỉ số sức khỏe hôm nay",
+  // };
+  // dispatch(postNotification(data5));
+  // const data1 = {
+  //   userId: user.id,
+  //   typeNotification: "SYSTEM",
+  //   content: healtDay?.recordBmi?.message,
+  //   title: "Chỉ số sức khỏe hôm nay",
+  // };
+  // dispatch(postNotification(data1));
+  // const data2 = {
+  //   userId: user.id,
+  //   typeNotification: "SYSTEM",
+  //   content: healtDay?.recordCholesterol?.message,
+  //   title: "Chỉ số sức khỏe hôm nay",
+  // };
+  // dispatch(postNotification(data2));
+  // const data3 = {
+  //   userId: user.id,
+  //   typeNotification: "SYSTEM",
+  //   content: healtDay?.recordGlucose?.message,
+  //   title: "Chỉ số sức khỏe hôm nay",
+  // };
+  // dispatch(postNotification(data3));
+  // const data4 = {
+  //   userId: user.id,
+  //   typeNotification: "SYSTEM",
+  //   content: healtDay?.recordHeartBeat?.message,
+  //   title: "Chỉ số sức khỏe hôm nay",
+  // };
+  // dispatch(postNotification(data4));
+
   return (
     <div className={cx("header-title")}>
       <form onSubmit={handleSubmit(handleHealthRecord)}>

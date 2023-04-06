@@ -114,11 +114,19 @@ const Middle = () => {
                                   </div>
                                 </div>
                                 {n.url === null ? null : (
-                                  <div className={cx("date-content")}>
-                                    <a href={n?.url}>
-                                      Địa chỉ hiện tại của bệnh nhân
-                                    </a>
-                                  </div>
+                                  <>
+                                    {n.typeNotification === "SYSTEM" ? (
+                                      <div className={cx("date-content")}>
+                                        <a href={n?.url}>{n?.url}</a>
+                                      </div>
+                                    ) : (
+                                      <div className={cx("date-content")}>
+                                        <a href={n?.url}>
+                                          Địa chỉ hiện tại của bệnh nhân
+                                        </a>
+                                      </div>
+                                    )}
+                                  </>
                                 )}
                                 <div className={cx("date-content")}>
                                   {moment(n?.dateOfBirth).format("DD/MM/YYYY")}

@@ -1,26 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 const Conversation = createSlice({
   name: "listConversation",
   initialState: {
     data: [],
     dataMessage: [],
+    img: [],
   },
   reducers: {
     arrivalMessageFromSocket: (state, action) => {
-      const newMessage = action.payload;
       state.dataMessage.push(action.payload);
-
-      // const messageId = state.data.find(
-      //   (message) => message._id === newMessage._id
-      // );
-
-      // // check
-      // if (!messageId) {
-      //   state.data.push(action.payload);
-      // } else {
-      //   console.log("Existing message id!!!");
-      //   return;
-      // }
     },
   },
   extraReducers: (builder) => {
@@ -28,7 +17,12 @@ const Conversation = createSlice({
       state.data = action.payload;
     });
     builder.addCase(fetchAllmessage.fulfilled, (state, action) => {
+      console.log("fetchAllmessage", action.payload);
       state.dataMessage = action.payload;
+    });
+    builder.addCase(fetchUploadFiles.fulfilled, (state, action) => {
+      console.log("fetchUploadFiles", action.payload);
+      state.img = action.payload;
     });
   },
 });
@@ -112,6 +106,43 @@ export const fetchPostMessage = createAsyncThunk(
     const jsonData = await response.json();
 
     return jsonData;
+  }
+);
+const createFormData = (data) => {
+  const { files } = data;
+  console.log("data----106", data);
+  const dataForm = new FormData();
+
+  if (files.length === 1) {
+    console.log("files LINK = 1.1 - ", files[0].data);
+    dataForm.append("files", files[0].data);
+  } else if (files.length > 1) {
+    files.forEach((img) => {
+      dataForm.append("files", img.data);
+    });
+  }
+  console.log("dataForm----110", dataForm);
+  return dataForm;
+};
+export const fetchUploadFiles = createAsyncThunk(
+  "messages/fetchApiSendMessage",
+  async (data) => {
+    if (data) {
+      let formData = createFormData(data);
+      const getToken = JSON.parse(localStorage.getItem("user_login"));
+      const resFormData = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/upload`,
+        formData,
+        {
+          headers: {
+            "content-type": "multipart/form-data",
+            Authorization: `Bearer ${getToken}`,
+          },
+        }
+      );
+
+      return resFormData.data;
+    }
   }
 );
 

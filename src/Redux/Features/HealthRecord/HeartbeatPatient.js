@@ -8,6 +8,7 @@ const HeartbeatPatient = createSlice({
     bloodPressuresDoctor: [],
     cholesterolDoctor: [],
     glucosesDoctor: [],
+    inforPatient: [],
   },
   extraReducers: (builder) => {
     builder.addCase(fetchHeartbeatsDoctor.fulfilled, (state, action) => {
@@ -24,6 +25,9 @@ const HeartbeatPatient = createSlice({
     });
     builder.addCase(fetchGlucosesDoctor.fulfilled, (state, action) => {
       state.glucosesDoctor = action.payload;
+    });
+    builder.addCase(fetchInformationPatient.fulfilled, (state, action) => {
+      state.inforPatient = action.payload;
     });
   },
 });
@@ -151,7 +155,6 @@ export const fetchGlucosesDoctor = createAsyncThunk(
     // Gọi lên API backend
     const param = new URLSearchParams({
       patientId: data,
-
       pageSize: 10,
       page: 1,
     });
@@ -169,7 +172,31 @@ export const fetchGlucosesDoctor = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-
+    return jsonData.data;
+  }
+);
+export const fetchInformationPatient = createAsyncThunk(
+  // Tên action
+  "userDoctors/fetchInformationPatient",
+  async (data) => {
+    // Gọi lên API backend/v1/doctor/patients
+    const param = new URLSearchParams({
+      ids: data,
+    });
+    const getToken = JSON.parse(localStorage.getItem("user_login"));
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/doctor/patients?` + param.toString(),
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken}`,
+        },
+      }
+    );
+    // Convert dữ liệu ra json
+    const jsonData = await response.json();
+    console.log(jsonData.data);
     return jsonData.data;
   }
 );

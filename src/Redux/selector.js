@@ -43,10 +43,12 @@ export const listBloodPressuresDoctor = (state) =>
 export const listCholesterolDoctor = (state) =>
   state.listHPatient.cholesterolDoctor;
 export const listGlucosesDoctor = (state) => state.listHPatient.glucosesDoctor;
-
+export const inforPatient = (state) => state.listHPatient.inforPatient;
 //Cuộc hội thoại
 export const listAllConversation = (state) => state.listConversation.data;
 export const listAllMessage = (state) => state.listConversation.dataMessage;
+export const listImage = (state) => state.listConversation.img;
+
 //Rating
 export const ratingOfDoctor = (state) => state.ratingDoctor.ratingData;
 
@@ -54,6 +56,13 @@ export const tam = createSelector(healthWarningDay, (index) => {
   console.log(index);
   return index;
 });
+export const sumIndexBook = createSelector(
+  listBookDoctor,
+  listBookDoctorCreate,
+  (a, c) => {
+    return a.length + c.length;
+  }
+);
 export const usersRemainingSelector = createSelector(
   userDoctors,
   searchTextSelector,

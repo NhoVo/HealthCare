@@ -87,6 +87,7 @@ export const fetchAllHRPatient = createAsyncThunk(
 
     const param = new URLSearchParams({
       patientId: data,
+      isAll: true,
     });
 
     const getToken = JSON.parse(localStorage.getItem("user_login"));
@@ -137,7 +138,6 @@ const HealthRecord = createSlice({
   extraReducers: (builder) => {
     builder.addCase(postHealthRecord.fulfilled, (state, action) => {
       state.dataDay = action.payload;
-      console.log(state.dataDay);
     });
     builder.addCase(healthRecordDay.fulfilled, (state, action) => {
       state.data = action.payload;

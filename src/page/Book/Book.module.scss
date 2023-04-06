@@ -35,9 +35,7 @@
 .nameSelect MenuItem {
   background-color: black;
 }
-.col-12 {
-  display: flex;
-}
+
 .col-6 {
   background-color: white;
   margin-left: 10px;
@@ -116,30 +114,6 @@
 }
 .btn-register {
   margin-left: 15px;
-}
-
-.col-4-doctor {
-  background-color: white;
-  margin-left: 10px;
-  border-radius: 10px;
-  height: 250px;
-  width: 100%;
-}
-.col-4-doctor label {
-  font-size: 1.8rem;
-  font-weight: bold;
-  font-family: var(--font-family);
-  text-align: center;
-  display: block;
-  padding: 10px;
-}
-.col-4 label {
-  font-size: 1.8rem;
-  font-weight: bold;
-  font-family: var(--font-family);
-  text-align: center;
-  display: block;
-  padding: 10px;
 }
 .infor-book {
   display: flex;
@@ -255,25 +229,56 @@
   background-color: white;
   border-radius: 10px;
 }
-.col-3-doctor {
-  margin-top: 10px;
-  height: 300px;
-  width: auto;
-  background-color: white;
-  border-radius: 10px;
-}
+
 //
+.index-book-doctor {
+  height: 150px;
+}
+.form-d {
+  background-color: var(--white);
+  height: 130px;
+  width: 255px;
+  border: none;
+  border-radius: 10px;
+  margin-top: 19px;
+  margin-left: 24px;
+}
+.name-d {
+  font-family: var(--font-family);
+  color: black;
+  font-weight: bold;
+  font-size: 2.5rem;
+  text-align: center;
+  padding-top: 10px;
+}
+.index-d {
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 2rem;
+  text-align: center;
+}
+.col-12 {
+  display: flex;
+}
+.col-4-doctor {
+  display: flex;
+  margin-top: 12px;
+}
 .table-infor table {
   font-size: 1.5rem;
+  margin-left: 9px;
   display: flex;
   border-collapse: collapse;
   flex-flow: column;
-  width: 99.5%;
-  height: 230px;
+  background-color: white;
+  width: 97%;
+  height: 411px;
+  border-radius: 20px;
 }
+
 .table-infor thead {
-  background-color: black;
-  color: white;
+  border-radius: 20px;
+  color: #566a7f;
 }
 .table-infor tbody {
   flex: 1 1 auto;
@@ -286,6 +291,14 @@
   display: table;
   table-layout: fixed;
 }
+.title-table {
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: var(--font-family);
+  padding: 5px;
+  text-align: center;
+}
+
 .table-infor button {
   font-size: 1.2rem;
   border: 1px solid silver;
@@ -300,4 +313,37 @@
     background-color: rgb(189, 192, 195);
   }
   background-color: var(--primary);
+}
+//phan trang
+.pageNumbers {
+  list-style: none;
+  display: flex;
+  margin-left: 450px;
+}
+
+.pageNumbers li {
+  border-radius: 8px;
+  font-size: 1rem;
+  padding: 10px;
+  cursor: pointer;
+  background-color: white;
+  margin: 2px;
+  &:hover {
+    background-color: #eff0f6;
+    color: black;
+  }
+}
+
+.pageNumbers li.active {
+  background-color: #eff0f6;
+  color: black;
+}
+.pageNumbers li button {
+  border: none;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+.pageNumbers li button:focus {
+  outline: none;
 }

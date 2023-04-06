@@ -1,12 +1,7 @@
-.left {
-  margin: 0px auto;
-  padding: 0px;
-  height: 730px;
-  border-right: 0.5px solid gray;
-}
 .Logo {
   display: flex;
   margin-left: 80px;
+  // margin-right: 80px;group-item
   margin-top: 10px;
   height: 55px;
 }
@@ -23,7 +18,7 @@
   font-size: 2.2rem;
 }
 .separator {
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid silver;
   background-color: var(--border);
   margin-top: 10px;
   width: 100%;
@@ -53,8 +48,10 @@
 }
 .itemLeft {
   height: 60px;
-  margin-left: 1px;
+  margin: 10px;
   background-color: var(--white);
+
+  border-radius: 20px;
   cursor: pointer;
   &:hover {
     opacity: 0.8;

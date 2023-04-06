@@ -17,6 +17,8 @@ import ModelWrapper from "../../components/ModelWrapper/ModelWrapper";
 import TextInput from "../../components/TextInput/TextInput";
 import {
   fetchDoctorBookAccept,
+  fetchDoctorBookComplete,
+  fetchDoctorBookReFuse,
   fetchListBookedOfDoctor,
   fetchListBookedOfDoctorCreate,
 } from "../../Redux/Features/Book/DoctorBook";
@@ -35,10 +37,12 @@ import {
   patientBookeDetail,
   patientBookedSchedule,
   sumBookPatient,
+  sumIndexBook,
   userDoctorPatient,
   userLogin,
 } from "../../Redux/selector";
 import styles from "./Book.module.scss";
+import DiseaseIndex from "../../components/DiseaseIndex/DiseaseIndex";
 const cx = classNames.bind(styles);
 const Book = () => {
   const user = useSelector(userLogin);
@@ -61,19 +65,146 @@ const Book = () => {
   const [timeMeeting, setTimeMeeting] = useState("");
   const inforBook = useSelector(patientBookCreate);
   const listAPatient = useSelector(patientBookedSchedule);
-  console.log(listAPatient);
   const sum = useSelector(sumBookPatient);
   const bookDetail = useSelector(patientBookeDetail);
-
   ///bác sĩ
   // const userPatient = useSelector(userPatients);
   const listBDoctor = useSelector(listBookDoctorCreate);
-  console.log(listBDoctor);
   const listADoctor = useSelector(getListBookDoctorAccept);
-
+  const sumIndexB = useSelector(sumIndexBook);
   const currentDate = new Date();
-  /// tính h
+  /// phan trang danh sach cho
+  const [currentPage, setcurrentPage] = useState(1);
+  const [itemsPerPage, setitemsPerPage] = useState(6);
+  const [pageNumberLimit, setpageNumberLimit] = useState(3);
+  const [maxPageNumberLimit, setmaxPageNumberLimit] = useState(3);
+  const [minPageNumberLimit, setminPageNumberLimit] = useState(0);
+  const handleClick = (event) => {
+    setcurrentPage(Number(event.target.id));
+  };
 
+  const pages = [];
+  for (let i = 1; i <= Math.ceil(listBDoctor.length / itemsPerPage); i++) {
+    pages.push(i);
+  }
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = listBDoctor.slice(indexOfFirstItem, indexOfLastItem);
+
+  const renderPageNumbers = pages.map((number) => {
+    if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
+      return (
+        <li
+          key={number}
+          id={number}
+          onClick={handleClick}
+          className={cx(currentPage === number ? "active" : null)}
+        >
+          {number}
+        </li>
+      );
+    } else {
+      return null;
+    }
+  });
+  const handleNextbtn = () => {
+    if (currentPage !== pages[pages.length - 1]) {
+      setcurrentPage(currentPage + 1);
+
+      if (currentPage + 1 > maxPageNumberLimit) {
+        setmaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+        setminPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+      }
+    }
+  };
+
+  const handlePrevbtn = () => {
+    if (currentPage !== pages[0]) {
+      setcurrentPage(currentPage - 1);
+
+      if ((currentPage - 1) % pageNumberLimit == 0) {
+        setmaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+        setminPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+      }
+    }
+  };
+
+  let pageIncrementBtn = null;
+  if (pages.length > maxPageNumberLimit) {
+    pageIncrementBtn = <li onClick={handleNextbtn}> &hellip; </li>;
+  }
+
+  let pageDecrementBtn = null;
+  if (minPageNumberLimit >= 1) {
+    pageDecrementBtn = <li onClick={handlePrevbtn}> &hellip; </li>;
+  }
+  //phân trang cho danh sách chờ
+  const [currentPageA, setcurrentPageA] = useState(1);
+  const [itemsPerPageA, setitemsPerPageA] = useState(6);
+  const [pageNumberLimitA, setpageNumberLimitA] = useState(3);
+  const [maxPageNumberLimitA, setmaxPageNumberLimitA] = useState(3);
+  const [minPageNumberLimitA, setminPageNumberLimitA] = useState(0);
+  const handleClickA = (event) => {
+    setcurrentPageA(Number(event.target.id));
+  };
+
+  const pagesA = [];
+  for (let i = 1; i <= Math.ceil(listADoctor.length / itemsPerPageA); i++) {
+    pagesA.push(i);
+  }
+
+  const indexOfLastItemA = currentPageA * itemsPerPageA;
+  const indexOfFirstItemA = indexOfLastItemA - itemsPerPageA;
+  const currentItemsA = listADoctor.slice(indexOfFirstItemA, indexOfLastItemA);
+
+  const renderPageNumbersA = pagesA.map((number) => {
+    if (number < maxPageNumberLimitA + 1 && number > minPageNumberLimitA) {
+      return (
+        <li
+          key={number}
+          id={number}
+          onClick={handleClickA}
+          className={cx(currentPageA === number ? "active" : null)}
+        >
+          {number}
+        </li>
+      );
+    } else {
+      return null;
+    }
+  });
+  const handleNextbtnA = () => {
+    if (currentPageA !== pagesA[pagesA.length - 1]) {
+      setcurrentPage(currentPageA + 1);
+
+      if (currentPageA + 1 > maxPageNumberLimitA) {
+        setmaxPageNumberLimit(maxPageNumberLimitA + pageNumberLimitA);
+        setminPageNumberLimit(minPageNumberLimitA + pageNumberLimitA);
+      }
+    }
+  };
+
+  const handlePrevbtnA = () => {
+    if (currentPageA !== pagesA[0]) {
+      setcurrentPageA(currentPageA - 1);
+
+      if ((currentPageA - 1) % pageNumberLimitA == 0) {
+        setmaxPageNumberLimit(maxPageNumberLimitA - pageNumberLimitA);
+        setminPageNumberLimit(minPageNumberLimitA - pageNumberLimitA);
+      }
+    }
+  };
+
+  let pageIncrementBtnA = null;
+  if (pagesA.length > maxPageNumberLimitA) {
+    pageIncrementBtnA = <li onClick={handleNextbtnA}> &hellip; </li>;
+  }
+
+  let pageDecrementBtnA = null;
+  if (minPageNumberLimitA >= 1) {
+    pageDecrementBtnA = <li onClick={handlePrevbtnA}> &hellip; </li>;
+  }
   //lich hen realtime
   useEffect(() => {
     dispatch(fetchBookedSchedule());
@@ -91,7 +222,7 @@ const Book = () => {
     console.log(sum);
     if (sum > 2) {
       alert("Bạn chỉ được đặt tối đa 3 cuộc hẹn");
-    } else if (dateMeeting <= currentDate) {
+    } else if (dateMeeting < currentDate) {
       alert("ngày đặt lịch phải sau này hiện tại");
     } else {
       const data = {
@@ -137,39 +268,93 @@ const Book = () => {
     const data = {
       userId: b.patient.id,
       typeNotification: "SYSTEM",
-      content: "Bác sĩ đã tạo phòng họp",
+      content: "Bác sĩ đã tạo phòng",
       title: "Lịch hẹn",
     };
     dispatch(postNotification(data));
-    navigate(`/room/${123123}`);
+    navigate(`/room/${123123}`, {
+      state: {
+        user,
+      },
+    });
   };
   const handleGoRoom = () => {
     //navigate("/HomeZoom");
     // if (checkCreateRoom === true) {
-    navigate(`/room/${123123}`);
+    navigate(`/room/${123123}`, {
+      state: {
+        user,
+      },
+    });
     //   dispatch(filterSlice.actions.clickChange(""));
     // } else {
     //   alert("Phòng chưa sẵn sàng? Vui lòng đợi bác sĩ mở phòng");
     // }
   };
 
-  const handleComplete = () => {};
+  const handlereFuse = (b) => {
+    const choice = window.confirm(
+      "Bạn có chắc chắn muốn từ chối lịch hẹn không?"
+    );
+    if (choice === true) {
+      dispatch(fetchDoctorBookReFuse(b.id));
+      toast.success("Bạn đã từ chối thành công lịch hẹn");
+      setLoadingBook(true);
+    } else {
+      toast.error("Bạn đã đã hủy yêu cầu từ chối lịch hẹn");
+      return;
+    }
+  };
+  const handleComplete = (b) => {
+    const data = {
+      userId: b.patient.id,
+      typeNotification: "SYSTEM",
+      content:
+        "Lịch hẹn ngày &nbsp;" +
+        moment(b?.dateMeeting).format("DD/MM/YYYY") +
+        "đã hoàn thành",
+      title: "Lịch hẹn",
+    };
+    dispatch(postNotification(data));
+    dispatch(fetchDoctorBookComplete(b.id));
+    alert("Cuộc hẹn đã hoàn thành");
+  };
   return (
     <>
       {userDoctor.role === "DOCTOR" ? (
         <div className={cx("title")}>
-          <h1>DANH SÁCH LỊCH HẸN</h1>
-          <div className={cx("col-12")}>
+          <div className={cx("col-12-doctor")}>
+            <div className={cx("index-book-doctor")}>
+              <div className={cx("col-12")}>
+                <div className={cx("col-2-doctor")}>
+                  <div className={cx("form-d")}>
+                    <div className={cx("name-d")}>Lịch hẹn</div>
+                    <div className={cx("index-d")}>{sumIndexB}</div>
+                  </div>
+                </div>
+                <div className={cx("col-2-doctor")}>
+                  <div className={cx("form-d")}>
+                    <div className={cx("name-d")}>Lịch hẹn Chờ</div>
+                    <div className={cx("index-d")}>{listBDoctor.length}</div>
+                  </div>
+                </div>
+                <div className={cx("col-2-doctor")}>
+                  <div className={cx("form-d")}>
+                    <div className={cx("name-d")}>Lịch hẹn chấp nhận</div>
+                    <div className={cx("index-d")}>{listADoctor?.length}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className={cx("col-4-doctor")}>
-              <label>Danh Sách Lịch Hẹn Chờ </label>
-              <div className={cx("infor-book")}>
+              <div>
+                <div className={cx("title-table")}>Danh sách lịch hẹn chờ</div>
                 <div className={cx("table-infor")}>
-                  <table className={cx("table table-striped")}>
+                  <table className={cx("table")}>
                     <thead>
                       <tr>
-                        <th style={{ width: 50 }}>STT</th>
-                        <th>Tên bệnh nhân</th>
                         <th>Ngày</th>
+                        <th>Tên bệnh nhân</th>
                         <th>Thời gian</th>
                         <th>Chi tiết</th>
                         <th>Chấp nhận</th>
@@ -177,14 +362,13 @@ const Book = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {listBDoctor.map((b, index) => {
+                      {currentItems.map((b, index) => {
                         return (
                           <tr key={b.id}>
-                            <td style={{ width: 50 }}>{index + 1}</td>
-                            <td>{b?.fullName}</td>
                             <td>
                               {moment(b?.dateMeeting).format("DD/MM/YYYY")}
                             </td>
+                            <td>{b?.fullName}</td>
                             <td>{b?.timeMeeting}</td>
                             <td>
                               <button onClick={() => handleSeendetail(b)}>
@@ -197,7 +381,10 @@ const Book = () => {
                               </button>
                             </td>
                             <td>
-                              <button style={{ "background-color": "silver" }}>
+                              <button
+                                style={{ "background-color": "silver" }}
+                                onClick={() => handlereFuse(b)}
+                              >
                                 Từ trối
                               </button>
                             </td>
@@ -207,74 +394,87 @@ const Book = () => {
                     </tbody>
                   </table>
                 </div>
+                <ul className={cx("pageNumbers")}>
+                  <li onClick={handlePrevbtn}>&lt;</li>
+                  {pageDecrementBtn}
+                  {renderPageNumbers}
+                  {pageIncrementBtn}
+
+                  <li onClick={handleNextbtn}>&gt;</li>
+                </ul>
               </div>
-              <div className={cx("col-3-doctor")}>
-                <label>Bảng Thông Tin Lịch Hẹn</label>
-                <div className={cx("infor-book")}>
-                  <div className={cx("table-infor")}>
-                    <table className={cx("table table-striped")}>
-                      <thead>
-                        <tr>
-                          <th style={{ width: 50 }}>STT</th>
-                          <th>Tên bệnh nhân</th>
-                          <th>Ngày</th>
-                          <th>Thời gian</th>
-                          <th>Chi tiết</th>
-                          <th>Phòng</th>
-                          <th>Trạng thái</th>
-                          <th>Hủy</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {listADoctor.map((b, index) => {
-                          return (
-                            <tr key={b.id}>
-                              <td style={{ width: 50 }}>{index + 1}</td>
-                              <td>{b?.fullName}</td>
-                              <td>
-                                {moment(b?.dateMeeting).format("DD/MM/YYYY")}
-                              </td>
-                              <td>{b?.timeMeeting}</td>
-                              <td>
-                                <button onClick={() => handleSeendetail(b)}>
-                                  xem
+              <div>
+                <div className={cx("title-table")}>Bảng Thông Tin Lịch Hẹn</div>
+
+                <div className={cx("table-infor")}>
+                  <table className={cx("table")}>
+                    <thead>
+                      <tr>
+                        <th>Ngày</th>
+                        <th>Tên bệnh nhân</th>
+                        <th>Thời gian</th>
+                        <th>Chi tiết</th>
+                        <th>Phòng</th>
+                        <th>Trạng thái</th>
+                        <th>Hủy</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentItemsA.map((b, index) => {
+                        return (
+                          <tr key={b.id}>
+                            <td>
+                              {moment(b?.dateMeeting).format("DD/MM/YYYY")}
+                            </td>
+                            <td>{b?.fullName}</td>
+                            <td>{b?.timeMeeting}</td>
+                            <td>
+                              <button onClick={() => handleSeendetail(b)}>
+                                xem
+                              </button>
+                            </td>
+                            <td>
+                              {moment(b?.dateMeeting).format("DD/MM/YYYY") ===
+                              moment(currentDate).format("DD/MM/YYYY") ? (
+                                <button onClick={() => handleCreateRoom(b)}>
+                                  Tạo Phòng
                                 </button>
-                              </td>
-                              <td>
-                                {moment(b?.dateMeeting).format("DD/MM/YYYY") ===
-                                moment(currentDate).format("DD/MM/YYYY") ? (
-                                  <button onClick={() => handleCreateRoom(b)}>
-                                    Tạo Phòng
-                                  </button>
-                                ) : (
-                                  <td>Đang chờ</td>
-                                )}
-                              </td>
-                              <td>
-                                {moment(b?.dateMeeting).format("DD/MM/YYYY") ===
-                                moment(currentDate).format("DD/MM/YYYY") ? (
-                                  <button onClick={handleComplete}>
-                                    Hoàn thành
-                                  </button>
-                                ) : (
-                                  <td>Đang chờ</td>
-                                )}
-                              </td>
-                              <td>
-                                <button
-                                  onClick={() => handleCanceletail(b)}
-                                  style={{ "background-color": "silver" }}
-                                >
-                                  Hủy
+                              ) : (
+                                <td>Đang chờ</td>
+                              )}
+                            </td>
+                            <td>
+                              {moment(b?.dateMeeting).format("DD/MM/YYYY") ===
+                              moment(currentDate).format("DD/MM/YYYY") ? (
+                                <button onClick={() => handleComplete(b)}>
+                                  Hoàn thành
                                 </button>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
+                              ) : (
+                                <td>Đang chờ</td>
+                              )}
+                            </td>
+                            <td>
+                              <button
+                                onClick={() => handleCanceletail(b)}
+                                style={{ "background-color": "silver" }}
+                              >
+                                Hủy
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
+                <ul className={cx("pageNumbers")}>
+                  <li onClick={handlePrevbtn}>&lt;</li>
+                  {pageDecrementBtnA}
+                  {renderPageNumbersA}
+                  {pageIncrementBtnA}
+
+                  <li onClick={handleNextbtn}>&gt;</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -455,7 +655,8 @@ const Book = () => {
 
             <div className={cx("col-4")}>
               <div className={cx("col-3")}>
-                <label>Danh Sách Lịch Hẹn Chờ </label>
+                <div className={cx("title-table")}>Danh Sách Lịch Hẹn Chờ</div>
+
                 <div className={cx("infor-book")}>
                   {inforBook.map((b) => {
                     return (
@@ -489,7 +690,7 @@ const Book = () => {
                 </div>
               </div>
               <div className={cx("col-3-patient")}>
-                <label>Bảng Thông Tin Lịch Hẹn</label>
+                <div className={cx("title-table")}>Bảng Thông Tin Lịch Hẹn</div>
                 <div className={cx("infor-book")}>
                   {listAPatient.map((b) => {
                     return (

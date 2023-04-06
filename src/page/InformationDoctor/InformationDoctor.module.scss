@@ -1,10 +1,9 @@
-.title h1 {
+.title-table {
+  font-size: 2.5rem;
   font-weight: bold;
   font-family: var(--font-family);
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 5px;
   text-align: center;
-  font-size: 3rem;
 }
 .col-8 {
   height: 600px;
@@ -23,19 +22,14 @@
   margin-left: 10px;
 }
 .input-field b {
-  margin-right: 5px;
+  font-weight: bold;
+  font-size: 1.7rem;
 }
-.input-field-2 {
-  font-size: 1.8rem;
-
+.input-field span {
   font-weight: 500;
-  font-family: var(--font-family);
-  margin-left: 10px;
-  padding-bottom: 17px;
+  font-size: 1.5rem;
 }
-.input-field-2 b {
-  margin-right: 5px;
-}
+
 .Content {
   display: flex;
 }
