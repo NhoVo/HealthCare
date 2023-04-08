@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 
 function MessageItem({ message, own }) {
   const [showPreview, setShowPreview] = useState(false);
-
+  console.log("message", message);
   // show preview
   const handleShowPreviewImageAndVideo = () => {
     setShowPreview(!showPreview);
@@ -23,7 +23,22 @@ function MessageItem({ message, own }) {
   return (
     <>
       {own ? (
-        <p className={cx("message-top-text")}>{message?.content}</p>
+        <>
+          {message.typeMessage === "IMAGE" ? (
+            <button
+              className={cx("preview-image")}
+              onClick={handleShowPreviewImageAndVideo}
+            >
+              <img
+                className={cx("image-send-user")}
+                src={message.file[0]}
+                alt="img"
+              />
+            </button>
+          ) : (
+            <p className={cx("message-top-text")}>{message?.content}</p>
+          )}
+        </>
       ) : (
         <p className={cx("message-top-text")}>{message?.content}</p>
       )}

@@ -88,7 +88,9 @@ export const fetchPostMessage = createAsyncThunk(
   async (data) => {
     // Gọi lên API backend
     const { idConversation } = data;
-    const { typeMessage, content } = data;
+    const { typeMessage, content, file } = data;
+    console.log("data", data);
+
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/chat/${idConversation}`,
@@ -98,19 +100,19 @@ export const fetchPostMessage = createAsyncThunk(
           "Content-Type": "application/json",
           Authorization: `Bearer ${getToken}`,
         },
-        body: JSON.stringify({ typeMessage, content }),
+        body: JSON.stringify({ typeMessage, content, file }),
       }
     );
 
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-
+    console.log(jsonData);
     return jsonData;
   }
 );
 const createFormData = (data) => {
   const { files } = data;
-  console.log("data----106", data);
+
   const dataForm = new FormData();
 
   if (files.length === 1) {
@@ -121,7 +123,7 @@ const createFormData = (data) => {
       dataForm.append("files", img.data);
     });
   }
-  console.log("dataForm----110", dataForm);
+
   return dataForm;
 };
 export const fetchUploadFiles = createAsyncThunk(

@@ -149,8 +149,6 @@ function Messenger() {
   // handle button send message
   const handleSendMessage = async (e) => {
     e.preventDefault();
-
-    console.log(newImageMessage);
     if (newImageMessage === null) {
       const data = {
         typeMessage: "TEXT",
@@ -163,11 +161,13 @@ function Messenger() {
         files: newImageMessage,
       };
       dispatch(fetchUploadFiles(dataImg));
+      console.log(imgMessage);
+      console.log(imgMessage[0].id);
       const data = {
         typeMessage: "IMAGE",
-        idConversation: listMessage[0].conversationId,
+        idConversation: listMessage[0]?.conversationId,  
         content: newMessage,
-        file: imgMessage[0].id,
+        file: [imgMessage[0]?.id],
       };
       dispatch(fetchPostMessage(data));
     }

@@ -76,61 +76,11 @@ function Message({ message, own, conversation }) {
                 <div tabIndex="-1" {...attrs}>
                   <Popper className={cx("own-menu-list")}>
                     <div className={cx("options")}>
-                      {/* <Tippy
-                                        className={cx('tool-tip')}
-                                        content="Báo cáo tin nhắn"
-                                        delay={[200, 0]}
-                                    >
-                                        <button className={cx('option-btn')} onClick={handleReportClick}>
-                                            <FontAwesomeIcon className={cx('option-icon')} icon={faFlag} />
-                                        </button>
-                                    </Tippy> */}
-
-                      {/* Show report */}
-
-                      <Tippy
-                        className={cx("tool-tip")}
-                        content="Chia sẻ"
-                        delay={[200, 0]}
-                      >
-                        <button
-                          className={cx("option-btn")}
-                          onClick={handleShowModelConversation}
-                        >
-                          <FontAwesomeIcon
-                            className={cx("option-icon")}
-                            icon={faShare}
-                          />
-                        </button>
-                      </Tippy>
-                      {/* show model conversations */}
-                      <ModelWrapper
-                        className={cx("model-conversations")}
-                        open={showConversations}
-                        onClose={() => setShowConversation(!showConversations)}
-                      >
-                        <>
-                          <MoveMessage message={message} />
-                        </>
-                      </ModelWrapper>
-
                       {/* Menu children */}
                       <TippyHeadless
                         render={(attrs) => (
                           <div tabIndex="-1" {...attrs}>
                             <Popper className={cx("own-menu-list-children")}>
-                              <button
-                                className={cx("options-children-copy-btn")}
-                              >
-                                <FontAwesomeIcon
-                                  className={cx("copy-icon")}
-                                  icon={faCopy}
-                                />
-                                Coppy tin nhắn
-                              </button>
-
-                              <div className={cx("separator")}></div>
-
                               <button
                                 className={cx("options-children-btn")}
                                 onClick={handleRecallMessage}
@@ -214,7 +164,6 @@ function Message({ message, own, conversation }) {
               </div>
             </TippyHeadless>
           </div>
-
           {!message?.action && (
             <span className={cx("message-bottom")}>
               {moment(message.createdAt).format("h:mm a")}
@@ -230,67 +179,12 @@ function Message({ message, own, conversation }) {
                 <div tabIndex="-1" {...attrs}>
                   <Popper className={cx("own-menu-list")}>
                     <div className={cx("options")}>
-                      <Tippy
-                        className={cx("tool-tip")}
-                        content="Báo cáo tin nhắn"
-                        delay={[200, 0]}
-                      >
-                        <button
-                          className={cx("option-btn")}
-                          onClick={handleReportClick}
-                        >
-                          <FontAwesomeIcon
-                            className={cx("option-icon")}
-                            icon={faFlag}
-                          />
-                        </button>
-                      </Tippy>
-
-                      {/* Show report */}
-
-                      <Tippy
-                        className={cx("tool-tip")}
-                        content="Chia sẻ"
-                        delay={[200, 0]}
-                      >
-                        <button
-                          className={cx("option-btn")}
-                          onClick={handleShowModelConversation}
-                        >
-                          <FontAwesomeIcon
-                            className={cx("option-icon")}
-                            icon={faShare}
-                          />
-                        </button>
-                      </Tippy>
-                      {/* show model conversations */}
-                      <ModelWrapper
-                        className={cx("model-conversations")}
-                        open={showConversations}
-                        onClose={() => setShowConversation(!showConversations)}
-                      >
-                        <>
-                          <MoveMessage message={message} />
-                        </>
-                      </ModelWrapper>
-
                       {/* Menu children */}
                       <TippyHeadless
                         render={(attrs) => (
                           <div tabIndex="-1" {...attrs}>
                             <Popper className={cx("own-menu-list-children")}>
-                              <button
-                                className={cx("options-children-copy-btn")}
-                              >
-                                <FontAwesomeIcon
-                                  className={cx("copy-icon")}
-                                  icon={faCopy}
-                                />
-                                Coppy tin nhắn
-                              </button>
-
                               <div className={cx("separator")}></div>
-
                               <button className={cx("options-children-btn")}>
                                 <FontAwesomeIcon
                                   className={cx("recall-icon")}
@@ -327,13 +221,6 @@ function Message({ message, own, conversation }) {
                         </Tippy>
                       </TippyHeadless>
                     </div>
-                    {/* Button like (:hover) */}
-                    <button className={cx("option-btn")}>
-                      <FontAwesomeIcon
-                        className={cx("like-icon-receiver")}
-                        icon={faThumbsUp}
-                      />
-                    </button>
                   </Popper>
                 </div>
               )}
@@ -356,12 +243,10 @@ function Message({ message, own, conversation }) {
                   <div className={cx("display-action-none-receiver")}>
                     <img
                       className={cx("message-top-img")}
-                      // src={message?.user?.avatarLink}
                       src={images.logo}
                       alt="avatar"
                     />
                     <div>
-                      {/* {message?.deleteBy.length === 0 && ( */}
                       <div
                         className={cx("display-group-preview-image-receiver")}
                       >
@@ -374,7 +259,6 @@ function Message({ message, own, conversation }) {
               </div>
             </TippyHeadless>
           </div>
-
           {!message?.action && (
             <span className={cx("message-bottom-left")}>
               {moment(message?.createdAt).format("h:mm a")}
