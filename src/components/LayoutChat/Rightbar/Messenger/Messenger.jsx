@@ -17,6 +17,8 @@ import {
   faVideo,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { BiDockRight } from "react-icons/bi";
+
 import { CircularProgress } from "@material-ui/core";
 import EmojiPicker, { SkinTones } from "emoji-picker-react";
 import { ToastContainer, toast } from "react-toastify";
@@ -52,8 +54,9 @@ import { fetchAllmessage } from "../../../../Redux/Features/Conversation/Convers
 
 const cx = classNames.bind(styles);
 
-function Messenger() {
+function Messenger({ setInfor, infor }) {
   const dispatch = useDispatch();
+
   const [newMessage, setNewMessage] = useState("");
   const [newImageMessage, setNewImageMessage] = useState([]);
   const [newFileMessage, setNewFileMessage] = useState(null);
@@ -149,27 +152,65 @@ function Messenger() {
   // handle button send message
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (newImageMessage === null) {
+    // check size file
+    if (
+      newFileMessage?.size / 1024 / 1024 > 5 ||
+      newImageMessage?.size / 1024 / 1024 > 5
+    ) {
+      toast.error(
+        "Xin lỗi, file của bạn vượt quá 5 MB. Vui lòng chọn file khác để gửi!"
+      );
+      return;
+    }
+    // check size file
+    if (newImageMessage.length === 0 && newFileMessage === null) {
       const data = {
         typeMessage: "TEXT",
         idConversation: listMessage[0].conversationId,
         content: newMessage,
       };
       dispatch(fetchPostMessage(data));
+    } else if (newImageMessage.length === 0 && newFileMessage !== null) {
+      const dataImg = {
+        files: newFileMessage,
+      };
+      await dispatch(fetchUploadFiles(dataImg)).then((value) => {
+        const data = {
+          typeMessage: "FILE",
+          idConversation: listMessage[0]?.conversationId,
+          content: newMessage,
+          file: [value?.payload[0].id],
+        };
+        dispatch(fetchPostMessage(data));
+      });
     } else {
       const dataImg = {
         files: newImageMessage,
       };
-      dispatch(fetchUploadFiles(dataImg));
-      console.log(imgMessage);
-      console.log(imgMessage[0].id);
-      const data = {
-        typeMessage: "IMAGE",
-        idConversation: listMessage[0]?.conversationId,  
-        content: newMessage,
-        file: [imgMessage[0]?.id],
-      };
-      dispatch(fetchPostMessage(data));
+      await dispatch(fetchUploadFiles(dataImg)).then((value) => {
+        if (
+          value?.payload[0]?.name.split(".")[
+            value?.payload[0]?.name.split(".").length - 1
+          ] === "mp4"
+        ) {
+          const data = {
+            typeMessage: "VIDEO",
+            idConversation: listMessage[0]?.conversationId,
+            content: newMessage,
+            file: [value?.payload[0].id],
+          };
+          dispatch(fetchPostMessage(data));
+        } else {
+          const listImg = value?.payload?.map((item) => item.id);
+          const data = {
+            typeMessage: "IMAGE",
+            idConversation: listMessage[0]?.conversationId,
+            content: newMessage,
+            file: listImg,
+          };
+          dispatch(fetchPostMessage(data));
+        }
+      });
     }
     setNewMessage("");
     setNewImageMessage([]);
@@ -209,7 +250,11 @@ function Messenger() {
   //     listMessage &&
   //     scrollMessenger.current?.scrollIntoView({ behavior: "smooth" });
   // }, [conversation, listMessage]);
+  const handleOpenInfor = () => {
+    console.log("có");
 
+    setInfor(!infor);
+  };
   return (
     <div className={cx("messenger")}>
       <div className={cx("messenger-header")}>
@@ -226,6 +271,23 @@ function Messenger() {
           >
             <button className={cx("btn-click-icon")}>
               <FontAwesomeIcon className={cx("icon")} icon={faVideo} />
+            </button>
+          </Tippy>
+          <Tippy
+            className={cx("tool-tip")}
+            content="Thông tin hội thoại"
+            delay={[200, 0]}
+          >
+            <button className={cx("btn-click-icon")} onClick={handleOpenInfor}>
+              {!infor ? (
+                <BiDockRight
+                  className={cx("icon")}
+                  size={"20px"}
+                  color="#0091ff"
+                />
+              ) : (
+                <BiDockRight className={cx("icon")} size={"20px"} />
+              )}
             </button>
           </Tippy>
         </div>

@@ -17,7 +17,7 @@ function FileMessage({ message }) {
   const [pageNumber, setPageNumber] = useState(1);
   const [previewFile, setPreviewFile] = useState(false);
 
-  // console.log('FILE - MESSAGE', message);
+  console.log("FILE - MESSAGE", message);
   // console.log('NEW FILE MESSAGE - ', newFileMessage);
 
   const handlePreviewFile = () => {
@@ -32,8 +32,9 @@ function FileMessage({ message }) {
 
   return (
     <>
-      {message.fileLink.split(".")[message.fileLink.split(".").length - 1] ===
-        "txt" && (
+      {message.file[0].name.split(".")[
+        message.file[0].name.split(".").length - 1
+      ] === "txt" && (
         <div className={cx("files")}>
           <button className={cx("preview-file")} onClick={handlePreviewFile}>
             <img
@@ -59,7 +60,7 @@ function FileMessage({ message }) {
                 <div className={cx("model-preview-file")}>
                   {/* "/KTPM_Design_Web_App_N2_V4.pdf" - "/tai-lieu-hdsd-v2.pdf" */}
                   <Document
-                    file={message.fileLink}
+                    file={message.file[0].name}
                     onLoadSuccess={handleViewer}
                   >
                     {Array.from(new Array(numPages), (el, index) => (
@@ -75,20 +76,24 @@ function FileMessage({ message }) {
             <div className={cx("display")}>
               <p className={cx("name-file")}>
                 {
-                  message.fileLink.split("/")[
-                    message.fileLink.split("/").length - 1
+                  message.file[0].name.split("/")[
+                    message.file[0].name.split("/").length - 1
                   ]
                 }
               </p>
-              {/* <span className={cx('size')}>{newFileMessage?.size}</span> */}
             </div>
           </a>
         </div>
       )}
-      {message.fileLink.split(".")[message.fileLink.split(".").length - 1] ===
-        "xlsx" && (
+      {message.file[0].name.split(".")[
+        message.file[0].name.split(".").length - 1
+      ] === "xlsx" && (
         <div className={cx("files")}>
-          <a href={message.fileLink} download className={cx("download-file")}>
+          <a
+            href={message.file[0].url}
+            download
+            className={cx("download-file")}
+          >
             <img
               className={cx("img-icon")}
               src={images.excelIcon}
@@ -98,20 +103,24 @@ function FileMessage({ message }) {
             <div className={cx("display")}>
               <p className={cx("name-file")}>
                 {
-                  message.fileLink.split("/")[
-                    message.fileLink.split("/").length - 1
+                  message.file[0].name.split("/")[
+                    message.file[0].name.split("/").length - 1
                   ]
                 }
               </p>
-              {/* <span className={cx('size')}>{message.size}</span> */}
             </div>
           </a>
         </div>
       )}
-      {message.fileLink.split(".")[message.fileLink.split(".").length - 1] ===
-        "csv" && (
+      {message.file[0].name.split(".")[
+        message.file[0].name.split(".").length - 1
+      ] === "csv" && (
         <div className={cx("files")}>
-          <a href={message.fileLink} download className={cx("download-file")}>
+          <a
+            href={message.file[0].url}
+            download
+            className={cx("download-file")}
+          >
             <img
               className={cx("img-icon")}
               src={images.excelIcon}
@@ -121,20 +130,24 @@ function FileMessage({ message }) {
             <div className={cx("display")}>
               <p className={cx("name-file")}>
                 {
-                  message.fileLink.split("/")[
-                    message.fileLink.split("/").length - 1
+                  message.file[0].name.split("/")[
+                    message.file[0].name.split("/").length - 1
                   ]
                 }
               </p>
-              {/* <span className={cx('size')}>{message.size}</span> */}
             </div>
           </a>
         </div>
       )}
-      {message.fileLink.split(".")[message.fileLink.split(".").length - 1] ===
-        "pptx" && (
+      {message.file[0].name.split(".")[
+        message.file[0].name.split(".").length - 1
+      ] === "pptx" && (
         <div className={cx("files")}>
-          <a href={message.fileLink} download className={cx("download-file")}>
+          <a
+            href={message.file[0].url}
+            download
+            className={cx("download-file")}
+          >
             <img
               className={cx("img-icon")}
               src={images.pdfIcon}
@@ -144,18 +157,18 @@ function FileMessage({ message }) {
             <div className={cx("display")}>
               <p className={cx("name-file")}>
                 {
-                  message.fileLink.split("/")[
-                    message.fileLink.split("/").length - 1
+                  message.file[0].name.split("/")[
+                    message.file[0].name.split("/").length - 1
                   ]
                 }
               </p>
-              {/* <span className={cx('size')}>{message.size}</span> */}
             </div>
           </a>
         </div>
       )}
-      {message.fileLink.split(".")[message.fileLink.split(".").length - 1] ===
-        "pdf" && (
+      {message.file[0].name.split(".")[
+        message.file[0].name.split(".").length - 1
+      ] === "pdf" && (
         <div className={cx("files")}>
           <button className={cx("preview-file")} onClick={handlePreviewFile}>
             <img
@@ -180,7 +193,7 @@ function FileMessage({ message }) {
                 <div className={cx("model-preview-file")}>
                   {/* "/KTPM_Design_Web_App_N2_V4.pdf" - "/tai-lieu-hdsd-v2.pdf" */}
                   <Document
-                    file={message.fileLink}
+                    file={message.file[0].name}
                     onLoadSuccess={handleViewer}
                   >
                     {Array.from(new Array(numPages), (el, index) => (
@@ -192,24 +205,32 @@ function FileMessage({ message }) {
             </ModelWrapper>
           )}
 
-          <a href={message.fileLink} download className={cx("download-file")}>
+          <a
+            href={message.file[0].url}
+            download
+            className={cx("download-file")}
+          >
             <div className={cx("display")}>
               <p className={cx("name-file")}>
                 {
-                  message.fileLink.split("/")[
-                    message.fileLink.split("/").length - 1
+                  message.file[0].name.split("/")[
+                    message.file[0].name.split("/").length - 1
                   ]
                 }
               </p>
-              {/* <span className={cx('size')}>{message.size}</span> */}
             </div>
           </a>
         </div>
       )}
-      {message.fileLink.split(".")[message.fileLink.split(".").length - 1] ===
-        "docx" && (
+      {message.file[0].name.split(".")[
+        message.file[0].name.split(".").length - 1
+      ] === "docx" && (
         <div className={cx("files")}>
-          <a href={message.fileLink} download className={cx("download-file")}>
+          <a
+            href={message.file[0].url}
+            download
+            className={cx("download-file")}
+          >
             <img
               className={cx("img-icon")}
               src={images.wordIcon}
@@ -219,12 +240,11 @@ function FileMessage({ message }) {
             <div className={cx("display")}>
               <p className={cx("name-file")}>
                 {
-                  message.fileLink.split("/")[
-                    message.fileLink.split("/").length - 1
+                  message.file[0].name.split("/")[
+                    message.file[0].name.split("/").length - 1
                   ]
                 }
               </p>
-              {/* <span className={cx('size')}>{message.size}</span> */}
             </div>
           </a>
         </div>

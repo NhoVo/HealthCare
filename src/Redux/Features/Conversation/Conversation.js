@@ -111,8 +111,8 @@ export const fetchPostMessage = createAsyncThunk(
   }
 );
 const createFormData = (data) => {
+  console.log("data", data);
   const { files } = data;
-
   const dataForm = new FormData();
 
   if (files.length === 1) {
@@ -122,6 +122,8 @@ const createFormData = (data) => {
     files.forEach((img) => {
       dataForm.append("files", img.data);
     });
+  } else {
+    dataForm.append("files", files);
   }
 
   return dataForm;
@@ -142,7 +144,6 @@ export const fetchUploadFiles = createAsyncThunk(
           },
         }
       );
-
       return resFormData.data;
     }
   }
