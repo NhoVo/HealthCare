@@ -9,6 +9,7 @@ import Button from "../../components/Button/Button";
 import FormPage from "../../components/FormPage/FormPage";
 import TextInput from "../../components/TextInput/TextInput";
 import styles from "./Login.module.scss";
+import { ToastContainer, toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
@@ -46,7 +47,7 @@ const Login = () => {
       .then((token) => {
         if (typeof token != "undefined") {
           if (token.role === "PATIENT") {
-            alert("Đăng nhập thành công");
+            toast.success("Đăng nhập thành công");
             localStorage.setItem(
               "user_login",
               JSON.stringify(token.access_token)
@@ -64,9 +65,9 @@ const Login = () => {
             });
             setTimeout(() => {
               navigate("/Home");
-            }, 2000);
+            }, 4000);
           } else {
-            alert("Đăng nhập thành công");
+            toast.success("Đăng nhập thành công");
             localStorage.setItem(
               "user_login",
               JSON.stringify(token.access_token)
@@ -93,6 +94,7 @@ const Login = () => {
   };
   return (
     <FormPage>
+      <ToastContainer />
       <div className={cx("container")}>
         <div className={cx("row")}>
           <div
@@ -102,13 +104,13 @@ const Login = () => {
           >
             <div className={cx("panel-border")}>
               <div className={cx("panel-heading")}>
-                <h3 className={cx("pt-3 font-weight-bold")}>Đăng nhập</h3>
+                <h3 className={cx("pt-3 font-weight-bold")}>ĐĂNG NHẬP</h3>
               </div>
               <div className={cx("panel-body p-3")}>
                 <form onSubmit={handleSubmit(handleLogin)}>
                   <div className={cx("form-group py-2")}>
                     <div className={cx("input-field")}>
-                      <PhoneIphone color="primary" sx={{ fontSize: 30 }} />
+                      <PhoneIphone color="primary" sx={{ fontSize: 40 }} />
                       <TextInput
                         id="outlined-helperText"
                         label="Số điện thoại"
@@ -120,7 +122,7 @@ const Login = () => {
                   </div>
                   <div className={cx("form-group py-1 pb-2")}>
                     <div className={cx("input-field")}>
-                      <LockIcon color="primary" sx={{ fontSize: 30 }} />
+                      <LockIcon color="primary" sx={{ fontSize: 40 }} />
                       <TextInput
                         id="outlined-password-input"
                         type="password"

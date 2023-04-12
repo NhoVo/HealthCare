@@ -18,7 +18,7 @@
 .form input {
   height: 40px;
   width: 720px;
-  text-indent: 35px;
+  text-indent: 17px;
   margin-left: 10px;
   margin-top: 5px;
   font-family: var(--font-family);
@@ -68,7 +68,7 @@
 }
 .search-content .search-text {
   height: 620px;
-  width: 60%;
+  flex: 7;
   text-align: left;
   margin-left: 20px;
   border-collapse: collapse;
@@ -88,7 +88,7 @@
 .search-text-snippet {
   font-size: 1.2rem;
   font-weight: 500;
-  width: 650px;
+  width: 60%;
 }
 .search-text-img img {
   width: 100px;
@@ -96,13 +96,14 @@
 }
 .search-content .search-map {
   height: 620px;
-  width: 40%;
+  flex: 5;
   font-family: var(--font-family);
   border-collapse: collapse;
   flex-flow: column;
   overflow-y: auto;
   overflow-x: hidden;
 }
+
 .map-patientBook:hover .map-address {
   display: block;
 }
@@ -133,4 +134,35 @@
   font-weight: 700;
 
   margin-top: 2px;
+}
+// .suggestions {
+//   background-color: white;
+//   width: 684px;
+//   margin-left: 29px;
+// }
+ul.suggestions {
+  position: absolute;
+  top: 40px;
+  left: 24px;
+  width: 691px;
+  max-height: 200px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+ul.suggestions li {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+ul.suggestions li:hover {
+  background-color: #f1f1f1;
 }

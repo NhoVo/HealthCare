@@ -11,7 +11,7 @@ const API_KEY = "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";
 // "Explain things like you would to a 10 year old learning how to code."
 const systemMessage = {
   role: "system",
-  content: "Chào mừng bạn đến với N&S HealthCase",
+  content: "Chào mừng bạn đến với CadioCare",
 };
 const cx = classNames.bind(styles);
 const ChatBot = () => {
@@ -19,7 +19,7 @@ const ChatBot = () => {
   const [tam, setTam] = useState("");
   const [messages, setMessages] = useState([
     {
-      message: "Chào mừng bạn đến với N&S HealthCase!",
+      message: "Chào mừng bạn đến với CadioCare!",
       sentTime: "just now",
       sender: "ChatGPT",
     },
@@ -147,9 +147,7 @@ const ChatBot = () => {
                   <img src={images.logo} alt="" />
                 </div>
                 <div className={cx("chatbox__content--header")}>
-                  <h4 className={cx("chatbox__heading--header")}>
-                    N&S HealthCase
-                  </h4>
+                  <h4 className={cx("chatbox__heading--header")}>CadioCare</h4>
                   <p className={cx("chatbox__description--header")}>
                     Tận tâm chia sẻ – vì sức khỏe của bạn
                   </p>

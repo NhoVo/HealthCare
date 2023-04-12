@@ -1,0 +1,12 @@
+[
+  { "id": 1, "name": "Bệnh tim là gì?" },
+  { "id": 2, "name": "Bệnh tim có những triệu chứng gì?" },
+  { "id": 3, "name": "Làm thế nào để phòng ngừa bệnh tim?" },
+  { "id": 4, "name": "Bệnh tim được chẩn đoán như thế nào?" },
+  { "id": 5, "name": "Bệnh tim có thể chữa khỏi được không?" },
+  { "id": 6, "name": "Nguyên nhân gây bệnh tim là gì?" },
+  { "id": 7, "name": "Bệnh tim có mối liên hệ gì với các bệnh khác?" },
+  { "id": 8, "name": "Những yếu tố nguy cơ nào có thể dẫn đến bệnh tim?" },
+  { "id": 9, "name": "Làm thế nào để điều trị bệnh tim?" },
+  { "id": 10, "name": "Bệnh tim có ảnh hưởng đến tuổi thọ không?" }
+]

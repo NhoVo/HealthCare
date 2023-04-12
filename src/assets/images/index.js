@@ -11,6 +11,7 @@ const images = {
   pwpIcon: require("../images/icons/pwp-icon.png"),
   wordIcon: require("../images/icons/word-icon.png"),
   txtIcon: require("../images/icons/txt-icon.png"),
+  logoWellCome: require("../images/animation/todo.json"),
 };
 
 export default images;

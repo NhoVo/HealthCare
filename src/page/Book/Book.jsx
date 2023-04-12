@@ -221,9 +221,9 @@ const Book = () => {
     const currentDate = new Date().toISOString().slice(0, 10);
     console.log(sum);
     if (sum > 2) {
-      alert("Bạn chỉ được đặt tối đa 3 cuộc hẹn");
+      toast.error("Bạn chỉ được đặt tối đa 3 cuộc hẹn");
     } else if (dateMeeting < currentDate) {
-      alert("ngày đặt lịch phải sau này hiện tại");
+      toast.error("ngày đặt lịch phải sau ngày hiện tại");
     } else {
       const data = {
         fullName: name,
@@ -248,7 +248,7 @@ const Book = () => {
     );
     if (choice === true) {
       dispatch(fetchPatientBookCancel(b.id));
-      toast.success("Bạn đã xóa thành công lịch hẹn");
+      toast.success("Bạn đã hủy thành công lịch hẹn");
       setLoadingBook(true);
     } else {
       toast.error("Bạn đã đã hủy yêu cầu xóa lịch hẹn");
@@ -259,7 +259,9 @@ const Book = () => {
   //bác sĩ
   const handleAccept = (e) => {
     dispatch(fetchDoctorBookAccept(e.id));
-    alert("bạn đã chấp nhận lịch hẹn");
+
+    toast.error("Bạn đã chấp nhận lịch hẹn");
+
     setLoadingBook(true);
   };
 
@@ -317,7 +319,7 @@ const Book = () => {
     };
     dispatch(postNotification(data));
     dispatch(fetchDoctorBookComplete(b.id));
-    alert("Cuộc hẹn đã hoàn thành");
+    toast.error("Bạn đã hoàn thành cuộc hẹn");
   };
   return (
     <>

@@ -13,17 +13,22 @@ import ReactStars from "react-rating-stars-component";
 import { searchGG, searchGGMap } from "../../Redux/Features/filter/searchgg";
 import { resultSearchGG, resultSearchGGMap } from "../../Redux/selector";
 import ModelWrapper from "../ModelWrapper/ModelWrapper";
+import data from "../../data.json";
 const cx = classNames.bind(styles);
 const Position = ({ text }) => <div>{text}</div>;
 
 const Search = () => {
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState("");
   const [openInfo, setOpenInfo] = useState(false);
+  const [tam, setTam] = useState(false);
+
   const [coords, setCoords] = useState(null);
 
   const result = useSelector(resultSearchGG);
   const resultMap = useSelector(resultSearchGGMap);
 
+  const [suggestions, setSuggestions] = useState(data);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -38,6 +43,9 @@ const Search = () => {
 
   const handleModelCloseInfo = () => {
     setOpenInfo(false);
+    setSearch("");
+    setSuggestions(data);
+    setShowSuggestions(false);
   };
 
   const handleSearch = () => {
@@ -45,7 +53,34 @@ const Search = () => {
     dispatch(searchGG(search));
     dispatch(searchGGMap(search));
   };
+  const handleChange = (e) => {
+    const { value } = e.target;
+    let newSuggestions = [];
+    if (value.length > 0) {
+      newSuggestions = data.filter((item) =>
+        item.name.toLowerCase().includes(value.toLowerCase())
+      );
+    }
+    setSearch(value);
+    setSuggestions(newSuggestions);
+    setShowSuggestions(true);
+    setTam(true);
+  };
 
+  const handleSuggestionClick = (item) => {
+    setSearch(item.name);
+    setSuggestions(data);
+    setShowSuggestions(false);
+    setTam(true);
+  };
+  const handleBlur = () => {
+    if (search === "" && tam === true) {
+      setShowSuggestions(false);
+      setSuggestions(data);
+    }
+
+    // Khi người dùng click ra ngoài vùng input, ẩn gợi ý
+  };
   return (
     <div className={cx("form-search")}>
       <div className={cx("row height d-flex align-items-center")}>
@@ -60,8 +95,19 @@ const Search = () => {
               className={cx("form-control form-input")}
               placeholder="Tìm kiếm"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={handleChange}
+              onClick={() => setShowSuggestions(true)}
+              onBlur={handleBlur}
             />
+            {showSuggestions && (
+              <ul className={cx("suggestions")}>
+                {suggestions.map((item) => (
+                  <li key={item.id} onClick={() => handleSuggestionClick(item)}>
+                    {item.name}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </div>
@@ -105,66 +151,70 @@ const Search = () => {
                 );
               })}
             </div>
-            <div className={cx("search-map")}>
-              {resultMap?.map((m) => {
-                return (
-                  <div key={m.position}>
-                    <div
-                      className={cx("title")}
-                      style={{
-                        height: "200px",
-                        width: "500px",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <GoogleMapReact
-                        bootstrapURLKeys={{
-                          key: process.env.REACT_APP_MAP_API,
+            {resultMap.length !== 0 && (
+              <div className={cx("search-map")}>
+                {resultMap?.map((m) => {
+                  return (
+                    <div key={m.position}>
+                      <div
+                        className={cx("title")}
+                        style={{
+                          height: "200px",
+                          width: "500px",
+                          marginTop: "10px",
                         }}
-                        defaultZoom={11}
-                        defaultCenter={coords}
-                        center={coords}
                       >
-                        <Position
-                          lat={coords.lat}
-                          lng={coords.lng}
-                          text={
-                            <HiLocationMarker color="black" size={"30px"} />
-                          }
+                        <GoogleMapReact
+                          bootstrapURLKeys={{
+                            key: process.env.REACT_APP_MAP_API,
+                          }}
+                          defaultZoom={11}
+                          defaultCenter={coords}
+                          center={coords}
+                        >
+                          <Position
+                            lat={coords.lat}
+                            lng={coords.lng}
+                            text={
+                              <HiLocationMarker color="black" size={"30px"} />
+                            }
+                          />
+                          <Position
+                            lat={m.latitude}
+                            lng={m.longitude}
+                            text={
+                              <MdOutlineAddLocation color="red" size={"30px"} />
+                            }
+                          />
+                        </GoogleMapReact>
+                      </div>
+                      <div className={cx("search-map-name")}>{m.category}</div>
+                      <div style={{ display: "flex" }}>
+                        <div className={cx("search-map-rating1")}>
+                          Đánh giá:
+                        </div>
+                        <ReactStars
+                          count={5}
+                          // onChange={ratingChanged}
+                          value={m.rating}
+                          size={18}
+                          activeColor="#ffd700"
                         />
-                        <Position
-                          lat={m.latitude}
-                          lng={m.longitude}
-                          text={
-                            <MdOutlineAddLocation color="red" size={"30px"} />
-                          }
-                        />
-                      </GoogleMapReact>
-                    </div>
-                    <div className={cx("search-map-name")}>{m.category}</div>
-                    <div style={{ display: "flex" }}>
-                      <div className={cx("search-map-rating1")}>Đánh giá:</div>
-                      <ReactStars
-                        count={5}
-                        // onChange={ratingChanged}
-                        value={m.rating}
-                        size={18}
-                        activeColor="#ffd700"
-                      />
-                      <div className={cx("search-map-rating")}>
-                        {m.ratingCount}
+                        <div className={cx("search-map-rating")}>
+                          {m.ratingCount}
+                        </div>
+                      </div>
+                      <div className={cx("search-map-address")}>
+                        Địa Chỉ: {m.address}
+                      </div>
+                      <div className={cx("search-map-phone")}>
+                        Số điện thoại: {m.phoneNumber}
                       </div>
                     </div>
-                    <div className={cx("search-map-address")}>
-                      Địa Chỉ: {m.address}
-                    </div>
-                    <div className={cx("search-map-phone")}>
-                      Số điện thoại: {m.phoneNumber}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </ModelWrapper>

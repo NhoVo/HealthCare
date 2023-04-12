@@ -78,7 +78,7 @@ const Left = ({ role }) => {
     <div className={cx("left")}>
       <div className={cx("Logo")}>
         <img src={images.logo} alt="" />
-        <h1>N&S HealthCase</h1>
+        <h1>CadioCare</h1>
       </div>
       <div className={cx("separator")}></div>
       {pageInfor ? (

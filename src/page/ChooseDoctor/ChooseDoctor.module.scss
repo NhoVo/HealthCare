@@ -28,18 +28,52 @@
   text-align: center;
   padding: 10px;
 }
+.center-Infor {
+  display: flex;
+  margin-top: 10px;
+}
+
+.center-Infor .col-4 {
+  border-radius: 10px;
+  border: 1px solid silver;
+  width: 412px;
+  height: 568px;
+  margin-left: 25px;
+  margin-top: 20px;
+}
+.title-list {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: var(--font-family);
+  text-align: center;
+  line-height: 30px;
+  height: 30px;
+}
+.strikethrough {
+  border: 1px solid silver;
+}
+
 .col-md-8 {
   display: block;
+  margin-top: 10px;
 }
 .search {
   position: relative;
-
-  box-shadow: 0 0 40px rgba(51, 51, 51, 0.1);
+}
+.search-form {
+  background-color: #dadada;
+  height: 535px;
+  padding-top: 5px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 .search input {
-  height: 30px;
+  height: 35px;
   text-indent: 15px;
   border: 2px solid #d6d4d4;
+  margin-left: 10px;
+  border-radius: 5px;
+  width: 327px;
 }
 .search input:focus {
   box-shadow: none;
@@ -47,32 +81,42 @@
 }
 .search .item {
   position: absolute;
-  top: 8px;
-  left: 5px;
+  top: 10px;
+  left: 15px;
 }
 .search button {
   position: absolute;
   top: 0px;
-  right: 0px;
-  height: 30px;
+  right: 10px;
+  height: 35px;
   width: 60px;
   background-color: var(--primary);
+}
+.search-form .list-sum {
+  width: 95%;
+  height: 310px;
+  border-collapse: collapse;
+  flex-flow: column;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .list-conversation {
   display: flex;
   align-items: center;
-  padding: 10px;
+  width: 386px;
   margin-top: 10px;
+  background-color: white;
+  border-radius: 10px;
   &:hover {
     cursor: pointer;
-    background-color: rgb(248, 233, 233);
-
+    background-color: #f0eeed;
     transition: background-color ease-in-out 200ms;
   }
 }
 .avatar-img {
-  width: 58px;
-  height: 58px;
+  width: 50px;
+  height: 50px;
+  margin-left: 8px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -80,12 +124,12 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-left: 15px;
-  margin-top: 10px;
+  padding: 10px;
 }
 
 .username {
   font-size: 1.6rem;
+  font-weight: bold;
 }
 
 .message {
@@ -97,7 +141,7 @@
   border-radius: 6px;
   background-color: var(--primary);
   color: var(--white);
-
+  margin-right: 5px;
   width: 80px;
   &:hover {
     cursor: pointer;
@@ -117,12 +161,19 @@
   margin-top: 10px;
 }
 .input-field {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 500;
   font-family: var(--font-family);
-  width: 250px;
-
+  width: 300px;
   margin-left: 10px;
+}
+.input-field b {
+  font-weight: bold;
+  font-size: 1.7rem;
+}
+.input-field span {
+  font-weight: 500;
+  font-size: 1.5rem;
 }
 .input-field-2 {
   font-size: 1.5rem;
@@ -130,6 +181,14 @@
   font-family: var(--font-family);
   margin-left: 10px;
   padding-bottom: 17px;
+}
+.input-field-2 b {
+  font-weight: bold;
+  font-size: 1.7rem;
+}
+.input-field-2 span {
+  font-weight: 500;
+  font-size: 1.5rem;
 }
 .Content {
   display: flex;

@@ -67,6 +67,7 @@ const Middle = () => {
     setIdRead(true);
     dispatch(seenAllNotifications());
   };
+
   return (
     <div className={cx("middle")}>
       <div className={cx("col-12")}>

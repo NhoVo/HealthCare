@@ -1,8 +1,9 @@
 .title {
-  padding-top: 8%;
+  padding-top: 1%;
   font-size: 8rem;
   font-weight: bold;
   text-align: center;
+  color: #0077be;
   font-family: var(--font-family);
 }
 .separator {
@@ -17,12 +18,13 @@
   font-weight: bold;
   text-align: center;
   font-family: var(--font-family);
-  color: gray;
+  color: #4da6ff;
 }
 .button-login {
   font-size: 20px;
-  background-color: var(--primary);
+  background-color: #33ccff;
   border-radius: 10px;
+  color: white;
   border: 0;
   width: 500px;
   height: 40px;
@@ -30,14 +32,17 @@
   margin-top: 20px;
   cursor: pointer;
   &:hover {
+    // opacity: 0.5;
     opacity: 0.8;
+
+    // background-color: #f0eeed;
   }
 }
 .title-register {
   font-weight: bold;
   text-align: center;
   font-family: var(--font-family);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin-top: 5px;
 }
 .title-register u {
@@ -46,4 +51,10 @@
   &:hover {
     opacity: 0.8;
   }
+}
+.form-animation {
+  height: 340px;
+}
+.animation {
+  height: 365px;
 }

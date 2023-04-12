@@ -9,6 +9,8 @@
 }
 .panel-heading {
   text-align: center;
+  color: #0077be;
+
   margin-bottom: 10px;
 }
 .panel-heading h3 {
@@ -53,9 +55,10 @@ a:hover {
   border-radius: 5px;
   padding: 5px;
   display: flex;
+  width: 350px;
   align-items: center;
   cursor: pointer;
-  border: 1px solid #ddd;
+  border: 1px solid #0077be;
   color: var(--B60);
 }
 .input-field input {

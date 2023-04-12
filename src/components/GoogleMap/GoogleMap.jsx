@@ -43,7 +43,6 @@ const GoogleMap = ({ coords, addressP }) => {
           const response = await axios.get(url, { params, timeout: 5000 });
           hospitals = [...hospitals, ...response.data.results];
           nextPageToken = response.data.next_page_token;
-          console.log("Tao ddang ddi trong");
         } while (nextPageToken);
 
         setHospitals(hospitals);

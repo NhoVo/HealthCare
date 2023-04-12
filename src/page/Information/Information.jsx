@@ -34,7 +34,8 @@ import styles from "./Information.module.scss";
 
 import SearchIcon from "@mui/icons-material/Search";
 import moment from "moment";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import images from "../../assets/images/index";
 import useDebounce from "../../components/hooks/useDebounce";
 import filterSlice from "../../Redux/Features/filter/filterSlice";
@@ -220,6 +221,7 @@ const Information = () => {
       );
     }
   };
+
   const handleChoose = (user) => {
     dispatch(fetchAllHRPatient(user.id));
     dispatch(fetchHeartbeatsDoctor(user.id));
@@ -231,6 +233,7 @@ const Information = () => {
 
   return (
     <div className={cx("container")}>
+      <ToastContainer />
       {userDoctor.role === "DOCTOR" ? (
         <>
           {pageBook || medicalRecord ? (
