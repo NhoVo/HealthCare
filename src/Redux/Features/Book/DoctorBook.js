@@ -5,6 +5,7 @@ const DoctorBook = createSlice({
     listBookDoctor: [],
     acceptBookDoctor: [],
     listCreateDoctor: [],
+    bookTime: [],
   },
   extraReducers: (builder) => {
     builder.addCase(fetchListBookedOfDoctor.fulfilled, (state, action) => {
@@ -19,6 +20,9 @@ const DoctorBook = createSlice({
         state.listCreateDoctor = action.payload;
       }
     );
+    builder.addCase(fetchListBookTimeDoctor.fulfilled, (state, action) => {
+      state.bookTime = action.payload;
+    });
   },
 });
 //lấy danh sách lịch hẹn của bác sĩ chấp nhận của bác sĩ
@@ -143,4 +147,33 @@ export const fetchDoctorBookReFuse = createAsyncThunk(
     return jsonData.data;
   }
 );
+
+export const fetchListBookTimeDoctor = createAsyncThunk(
+  // Tên action
+  "doctorBook/fetchListBookTimeDoctor",
+  async (data) => {
+    // Gọi lên API backend/v1/appointment-time
+    console.log("data", data);
+    const param = new URLSearchParams({
+      doctorId: data.doctorId,
+      timeDate: data.timeDate,
+    });
+    const getToken = JSON.parse(localStorage.getItem("user_login"));
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/appointment-time?` + param.toString(),
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken}`,
+        },
+      }
+    );
+    // Convert dữ liệu ra json
+    const jsonData = await response.json();
+    console.log(jsonData.data);
+    return jsonData.data;
+  }
+);
+
 export default DoctorBook;

@@ -33,6 +33,8 @@ export const allHealthRecord = (state) => state.healthRecordDay.allHrecord;
 //bác sĩ
 export const userPatients = (state) => state.listUserPatient.userPatients;
 export const listBookDoctor = (state) => state.doctorBook.listBookDoctor;
+export const listBookTimesDoctor = (state) => state.doctorBook.bookTime;
+
 export const listBookDoctorCreate = (state) =>
   state.doctorBook.listCreateDoctor;
 export const allHRecordPaient = (state) => state.healthRecordDay.allHRPatient;
@@ -53,7 +55,6 @@ export const listImage = (state) => state.listConversation.img;
 export const ratingOfDoctor = (state) => state.ratingDoctor.ratingData;
 
 export const tam = createSelector(healthWarningDay, (index) => {
-  console.log(index);
   return index;
 });
 export const sumIndexBook = createSelector(

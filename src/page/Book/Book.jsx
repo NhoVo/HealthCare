@@ -19,6 +19,7 @@ import {
   fetchDoctorBookAccept,
   fetchDoctorBookComplete,
   fetchDoctorBookReFuse,
+  fetchListBookTimeDoctor,
   fetchListBookedOfDoctor,
   fetchListBookedOfDoctorCreate,
 } from "../../Redux/Features/Book/DoctorBook";
@@ -33,6 +34,7 @@ import { postNotification } from "../../Redux/Features/Notifications/Notificatio
 import {
   getListBookDoctorAccept,
   listBookDoctorCreate,
+  listBookTimesDoctor,
   patientBookCreate,
   patientBookeDetail,
   patientBookedSchedule,
@@ -50,8 +52,7 @@ const Book = () => {
   const [loadingBook, setLoadingBook] = useState(false);
   const { handleSubmit } = useForm();
   const dispatch = useDispatch();
-  const IDUser = user?.role === "DOCTOR" ? user?.doctor?.id : user.id;
-  const userDoctorP = useSelector(userDoctorPatient);
+
   const [openInfo, setOpenInfo] = useState(false);
 
   const [name, setName] = useState(user?.fullName);
@@ -71,6 +72,8 @@ const Book = () => {
   // const userPatient = useSelector(userPatients);
   const listBDoctor = useSelector(listBookDoctorCreate);
   const listADoctor = useSelector(getListBookDoctorAccept);
+  const listTimesBook = useSelector(listBookTimesDoctor);
+
   const sumIndexB = useSelector(sumIndexBook);
   const currentDate = new Date();
   /// phan trang danh sach cho
@@ -211,8 +214,25 @@ const Book = () => {
     dispatch(fetchListBookedOfDoctor());
     dispatch(fetchListBookedOfDoctorCreate());
     dispatch(fetchBookedScheduleCreate());
+    if (dateMeeting !== "") {
+      const data = {
+        doctorId: user?.doctorId,
+        timeDate: dateMeeting,
+      };
+      dispatch(fetchListBookTimeDoctor(data));
+    }
     setLoadingBook(false);
   }, [loadingBook === true]);
+
+  useEffect(() => {
+    if (dateMeeting !== "") {
+      const data = {
+        doctorId: user?.doctorId,
+        timeDate: dateMeeting,
+      };
+      dispatch(fetchListBookTimeDoctor(data));
+    }
+  }, [dateMeeting]);
   const handleModelCloseInfo = () => {
     setOpenInfo(false);
   };
@@ -234,6 +254,10 @@ const Book = () => {
         timeMeeting: timeMeeting,
       };
       dispatch(fetchPatientBook(data));
+      setDateMeeting("");
+      setNote("");
+      setTimeMeeting("");
+      toast.success("Đặt lịch thành công");
       setLoadingBook(true);
     }
   };
@@ -260,7 +284,7 @@ const Book = () => {
   const handleAccept = (e) => {
     dispatch(fetchDoctorBookAccept(e.id));
 
-    toast.error("Bạn đã chấp nhận lịch hẹn");
+    toast.success("Bạn đã chấp nhận lịch hẹn");
 
     setLoadingBook(true);
   };
@@ -319,7 +343,7 @@ const Book = () => {
     };
     dispatch(postNotification(data));
     dispatch(fetchDoctorBookComplete(b.id));
-    toast.error("Bạn đã hoàn thành cuộc hẹn");
+    toast.success("Bạn đã hoàn thành cuộc hẹn");
   };
   return (
     <>
@@ -384,7 +408,7 @@ const Book = () => {
                             </td>
                             <td>
                               <button
-                                style={{ "background-color": "silver" }}
+                                style={{ backgroundcolor: "silver" }}
                                 onClick={() => handlereFuse(b)}
                               >
                                 Từ trối
@@ -458,7 +482,7 @@ const Book = () => {
                             <td>
                               <button
                                 onClick={() => handleCanceletail(b)}
-                                style={{ "background-color": "silver" }}
+                                style={{ backgroundcolor: "silver" }}
                               >
                                 Hủy
                               </button>
@@ -487,81 +511,81 @@ const Book = () => {
           <div className={cx("col-12")}>
             <div className={cx("col-6")}>
               <label>Thêm Thông Tin</label>
-              <form>
-                <div className={cx("form-group py-1")}>
-                  <div className={cx("form-group-1")}>
-                    <div className={cx("input-field")}>
-                      <b>Họ và tên</b>
-                      <TextInput
-                        id="outlined-helperText"
-                        placeholder="Họ và tên..."
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                      />
-                    </div>
-                    <div className={cx("input-field")}>
-                      <b>Ngày Sinh</b>
-                      <Stack component="form" noValidate spacing={1}>
-                        <TextField
-                          id="date"
-                          type="date"
-                          sx={{ width: 380, marginTop: 1 }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          value={dateOfBirth}
-                          onChange={(e) => setDateOfBirth(e.target.value)}
-                        />
-                      </Stack>
-                    </div>
-                    <div className={cx("input-field")}>
-                      <b>Số điện thoại</b>
-                      <TextInput
-                        id="outlined-helperText"
-                        placeholder="Số điện thoại..."
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                      />
-                    </div>
-                    <div className={cx("input-field")}>
-                      <b>Ngày khám:</b>
-                      <Stack component="form" noValidate spacing={1}>
-                        <TextField
-                          id="date"
-                          type="date"
-                          sx={{ width: 380, marginTop: 1 }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          value={dateMeeting}
-                          onChange={(e) => setDateMeeting(e.target.value)}
-                        />
-                      </Stack>
-                    </div>
-                    <div className={cx("input-field")}>
-                      <b>Giờ khám:</b>
-                      {timeMeeting}
-                    </div>
-                    <div className={cx("input-field")}>
-                      <b>Ghi chú</b>
+              {/* <form> */}
+              <div className={cx("form-group py-1")}>
+                <div className={cx("form-group-1")}>
+                  <div className={cx("input-field")}>
+                    <b>Họ và tên</b>
+                    <TextInput
+                      id="outlined-helperText"
+                      placeholder="Họ và tên..."
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+                  <div className={cx("input-field")}>
+                    <b>Ngày Sinh</b>
+                    <Stack component="form" noValidate spacing={1}>
                       <TextField
-                        id="outlined-helperText"
-                        placeholder="Nhập ghi chú..."
-                        className={cx("intro")}
-                        sx={{ width: 380 }}
-                        value={note}
-                        onChange={(e) => setNote(e.target.value)}
+                        id="date"
+                        type="date"
+                        sx={{ width: 380, marginTop: 1 }}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        value={dateOfBirth}
+                        onChange={(e) => setDateOfBirth(e.target.value)}
                       />
-                    </div>
-                    <div
-                      className={cx("btn-register")}
-                      onClick={handleSubmit(handleBook)}
-                    >
-                      <Button>Đặt lịch</Button>
-                    </div>
+                    </Stack>
+                  </div>
+                  <div className={cx("input-field")}>
+                    <b>Số điện thoại</b>
+                    <TextInput
+                      id="outlined-helperText"
+                      placeholder="Số điện thoại..."
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                    />
+                  </div>
+                  <div className={cx("input-field")}>
+                    <b>Ngày khám:</b>
+                    <Stack component="form" noValidate spacing={1}>
+                      <TextField
+                        id="date"
+                        type="date"
+                        sx={{ width: 380, marginTop: 1 }}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        value={dateMeeting}
+                        onChange={(e) => setDateMeeting(e.target.value)}
+                      />
+                    </Stack>
+                  </div>
+                  <div className={cx("input-field")}>
+                    <b>Giờ khám:</b>
+                    {timeMeeting}
+                  </div>
+                  <div className={cx("input-field")}>
+                    <b>Ghi chú</b>
+                    <TextField
+                      id="outlined-helperText"
+                      placeholder="Nhập ghi chú..."
+                      className={cx("intro")}
+                      sx={{ width: 380 }}
+                      value={note}
+                      onChange={(e) => setNote(e.target.value)}
+                    />
+                  </div>
+                  <div
+                    className={cx("btn-register")}
+                    onClick={handleSubmit(handleBook)}
+                  >
+                    <Button>Đặt lịch</Button>
                   </div>
                 </div>
-              </form>
+              </div>
+              {/* </form> */}
             </div>
             <div className={cx("col-2")}>
               <label>Thời gian </label>
@@ -570,88 +594,244 @@ const Book = () => {
                 <h2>Buổi sáng</h2>
               </div>
               <div className={cx("time")}>
-                <div
-                  className={cx("chooseTime")}
-                  onClick={() => setTimeMeeting("8h - 8h30")}
-                >
-                  8h - 8h30
-                </div>
-                <div
-                  className={cx("chooseTime")}
-                  onClick={() => setTimeMeeting("8h40 - 9h10")}
-                >
-                  8h40 - 9h10
-                </div>
-                <div
-                  className={cx("chooseTime")}
-                  onClick={() => setTimeMeeting("9h20 - 9h50")}
-                >
-                  9h20 - 9h50
-                </div>
+                {listTimesBook?.includes("8h - 8h30") ? (
+                  <div
+                    className={cx("chooseTime")}
+                    // onClick={() => setTimeMeeting("10h - 10h30")}
+                    style={{
+                      backgroundColor: "#33CCFF",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    8h - 8h30
+                  </div>
+                ) : (
+                  <div
+                    className={cx("chooseTime")}
+                    onClick={() => setTimeMeeting("8h - 8h30")}
+                  >
+                    8h - 8h30
+                  </div>
+                )}
+                {listTimesBook?.includes("8h40 - 9h10") ? (
+                  <div
+                    className={cx("chooseTime")}
+                    // onClick={() => setTimeMeeting("10h - 10h30")}
+                    style={{
+                      backgroundColor: "#33CCFF",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    8h40 - 9h10
+                  </div>
+                ) : (
+                  <div
+                    className={cx("chooseTime")}
+                    onClick={() => setTimeMeeting("8h40 - 9h10")}
+                  >
+                    8h40 - 9h10
+                  </div>
+                )}
+                {listTimesBook?.includes("9h20 - 9h50") ? (
+                  <div
+                    className={cx("chooseTime")}
+                    // onClick={() => setTimeMeeting("10h - 10h30")}
+                    style={{
+                      backgroundColor: "#33CCFF",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    9h20 - 9h50
+                  </div>
+                ) : (
+                  <div
+                    className={cx("chooseTime")}
+                    onClick={() => setTimeMeeting("9h20 - 9h50")}
+                  >
+                    9h20 - 9h50
+                  </div>
+                )}
               </div>
               <div className={cx("time")}>
-                <div
-                  className={cx("chooseTime")}
-                  onClick={() => setTimeMeeting("10h - 10h30")}
-                >
-                  10h - 10h30
-                </div>
-                <div
-                  className={cx("chooseTime")}
-                  onClick={() => setTimeMeeting("10h40 - 11h10")}
-                >
-                  10h40 - 11h10
-                </div>
-                <div
-                  className={cx("chooseTime")}
-                  onClick={() => setTimeMeeting("11h20 - 11h50")}
-                >
-                  11h20 - 11h50
-                </div>
+                {listTimesBook?.includes("10h - 10h30") ? (
+                  <div
+                    className={cx("chooseTime")}
+                    // onClick={() => setTimeMeeting("10h - 10h30")}
+                    style={{
+                      backgroundColor: "#33CCFF",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    10h - 10h30
+                  </div>
+                ) : (
+                  <div
+                    className={cx("chooseTime")}
+                    onClick={() => setTimeMeeting("10h - 10h30")}
+                  >
+                    10h - 10h30
+                  </div>
+                )}
+                {listTimesBook?.includes("10h40 - 11h10") ? (
+                  <div
+                    className={cx("chooseTime")}
+                    // onClick={() => setTimeMeeting("10h - 10h30")}
+                    style={{
+                      backgroundColor: "#33CCFF",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    10h40 - 11h10
+                  </div>
+                ) : (
+                  <div
+                    className={cx("chooseTime")}
+                    onClick={() => setTimeMeeting("10h40 - 11h10")}
+                  >
+                    10h40 - 11h10
+                  </div>
+                )}
+                {listTimesBook?.includes("11h20 - 11h50") ? (
+                  <div
+                    className={cx("chooseTime")}
+                    // onClick={() => setTimeMeeting("10h - 10h30")}
+                    style={{
+                      backgroundColor: "#33CCFF",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    11h20 - 11h50
+                  </div>
+                ) : (
+                  <div
+                    className={cx("chooseTime")}
+                    onClick={() => setTimeMeeting("11h20 - 11h50")}
+                  >
+                    11h20 - 11h50
+                  </div>
+                )}
               </div>
               <div className={cx("afternoon")}>
                 <Brightness4Icon sx={{ fontSize: 20 }} color="primary" />
                 <h2>Buổi chiều</h2>
               </div>
               <div className={cx("time")}>
-                <div
-                  className={cx("chooseTime")}
-                  onClick={() => setTimeMeeting("13h - 13h30")}
-                >
-                  13h - 13h30
-                </div>
-                <div
-                  className={cx("chooseTime")}
-                  onClick={() => setTimeMeeting("13h40 - 14h10")}
-                >
-                  13h40 - 14h10
-                </div>
-                <div
-                  className={cx("chooseTime")}
-                  onClick={() => setTimeMeeting("14h20 - 14h50")}
-                >
-                  14h20 - 14h50
-                </div>
+                {listTimesBook?.includes("13h - 13h30") ? (
+                  <div
+                    className={cx("chooseTime")}
+                    // onClick={() => setTimeMeeting("10h - 10h30")}
+                    style={{
+                      backgroundColor: "#33CCFF",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    13h - 13h30
+                  </div>
+                ) : (
+                  <div
+                    className={cx("chooseTime")}
+                    onClick={() => setTimeMeeting("13h - 13h30")}
+                  >
+                    13h - 13h30
+                  </div>
+                )}
+                {listTimesBook?.includes("13h40 - 14h10") ? (
+                  <div
+                    className={cx("chooseTime")}
+                    // onClick={() => setTimeMeeting("10h - 10h30")}
+                    style={{
+                      backgroundColor: "#33CCFF",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    13h40 - 14h10
+                  </div>
+                ) : (
+                  <div
+                    className={cx("chooseTime")}
+                    onClick={() => setTimeMeeting("13h40 - 14h10")}
+                  >
+                    13h40 - 14h10
+                  </div>
+                )}
+                {listTimesBook?.includes("14h20 - 14h50") ? (
+                  <div
+                    className={cx("chooseTime")}
+                    // onClick={() => setTimeMeeting("10h - 10h30")}
+                    style={{
+                      backgroundColor: "#33CCFF",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    14h20 - 14h50
+                  </div>
+                ) : (
+                  <div
+                    className={cx("chooseTime")}
+                    onClick={() => setTimeMeeting("14h20 - 14h50")}
+                  >
+                    14h20 - 14h50
+                  </div>
+                )}
               </div>
               <div className={cx("time")}>
-                <div
-                  className={cx("chooseTime")}
-                  onClick={() => setTimeMeeting("15h - 15h30")}
-                >
-                  15h - 15h30
-                </div>
-                <div
-                  className={cx("chooseTime")}
-                  onClick={() => setTimeMeeting("15h40 - 16h10")}
-                >
-                  15h40 - 16h10
-                </div>
-                <div
-                  className={cx("chooseTime")}
-                  onClick={() => setTimeMeeting("16h20 - 16h50")}
-                >
-                  16h20 - 16h50
-                </div>
+                {listTimesBook?.includes("15h - 15h30") ? (
+                  <div
+                    className={cx("chooseTime")}
+                    // onClick={() => setTimeMeeting("10h - 10h30")}
+                    style={{
+                      backgroundColor: "#33CCFF",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    15h - 15h30
+                  </div>
+                ) : (
+                  <div
+                    className={cx("chooseTime")}
+                    onClick={() => setTimeMeeting("15h - 15h30")}
+                  >
+                    15h - 15h30
+                  </div>
+                )}
+                {listTimesBook?.includes("15h40 - 16h10") ? (
+                  <div
+                    className={cx("chooseTime")}
+                    // onClick={() => setTimeMeeting("10h - 10h30")}
+                    style={{
+                      backgroundColor: "#33CCFF",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    15h40 - 16h10
+                  </div>
+                ) : (
+                  <div
+                    className={cx("chooseTime")}
+                    onClick={() => setTimeMeeting("15h40 - 16h10")}
+                  >
+                    15h40 - 16h10
+                  </div>
+                )}
+                {listTimesBook?.includes("16h20 - 16h50") ? (
+                  <div
+                    className={cx("chooseTime")}
+                    // onClick={() => setTimeMeeting("10h - 10h30")}
+                    style={{
+                      backgroundColor: "#33CCFF",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    16h20 - 16h50
+                  </div>
+                ) : (
+                  <div
+                    className={cx("chooseTime")}
+                    onClick={() => setTimeMeeting("16h20 - 16h50")}
+                  >
+                    16h20 - 16h50
+                  </div>
+                )}
               </div>
             </div>
 

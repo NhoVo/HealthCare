@@ -494,7 +494,7 @@ function Messenger({ setInfor, infor }) {
             <div>
               {newImageMessage.map((img, index) => {
                 return (
-                  <>
+                  <div key={img.data.id}>
                     {img.data.name.split(".")[
                       img.data.name.split(".").length - 1
                     ] === "mp4" ? (
@@ -513,7 +513,7 @@ function Messenger({ setInfor, infor }) {
                         alt="preview-img"
                       />
                     )}
-                  </>
+                  </div>
                 );
               })}
             </div>

@@ -49,8 +49,6 @@ export const fetchPatientBook = createAsyncThunk(
             if (data.statusCode !== 200) {
               throw new Error(data.message);
             } else {
-              alert("đặt lịch thành công");
-
               return data;
             }
           });

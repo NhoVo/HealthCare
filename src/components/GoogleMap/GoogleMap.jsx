@@ -9,6 +9,7 @@ import axios from "axios";
 
 import { InfoWindow, Marker } from "google-maps-react";
 import { Client } from "@googlemaps/google-maps-services-js";
+import useDebounce from "../hooks/useDebounce";
 const Position = ({ text }) => <div>{text}</div>;
 const cx = classNames.bind(styles);
 
@@ -19,8 +20,12 @@ const GoogleMap = ({ coords, addressP }) => {
   //     "lat": 10.82047365338494,
   //     "lng": 106.68671388212508
   // }
+  const centers = {
+    lat: coords?.lat,
+    lng: coords?.lng,
+  };
   const [hospitals, setHospitals] = useState([]);
-
+  const debouncedValue = useDebounce(coords, 10000);
   useEffect(() => {
     const getHospitals = async () => {
       try {
@@ -28,11 +33,11 @@ const GoogleMap = ({ coords, addressP }) => {
 
         const params = {
           location: `${coords?.lat},${coords?.lng}`, //"10.820431509874297, 106.68668066437624",
-          radius: 20000, // bán kính 20km
+          radius: 5000, // bán kính 20km
           type: "hospital",
           key: process.env.REACT_APP_MAP_API,
         };
-        console.log("params", params.location);
+
         let hospitals = [];
         let nextPageToken = null;
 
@@ -40,7 +45,7 @@ const GoogleMap = ({ coords, addressP }) => {
           if (nextPageToken) {
             params.pagetoken = nextPageToken;
           }
-          const response = await axios.get(url, { params, timeout: 5000 });
+          const response = await axios.get(url, { params, timeout: 10000 });
           hospitals = [...hospitals, ...response.data.results];
           nextPageToken = response.data.next_page_token;
         } while (nextPageToken);
@@ -52,7 +57,7 @@ const GoogleMap = ({ coords, addressP }) => {
     };
 
     getHospitals();
-  }, [coords]);
+  }, [coords, debouncedValue]);
 
   const handleApiLoaded = (map, maps) => {
     // Create a marker for each hospital
@@ -82,9 +87,9 @@ const GoogleMap = ({ coords, addressP }) => {
     <div className={cx("title")} style={{ height: "300px", width: "1000px" }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API }}
-        defaultCenter={coords}
+        // defaultCenter={coords}
         defaultZoom={11}
-        center={coords}
+        center={centers}
         onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
       >
         <Position

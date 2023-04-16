@@ -22,7 +22,6 @@ function Rightbar({ peer }) {
       {listConversation ? (
         <div className={cx("container")}>
           <Messenger peer={peer} setInfor={setInfor} infor={infor} />
-          {console.log(infor)}
           {!infor && <ConversationInfo />}
         </div>
       ) : (

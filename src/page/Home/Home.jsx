@@ -39,7 +39,7 @@ const Home = () => {
       dispatch(fetchBloodPressures());
       dispatch(fetchCholesterol());
       dispatch(fetchGlucoses());
-      dispatch(fetchUserDoctor(user.doctorId));
+      // dispatch(fetchUserDoctor(user.doctorId));
     }
   }, [user]);
 

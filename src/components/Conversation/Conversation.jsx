@@ -13,7 +13,7 @@ import images from "../../assets/images/index";
 import { userLogin } from "../../Redux/selector";
 const cx = classNames.bind(styles);
 
-function Conversation({ conversation, isPhoneBook, Group, conversationInfo }) {
+function Conversation({ conversation }) {
   const user = useSelector(userLogin);
 
   //listMeRequest.filter((friend) => friend.receiverId.includes(phoneNumber._id))

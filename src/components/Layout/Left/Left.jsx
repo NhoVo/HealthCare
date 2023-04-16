@@ -62,6 +62,7 @@ const Left = ({ role }) => {
     dispatch(fetchListBookedOfDoctor());
     dispatch(fetchListBookedOfDoctorCreate());
     dispatch(fetchBookedScheduleCreate());
+
     dispatch(NextPage.actions.NextPageChange(false));
     dispatch(NextPage.actions.NextPageChangeInfor(false));
     dispatch(NextPage.actions.NextPageChangeBook(true));

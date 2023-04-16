@@ -30,7 +30,7 @@ export const searchGG = createAsyncThunk(
       method: "post",
       url: "https://google.serper.dev/search",
       headers: {
-        "X-API-KEY": "3c304bb7b4de63487c7d2bca4bd87de1c326d4ad",
+        "X-API-KEY": process.env.REACT_APP_SERPER_API_KEY,
         "Content-Type": "application/json",
       },
       data: data,
@@ -57,7 +57,7 @@ export const searchGGMap = createAsyncThunk(
       method: "post",
       url: "https://google.serper.dev/places",
       headers: {
-        "X-API-KEY": "3c304bb7b4de63487c7d2bca4bd87de1c326d4ad",
+        "X-API-KEY": process.env.REACT_APP_SERPER_API_KEY,
         "Content-Type": "application/json",
       },
       data: data,

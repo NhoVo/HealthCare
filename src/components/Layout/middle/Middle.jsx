@@ -138,7 +138,7 @@ const Middle = () => {
                             <>
                               {n.typeNotification === "EMERGENCY" ? (
                                 <div onClick={() => handleReal(n)}>
-                                  <div class="col-sm-12">
+                                  <div className={cx("col-sm-12")}>
                                     <div
                                       className={cx(
                                         "alert fade alert-simple alert-danger alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
@@ -183,7 +183,7 @@ const Middle = () => {
 
                               {n.typeNotification === "WARNING" ? (
                                 <div onClick={() => handleReal(n)}>
-                                  <div class="col-sm-12">
+                                  <div className={cx("col-sm-12")}>
                                     <div
                                       className={cx(
                                         "alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
@@ -218,7 +218,7 @@ const Middle = () => {
                               ) : null}
                               {n.typeNotification === "APPOINTMENT" ? (
                                 <div onClick={() => handleReal(n)}>
-                                  <div class="col-sm-12">
+                                  <div className={cx("col-sm-12")}>
                                     <div
                                       className={cx(
                                         "alert fade alert-simple alert-primary alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
@@ -253,7 +253,7 @@ const Middle = () => {
                               ) : null}
                               {n.typeNotification === "SYSTEM" ? (
                                 <div onClick={() => handleReal(n)}>
-                                  <div class="col-sm-12">
+                                  <div className={cx("col-sm-12")}>
                                     <div
                                       className={cx(
                                         "alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"

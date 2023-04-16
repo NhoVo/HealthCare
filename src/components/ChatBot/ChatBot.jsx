@@ -7,7 +7,8 @@ import React, { useState } from "react";
 import images from "../../assets/images/index";
 import styles from "./ChatBot.module.scss";
 
-const API_KEY = "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";
+const API_KEY = process.env.REACT_APP_CHAT_GPT_API_KEY;
+
 // "Explain things like you would to a 10 year old learning how to code."
 const systemMessage = {
   role: "system",
