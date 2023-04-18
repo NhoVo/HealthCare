@@ -33,12 +33,12 @@ const ChooseDoctor = () => {
     dispatch(filterSlice.actions.searchFilterChange(searchPhone));
   }, []);
   const handleChoose = (user) => {
-    // const data = { doctorId: user.id };
-    // const choose = dispatch(fetchChooseDoctor(data));
-    // if (choose) {
-    //   alert("chọn bác sĩ thành công");
-    //   navigate("/Home");
-    // }
+    const data = { doctorId: user.id };
+    const choose = dispatch(fetchChooseDoctor(data));
+    if (choose) {
+      alert("chọn bác sĩ thành công");
+      navigate("/Home");
+    }
   };
   const handleSearch = () => {
     dispatch(filterSlice.actions.searchFilterChange(searchPhone));
@@ -146,9 +146,15 @@ const ChooseDoctor = () => {
                                 </span>
                               </div>
                               <div className={cx("result-add-friend")}>
-                                <button onClick={() => handleSeen(user)}>
-                                  Xem
-                                </button>
+                                {user.id === userD.id ? (
+                                  <button onClick={() => handleChoose(user)}>
+                                    chọn
+                                  </button>
+                                ) : (
+                                  <button onClick={() => handleSeen(user)}>
+                                    Xem
+                                  </button>
+                                )}
                               </div>
                             </div>
                           );

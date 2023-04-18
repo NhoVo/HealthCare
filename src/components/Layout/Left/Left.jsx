@@ -28,6 +28,7 @@ import {
   userLogin,
 } from "../../../Redux/selector";
 import { getRatingOfDoctor } from "../../../Redux/Features/Rating/RatingDoctor";
+import { fetchUserDoctor } from "../../../Redux/Features/Users/UserDoctors";
 
 const cx = classNames.bind(styles);
 
@@ -46,6 +47,7 @@ const Left = ({ role }) => {
 
   const handleMedicalRecord = () => {
     dispatch(fetchAllHealthRecord());
+    dispatch(fetchUserDoctor(user.doctorId));
     dispatch(NextPage.actions.NextPageChange(true));
     dispatch(NextPage.actions.NextPageChangeBook(false));
     dispatch(NextPage.actions.NextPageChangeInfor(false));

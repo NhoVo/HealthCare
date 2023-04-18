@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllmessage } from "../../../Redux/Features/Conversation/Conversation";
 import { listAllConversation } from "../../../Redux/selector";
 import Conversation from "../../Conversation/Conversation";
-import Search from "../../SearchChat/Search";
 
 const cx = classNames.bind(styles);
 
@@ -21,16 +20,10 @@ function Middle() {
   return (
     <div className={cx("wrapper")}>
       {/* search */}
-      <div className={cx("search-info")}>
-        <Search />
-      </div>
-
       {/* Option */}
       <div className={cx("option")}></div>
-
       {/* hr */}
       <div className={cx("separator")}></div>
-
       {/* Conversation */}
       <div className={cx("conversations")}>
         <>

@@ -16,15 +16,17 @@ const cx = classNames.bind(styles);
 function ModelInfoAccount({
   yourProfile,
   user,
-  userDoctor,
+
   friend,
   ConversationInfo,
   seenInfoInGroup,
 }) {
   const [openInfoAccount, setOpenInfoAccount] = useState(false);
+  console.log(user);
 
   // Handle open/ close model info account
   const handleModelOpenInfoAccount = () => {
+    console.log(user);
     setOpenInfoAccount(true);
   };
   const handleModelCloseInfoAccount = () => {
@@ -66,8 +68,9 @@ function ModelInfoAccount({
         </>
       )}
 
-      {userDoctor?.role === "DOCTOR" ? (
+      {user?.role === "DOCTOR" ? (
         <>
+          {console.log(" tao ở bác si")}
           <ModelWrapper
             className={cx("model-info-acc")}
             open={openInfoAccount}
@@ -85,54 +88,106 @@ function ModelInfoAccount({
                     />
                   </button>
                 </div>
-                <div className={cx("info-acc")}>
-                  <div className={cx("info-image")}>
-                    <img
-                      className={cx("img-cover")}
-                      src={images?.logo}
-                      alt="img-cover"
-                    />
-                    <img
-                      className={cx("img-avatar")}
-                      src={images.logo}
-                      alt="img-avatar"
-                    />
-                  </div>
-                  <div className={cx("info-name")}>
-                    <div className={cx("name")}>
-                      {userDoctor.doctor?.fullName}
+
+                <div className={cx("info-image")}>
+                  <img
+                    className={cx("img-avatar")}
+                    src={images.logo}
+                    alt="img-avatar"
+                  />
+                </div>
+
+                <div className={cx("model-info-acc-body")}>
+                  <form>
+                    <div className={cx("form-group py-1")}>
+                      <div className={cx("form-group-1")}>
+                        <div className={cx("input-field")}>
+                          <label>
+                            <b>Họ và tên:</b>
+                            <span>{user?.doctor.fullName}</span>
+                          </label>
+                        </div>
+                        <div className={cx("input-field")}>
+                          <label>
+                            <b>Ngày sinh:</b>{" "}
+                            <span>
+                              {" "}
+                              {moment(user?.doctor.dateOfBirth).format(
+                                "DD/MM/YYYY"
+                              )}
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                      <div className={cx("form-group-1")}>
+                        <div className={cx("input-field")}>
+                          <label>
+                            <b>Số điện thoại:</b>
+                            <span>{user?.doctor.phone}</span>
+                          </label>
+                        </div>
+                        <div className={cx("input-field")}>
+                          <label>
+                            <b>Giới tính:</b>
+                            <span>
+                              {user?.doctor.gender === "MALE" ? "Nam" : "Nữ"}
+                            </span>
+
+                            {/* {moment(user?.doctor.dateOfBirth).format("DD/MM/YYYY")} */}
+                          </label>
+                        </div>
+                      </div>
+                      <div className={cx("form-group-1")}>
+                        <div className={cx("input-field")}>
+                          <label>
+                            <b>Email:</b>
+                            <span> {user?.doctor.email}</span>
+                          </label>
+                        </div>
+                        <div className={cx("input-field")}>
+                          <label>
+                            <b>Nơi công tác:</b>
+                            <span>{user?.doctor.workPlace}</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div className={cx("form-group-1")}>
+                        <div className={cx("input-field")}>
+                          <label>
+                            <b>Chuyên môn:</b>
+                            <span>{user?.doctor.specialize}</span>
+                          </label>
+                        </div>
+                        <div className={cx("input-field")}>
+                          <label>
+                            <b>Số năm kinh nghiệm:</b>
+                            <span>{user?.doctor.experience}</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div className={cx("form-group-1")}>
+                        <div className={cx("input-field")}>
+                          <label>
+                            <b>Địa chỉ:</b>
+                            <span>{user?.doctor.address}</span>
+                          </label>
+                        </div>
+                        <div className={cx("input-field")}>
+                          <label>
+                            <b>Mô tả:</b>
+                            <span>{user?.doctor.description}</span>
+                          </label>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </form>
                 </div>
               </div>
               {/* render (map) after */}
-              <div className={cx("model-info-acc-body")}>
-                <div className={cx("info-desc-title")}>Thông tin cá nhân</div>
-                <div className={cx("info-desc-line")}>
-                  <div className={cx("info-title")}>Điện thoại: </div>
-                  <div>{userDoctor.doctor?.phone}</div>
-                </div>
-                <div className={cx("info-desc-line")}>
-                  <div className={cx("info-title")}>Giới tính: </div>
-                  <div>
-                    {userDoctor.doctor?.gender === "MALE" ? "Nam" : "Nữ"}
-                  </div>
-                </div>
-                <div className={cx("info-desc-line")}>
-                  <div className={cx("info-title")}>Ngày sinh: </div>
-                  <div>
-                    {moment(userDoctor.doctor?.dateOfBirth).format(
-                      "DD/MM/YYYY"
-                    )}
-                  </div>
-                </div>
-              </div>
 
               <div className={cx("model-info-acc-footer")}>
                 {/* model update info account */}
-                {friend || ConversationInfo ? null : (
-                  <SubModelInfoAccount userDoctor={userDoctor} />
-                )}
+                <SubModelInfoAccount user={user} />
               </div>
             </div>
           </ModelWrapper>
@@ -144,6 +199,7 @@ function ModelInfoAccount({
           onClose={handleModelCloseInfoAccount}
         >
           <div className={cx("model-info-acc-bg")}>
+            {console.log(" tao ở bn")}
             <div className={cx("model-info-acc-header")}>
               <div className={cx("info-acc-title")}>
                 <span className={cx("acc-title")}>Thông tin tài khoản</span>
@@ -155,46 +211,102 @@ function ModelInfoAccount({
                   />
                 </button>
               </div>
-              <div className={cx("info-acc")}>
-                <div className={cx("info-image")}>
-                  <img
-                    className={cx("img-cover")}
-                    src={images?.logo}
-                    alt="img-cover"
-                  />
-                  <img
-                    className={cx("img-avatar")}
-                    src={images.logo}
-                    alt="img-avatar"
-                  />
-                </div>
-                <div className={cx("info-name")}>
-                  <div className={cx("name")}>{user?.fullName}</div>
-                </div>
+
+              <div className={cx("info-image")}>
+                <img
+                  className={cx("img-avatar")}
+                  src={images.logo}
+                  alt="img-avatar"
+                />
+              </div>
+
+              <div className={cx("model-info-acc-body")}>
+                <form>
+                  <div className={cx("form-group py-1")}>
+                    <div className={cx("form-group-1")}>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Họ và tên:</b>
+                          <span>{user?.fullName}</span>
+                        </label>
+                      </div>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Ngày sinh:</b>
+                          <span>
+                            {moment(user?.dateOfBirth).format("DD/MM/YYYY")}
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className={cx("form-group-1")}>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Số điện thoại:</b>
+                          <span>{user?.phone}</span>
+                        </label>
+                      </div>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Giới tính:</b>{" "}
+                          <span>{user?.gender ? "Nam" : "Nữ"}</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className={cx("form-group-1")}>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Số bảo hiểm:</b>{" "}
+                          <span>{user?.insuranceNumber}</span>
+                        </label>
+                      </div>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Nghề nghiệp:</b>
+                          <span>{user?.job}</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className={cx("form-group-1")}>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Địa chỉ:</b>
+                          <span>{user?.address}</span>
+                        </label>
+                      </div>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Họ tên người thân:</b>
+                          {/* {console.log(user?.carer[0].fullName)} */}
+                          <span>{user ? user?.carer[0]?.fullName : ""}</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className={cx("form-group-1")}>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Số điện thoại người thân:</b>
+                          <span>{user ? user?.carer[0]?.phone : ""}</span>
+                        </label>
+                      </div>
+                      <div className={cx("input-field")}>
+                        <label>
+                          <b>Ngày điều trị:</b>
+                          <span>
+                            {moment(user?.createdAt).format("DD/MM/YYYY")}
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
             {/* render (map) after */}
-            <div className={cx("model-info-acc-body")}>
-              <div className={cx("info-desc-title")}>Thông tin cá nhân</div>
-              <div className={cx("info-desc-line")}>
-                <div className={cx("info-title")}>Điện thoại: </div>
-                <div>{user?.phone}</div>
-              </div>
-              <div className={cx("info-desc-line")}>
-                <div className={cx("info-title")}>Giới tính: </div>
-                <div>{user?.gender === "MALE" ? "Nam" : "Nữ"}</div>
-              </div>
-              <div className={cx("info-desc-line")}>
-                <div className={cx("info-title")}>Ngày sinh: </div>
-                <div>{moment(user?.dateOfBirth).format("DD/MM/YYYY")}</div>
-              </div>
-            </div>
-
             <div className={cx("model-info-acc-footer")}>
               {/* model update info account */}
-              {friend || ConversationInfo ? null : (
-                <SubModelInfoAccount user={user} />
-              )}
+
+              <SubModelInfoAccount user={user} />
             </div>
           </div>
         </ModelWrapper>

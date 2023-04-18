@@ -6,6 +6,7 @@ import { useState } from "react";
 
 const cx = classNames.bind(styles);
 const MedicalRecord = ({ user, userD, allHrecord }) => {
+  console.log(userD);
   const [currentPage, setcurrentPage] = useState(1);
   const [itemsPerPage, setitemsPerPage] = useState(10);
   const [pageNumberLimit, setpageNumberLimit] = useState(3);

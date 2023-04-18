@@ -354,10 +354,8 @@ const Middle = () => {
                       </div>
                       <div>
                         <h1 className={cx("modelInfor")}>
-                          <ModelInfoAccount
-                            user={user}
-                            userDoctor={userDoctor}
-                          />
+                          {console.log("----------------", user)}
+                          <ModelInfoAccount user={user} />
                         </h1>
                       </div>
                     </div>
