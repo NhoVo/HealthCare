@@ -79,7 +79,6 @@ const ResisterPatient = () => {
               carersPhone,
             },
           });
-          console.log("Đã gửi mã");
         })
         .catch((error) => {
           // Error; SMS not sent

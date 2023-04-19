@@ -239,7 +239,7 @@ const Book = () => {
   //đặt lịch hẹn
   const handleBook = () => {
     const currentDate = new Date().toISOString().slice(0, 10);
-    console.log(sum);
+
     if (sum > 2) {
       toast.error("Bạn chỉ được đặt tối đa 3 cuộc hẹn");
     } else if (dateMeeting < currentDate) {

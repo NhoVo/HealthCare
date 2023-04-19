@@ -89,7 +89,6 @@ const ChatBot = () => {
         return data.json();
       })
       .then((data) => {
-        console.log(data);
         setMessages([
           ...chatMessages,
           {

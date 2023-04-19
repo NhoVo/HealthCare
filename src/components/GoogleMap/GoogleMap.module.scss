@@ -9,32 +9,53 @@
 .form-sum {
   position: relative;
 }
-.form {
+
+.search {
   position: absolute;
   top: 0;
   z-index: 50;
-}
+  display: inline-flex;
+  align-items: center;
+  // background-image: linear-gradient(45deg, #0561ee, #18e0b5);
+  background-color: #eff0f6;
 
-.form .search {
-  position: absolute;
-  top: 10px;
-  left: 88%;
+  padding: 10px;
+  border-radius: 4px;
+}
+.search :is(input, button) {
+  background: transparent;
+  color: inherit;
+  border: none;
+  outline: none;
+}
+.search-input {
+  width: 0;
+  font-size: 15px;
+  transition: width 0.5s;
+}
+.search-button {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  transition: color 0.25s;
   font-size: 30px;
   color: #9ca3af;
-  cursor: pointer;
+
   &:hover {
     opacity: 0.6;
   }
 }
-
-.form input {
-  height: 40px;
-  width: 311px;
-  text-indent: 12px;
-  margin-left: 10px;
-  margin-top: 5px;
-  font-family: var(--font-family);
-  font-size: 1.5rem;
-  border: 1px solid silver;
-  border-radius: 8px;
+.search:focus-within input {
+  width: 200px;
+}
+.siteUser {
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: "Times New Roman", Times, serif;
+  background-color: #eff0f6;
+  width: 100px;
+  height: 80px;
+  margin-left: 13px;
 }

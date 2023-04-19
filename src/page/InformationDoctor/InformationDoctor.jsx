@@ -91,16 +91,6 @@ const InformationDoctor = () => {
                   src={images.doctor}
                   alt="avatar"
                 />
-                <div className={cx("updateDoctor")}>
-                  <button onClick={handleRating}>Đánh giá</button>
-                  <ReactStars
-                    count={5}
-                    onChange={ratingChanged}
-                    value={rating}
-                    size={30}
-                    activeColor="#ffd700"
-                  />
-                </div>
               </div>
               <div className={cx("panel-body p-2")}>
                 <form>
@@ -178,6 +168,26 @@ const InformationDoctor = () => {
                           <b>Mô tả:</b>
                           <span>{userD?.description}</span>
                         </label>
+                      </div>
+                    </div>
+                    <div className={cx("form-group-1")}>
+                      <div className={cx("input-field")}>
+                        <div className={cx("updateDoctor")}>
+                          <button onClick={handleRating}>Đánh giá</button>
+                          <ReactStars
+                            count={5}
+                            onChange={ratingChanged}
+                            value={rating}
+                            size={25}
+                            activeColor="#ffd700"
+                            className={cx("stars")}
+                          />
+                        </div>
+                      </div>
+                      <div className={cx("input-field")}>
+                        <div className={cx("updateDoctor")}>
+                          <button onClick={handleRating}>Thay đổi</button>
+                        </div>
                       </div>
                     </div>
                   </div>

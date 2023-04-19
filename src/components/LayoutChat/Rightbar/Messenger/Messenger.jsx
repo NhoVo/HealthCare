@@ -4,7 +4,7 @@ import TippyHeadless from "@tippyjs/react/headless";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { useState, useEffect, useRef } from "react";
-
+import CallEndIcon from "@mui/icons-material/CallEnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogleDrive } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -51,6 +51,8 @@ import { useMemo } from "react";
 import { io } from "socket.io-client";
 import { socket } from "../../../../App";
 import { fetchAllmessage } from "../../../../Redux/Features/Conversation/Conversation";
+import { useNavigate } from "react-router-dom";
+import images from "../../../../assets/images";
 
 const cx = classNames.bind(styles);
 
@@ -65,6 +67,7 @@ function Messenger({ setInfor, infor }) {
   const [previewEmoji, setPreviewEmoji] = useState(false);
   const listMessage = useSelector(listAllMessage);
   const listConversation = useSelector(listAllConversation);
+  const [openInfo, setOpenInfo] = useState(false);
 
   const inForConversation = listConversation.filter((_c) =>
     listMessage[0]?.conversationId?.includes(_c?.id)
@@ -80,6 +83,16 @@ function Messenger({ setInfor, infor }) {
       message?.user.id !== user?.doctor?.id && message?.user.id !== user?.id
   );
 
+  const navigate = useNavigate();
+  useEffect(() => {
+    // Lắng nghe event callAccepted để xử lý khi cuộc gọi được chấp nhận
+    socket.on("callAccepted", ({ conversationId, calleeId }) => {
+      navigate(`/room/${conversationId}`);
+    });
+    socket.on("callRejected", ({ conversationId, calleeId }) => {
+      setOpenInfo(false);
+    });
+  }, []);
   useEffect(() => {
     conversationOnlineStatus &&
       listMessage &&
@@ -218,25 +231,6 @@ function Messenger({ setInfor, infor }) {
     setBtnClosePreview(false);
   };
 
-  const handleSendFlastLikeMessage = async (e) => {
-    e.preventDefault();
-
-    // dispatch(
-    //   fetchApiSendMessage({
-    //     conversationID: conversation.id,
-    //     senderID: user._id,
-    //     content: "👍",
-    //     imageLinks: newImageMessage,
-    //     fileLink: newFileMessage,
-    //   })
-    // );
-
-    // setNewMessage("");
-    // setNewImageMessage([]);
-    // setNewFileMessage(null);
-    // setBtnClosePreview(false);
-  };
-
   // handle close preview
   const handleClosePreview = () => {
     setNewImageMessage([]);
@@ -244,19 +238,62 @@ function Messenger({ setInfor, infor }) {
     setBtnClosePreview(false);
   };
 
-  // scroll messenger
-  // useEffect(() => {
-  //   conversation &&
-  //     listMessage &&
-  //     scrollMessenger.current?.scrollIntoView({ behavior: "smooth" });
-  // }, [conversation, listMessage]);
   const handleOpenInfor = () => {
-    console.log("có");
-
     setInfor(!infor);
+  };
+  const handCallvideo = () => {
+    const conversationId = listMessage[0]?.conversationId;
+    const conversation = listConversation?.filter(
+      (user) => user?.id === listMessage[0]?.conversationId
+    );
+    const callerId = user.role === "DOCTOR" ? user.doctor.id : user.id;
+    const UsercalleeId = conversation[0]?.member?.filter(
+      (user) => user?.user.id !== callerId
+    );
+    const calleeId = UsercalleeId[0].user.id;
+    socket.emit("call", { conversationId, callerId, calleeId });
+    setOpenInfo(true);
+  };
+  const handleReject = () => {
+    // const conversationId = listMessage[0]?.conversationId;
+    // const conversation = listConversation?.filter(
+    //   (user) => user?.id === listMessage[0]?.conversationId
+    // );
+    // const callerId = user.role === "DOCTOR" ? user.doctor.id : user.id;
+    // const UsercalleeId = conversation[0]?.member?.filter(
+    //   (user) => user?.user.id !== callerId
+    // );
+    // const calleeId = UsercalleeId[0].user.id;
+
+    // socket.emit("rejectCall", { conversationId, callerId, calleeId });
+
+    // setOpenInfo(false);
+    console.log("ok");
   };
   return (
     <div className={cx("messenger")}>
+      <ModelWrapper className={cx("model-add-information")} open={openInfo}>
+        <div className={cx("model-add-information-bg")}>
+          <div className={cx("info-image")}>
+            <img
+              className={cx("img-avatar")}
+              src={images.logo}
+              alt="img-avatar"
+            />
+          </div>
+          <div className={cx("title-name")}>
+            <div className={cx("name")}>Tao gọi</div>
+          </div>
+          <div className={cx("title-name")}>
+            <div className={cx("name")}>Cuộc gọi...</div>
+          </div>
+          <div className={cx("form-call")}>
+            <div className={cx("icon-refuse")} onClick={handleReject}>
+              <CallEndIcon sx={{ fontSize: 30 }} />
+            </div>
+          </div>
+        </div>
+      </ModelWrapper>
       <div className={cx("messenger-header")}>
         {/* Online user (status) */}
         <OnlineStatus
@@ -269,7 +306,7 @@ function Messenger({ setInfor, infor }) {
             content="Cuộc gọi video"
             delay={[200, 0]}
           >
-            <button className={cx("btn-click-icon")}>
+            <button className={cx("btn-click-icon")} onClick={handCallvideo}>
               <FontAwesomeIcon className={cx("icon")} icon={faVideo} />
             </button>
           </Tippy>
@@ -465,10 +502,7 @@ function Messenger({ setInfor, infor }) {
               content="Gửi nhanh biểu tượng cảm xúc"
               delay={[200, 0]}
             >
-              <button
-                className={cx("send-message-like")}
-                onClick={handleSendFlastLikeMessage}
-              >
+              <button className={cx("send-message-like")}>
                 <FontAwesomeIcon icon={faThumbsUp} />
               </button>
             </Tippy>

@@ -153,7 +153,7 @@ export const fetchListBookTimeDoctor = createAsyncThunk(
   "doctorBook/fetchListBookTimeDoctor",
   async (data) => {
     // Gọi lên API backend/v1/appointment-time
-    console.log("data", data);
+
     const param = new URLSearchParams({
       doctorId: data.doctorId,
       timeDate: data.timeDate,
@@ -171,7 +171,7 @@ export const fetchListBookTimeDoctor = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-    console.log(jsonData.data);
+
     return jsonData.data;
   }
 );

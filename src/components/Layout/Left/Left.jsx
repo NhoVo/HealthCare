@@ -10,6 +10,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import PersonIcon from "@mui/icons-material/Person";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import MapIcon from "@mui/icons-material/Map";
 import {
   fetchListBookedOfDoctor,
   fetchListBookedOfDoctorCreate,
@@ -200,8 +201,8 @@ const Left = ({ role }) => {
           className={cx("itemLeft")}
         >
           <div className={cx("group-item")} onClick={handleInformationDoctor}>
-            <PersonIcon className={cx("icons")} />
-            <span>Thông tin bác sĩ</span>
+            <MapIcon className={cx("icons")} />
+            <span>Bản đồ</span>
           </div>
         </div>
       ) : (

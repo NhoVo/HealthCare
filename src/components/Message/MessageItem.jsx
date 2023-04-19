@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 
 function MessageItem({ message, own }) {
   const [showPreview, setShowPreview] = useState(false);
-  //console.log("message", message);
+
   // show preview
   const handleShowPreviewImageAndVideo = () => {
     setShowPreview(!showPreview);

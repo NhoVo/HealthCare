@@ -17,9 +17,6 @@ function PreviewFileMessage({ newFileMessage }) {
   const [pageNumber, setPageNumber] = useState(1);
   const [previewFile, setPreviewFile] = useState(false);
 
-  // console.log('FILE - MESSAGE', message);
-  // console.log('NEW FILE MESSAGE - ', newFileMessage);
-
   const handlePreviewFile = () => {
     setPreviewFile(true);
   };

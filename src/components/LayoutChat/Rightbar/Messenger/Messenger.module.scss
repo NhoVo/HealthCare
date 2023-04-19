@@ -258,14 +258,13 @@
 }
 ///call vide
 .model-add-information {
-  width: 800px;
-  height: 700px;
+  width: 30%;
+  height: 31%;
 }
 .model-add-information-bg {
-  background-color: var(--white);
+  background-color: #b0e0e6;
   border-radius: 6px;
-  height: 680px;
-  width: 800px;
+  height: 100%;
 }
 
 .add-information-title {
@@ -283,14 +282,67 @@
   font-weight: 500;
   font-family: var(--font-family);
 }
-.close-btn-call {
+.close-btn {
   background-color: transparent;
   border: none;
 }
-.close-ic-call {
+.close-ic {
   font-size: 2rem;
   cursor: pointer;
   &:hover {
     opacity: 0.6;
+  }
+}
+.info-image {
+  height: 100px;
+  padding-top: 10px;
+  margin-bottom: 10px;
+}
+
+.img-avatar {
+  margin-left: 183px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+.title-name {
+  display: flex;
+  justify-content: center;
+}
+.title-name .name {
+  font-size: 1.7rem;
+  font-weight: bold;
+  padding: 2px;
+  color: white;
+}
+.form-call {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+.icon-refuse {
+  margin-right: 40px;
+  background-color: red;
+  padding: 5px;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  animation: shake 1s infinite;
+}
+
+@keyframes shake {
+  10% {
+    transform: rotate(15deg);
+  }
+  20% {
+    transform: rotate(-15deg);
+  }
+  30% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(0deg);
   }
 }

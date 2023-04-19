@@ -6,6 +6,7 @@
   border-radius: 10px;
   margin-top: 30px;
   margin-left: 30px;
+  font-weight: bold;
 }
 .name {
   font-family: var(--font-family);
@@ -14,9 +15,87 @@
   text-align: center;
   padding-top: 10px;
 }
-.Index {
+.nameBMI {
+  font-family: var(--font-family);
+  color: #00b7eb;
+  font-size: 2rem;
+  text-align: center;
+  padding-top: 10px;
+}
+.indexBMI {
   font-family: var(--font-family);
   font-weight: bold;
+  color: #00b7eb;
+  font-size: 2.5rem;
+  text-align: center;
+}
+.nameHA {
+  font-family: var(--font-family);
+  color: #249544;
+  font-size: 2rem;
+  text-align: center;
+  padding-top: 10px;
+}
+.indexHA {
+  font-family: var(--font-family);
+  font-weight: bold;
+  color: #249544;
+  font-size: 2.5rem;
+  text-align: center;
+}
+.nameCHOLE {
+  font-family: var(--font-family);
+  color: #0851ff;
+  font-size: 2rem;
+  text-align: center;
+  padding-top: 10px;
+}
+.indexCHOLE {
+  font-family: var(--font-family);
+  font-weight: bold;
+  color: #0851ff;
+  font-size: 2.5rem;
+  text-align: center;
+}
+.nameGLU {
+  font-family: var(--font-family);
+  color: #17ff01;
+  font-size: 2rem;
+  text-align: center;
+  padding-top: 10px;
+}
+.indexGLU {
+  font-family: var(--font-family);
+  font-weight: bold;
+  color: #17ff01;
+  font-size: 2.5rem;
+  text-align: center;
+}
+.nameTIM {
+  font-family: var(--font-family);
+  color: #e64034;
+  font-size: 2rem;
+  text-align: center;
+  padding-top: 10px;
+}
+.indexTIM {
+  font-family: var(--font-family);
+  font-weight: bold;
+  color: #e64034;
+  font-size: 2.5rem;
+  text-align: center;
+}
+.nameTT {
+  font-family: var(--font-family);
+  color: black;
+  font-size: 2rem;
+  text-align: center;
+  padding-top: 10px;
+}
+.indexTT {
+  font-family: var(--font-family);
+  font-weight: bold;
+  color: black;
   font-size: 2.5rem;
   text-align: center;
 }

@@ -75,7 +75,6 @@ const RegisterDoctor = () => {
               description,
             },
           });
-          console.log("Đã gửi mã");
         })
         .catch((error) => {
           // Error; SMS not sent

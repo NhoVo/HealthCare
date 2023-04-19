@@ -63,15 +63,12 @@ function SubModelInfoAccount({ user }) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("ok");
   };
 
   const handleChangeAvatar = (e) => {
     const file = e.target.files[0];
     file.previews = URL.createObjectURL(file);
     setAvatar(file);
-    console.log(file);
   };
   return (
     <>

@@ -58,11 +58,6 @@ function ConversationInfo() {
       ? conversation[0]?.member[1]
       : conversation[0]?.member[0];
 
-  console.log(userloggin);
-  console.log(infoConversation);
-
-  console.log("bs", conversation);
-
   const handleOpen = () => {
     setShow(false);
     setShowFile(true);

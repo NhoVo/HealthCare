@@ -39,13 +39,10 @@ export const getRatingOfDoctor = createAsyncThunk(
   // Tên action
   "userDoctors/getRatingOfDoctor",
   async (data) => {
-    // Gọi lên API backend/v1/patient/rating/v1/patient/rating
-    //    console.log(data);
-
     const param = new URLSearchParams({
       doctorId: data,
     });
-    //s console.log(param.toString());
+
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/patient/rating?` + param.toString(),
@@ -59,7 +56,7 @@ export const getRatingOfDoctor = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-    console.log(jsonData.data);
+
     return jsonData.data;
   }
 );

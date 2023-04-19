@@ -10,13 +10,7 @@ import axios from "axios";
 
 import useDebounce from "../hooks/useDebounce";
 import { FaMapMarkerAlt } from "react-icons/fa";
-
-const AnyReactComponent = ({ text }) => (
-  <div>
-    <FaMapMarkerAlt />
-    {text}
-  </div>
-);
+import DirectionsIcon from "@mui/icons-material/Directions";
 const Position = ({ text }) => <div>{text}</div>;
 const cx = classNames.bind(styles);
 
@@ -24,14 +18,15 @@ const GoogleMap = ({ coords, user }) => {
   const [centers, setCenters] = useState({
     lat: "",
     lng: "",
+    address: "",
   });
-  // const centers = {
-  //   lat: coords?.lat,
-  //   lng: coords?.lng,
-  // };
+
   const [hospitals, setHospitals] = useState([]);
+
   const [resultSearch, setResultSearch] = useState("");
+  const [inforResult, setInforResult] = useState("");
   const debouncedValue = useDebounce(coords, 10000);
+  const [showInfo, setShowInfo] = useState(false);
   useEffect(() => {
     const getHospitals = async () => {
       try {
@@ -87,48 +82,41 @@ const GoogleMap = ({ coords, user }) => {
     });
   };
   const handleSearch = async () => {
-    console.log(resultSearch);
     if (resultSearch === "") {
       setCenters({
         lat: coords?.lat,
         lng: coords?.lng,
       });
-    } else {
-      await axios
-        .get(
-          `maps/api/place/textsearch/json?query=${resultSearch}&key=${process.env.REACT_APP_MAP_API}`
-        )
-        .then((response) => {
-          const result = response.data.results[0];
-          const lat = result.geometry.location.lat;
-          const lng = result.geometry.location.lng;
-          setCenters({ lat, lng });
-          console.log(result);
-        });
     }
+    await axios
+      .get(
+        `maps/api/place/textsearch/json?query=${resultSearch}&key=${process.env.REACT_APP_MAP_API}`
+      )
+      .then((response) => {
+        const result = response.data.results[0];
+        const lat = result.geometry.location.lat;
+        const lng = result.geometry.location.lng;
+        const address = result.formatted_address;
+
+        setCenters({ lat, lng, address });
+      });
   };
   return (
     <>
       {user?.role === "DOCTOR" ? (
         <>
           <div className={cx("form-sum")}>
-            <div className={cx("form-search")}>
-              <div className={cx("row height d-flex align-items-center")}>
-                <div className={cx("col-md-6")}>
-                  <div className={cx("form")}>
-                    <div onClick={handleSearch}>
-                      <SearchIcon className={cx("search")} />
-                    </div>
-                    <input
-                      type="text"
-                      className={cx("form-control form-input")}
-                      placeholder="Tìm kiếm"
-                      value={resultSearch}
-                      onChange={(e) => setResultSearch(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
+            <div className={cx("search")}>
+              <input
+                type="text"
+                className={cx("search-input")}
+                placeholder="Tìm kiếm"
+                value={resultSearch}
+                onChange={(e) => setResultSearch(e.target.value)}
+              />
+              <button className={cx("search-button")} onClick={handleSearch}>
+                <SearchIcon sx={{ width: 30 }} />
+              </button>
             </div>
             <div
               className={cx("title")}
@@ -153,46 +141,94 @@ const GoogleMap = ({ coords, user }) => {
                   lng={coords?.lng}
                   text={<HiLocationMarker color="black" size={"30px"} />}
                 />
-                <AnyReactComponent
-                  lat={centers.lat}
-                  lng={centers.lng}
-                  text={"Tên địa điểm"}
-                  name={"Tên địa điểm"}
-                  //onClick={() => onMarkerClick({ name: "Tên địa điểm" })}
-                />
-                {/* <Position
+
+                <Position
                   lat={centers?.lat}
                   lng={centers?.lng}
-                  text={<HiLocationMarker color="black" size={"30px"} />}
-                /> */}
+                  text={
+                    <div
+                      className={cx("marker-icon")}
+                      onMouseEnter={() => setShowInfo(true)}
+                      onMouseLeave={() => setShowInfo(false)}
+                    >
+                      <HiLocationMarker color="black" size={"30px"} />
+                      <div
+                        className={cx("siteUser")}
+                        style={{ display: showInfo ? "block" : "none" }}
+                      >
+                        {centers?.address}
+                        <br />
+                        <DirectionsIcon sx={{ fontSize: 20, color: "blue" }} />
+                      </div>
+                    </div>
+                  }
+                />
               </GoogleMapReact>
             </div>
           </div>
         </>
       ) : (
-        <div
-          className={cx("title")}
-          style={{ height: "300px", width: "1000px" }}
-        >
-          <GoogleMapReact
-            bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API }}
-            // defaultCenter={coords}
-            defaultZoom={11}
-            center={coords}
-            onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-          >
-            <Position
-              lat={coords?.lat}
-              lng={coords?.lng}
-              text={
-                <>
-                  <HiLocationMarker color="black" size={"30px"} />
-                  <div>Vị trí hiện tại của bạn</div>
-                </>
-              }
-            />
-          </GoogleMapReact>
-        </div>
+        <>
+          <div className={cx("form-sum")}>
+            <div className={cx("search")}>
+              <input
+                type="text"
+                className={cx("search-input")}
+                placeholder="Tìm kiếm"
+                value={resultSearch}
+                onChange={(e) => setResultSearch(e.target.value)}
+              />
+              <button className={cx("search-button")} onClick={handleSearch}>
+                <SearchIcon sx={{ width: 30 }} />
+              </button>
+            </div>
+            <div
+              className={cx("title")}
+              style={{ height: "340px", width: "1000px" }}
+            >
+              <GoogleMapReact
+                bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API }}
+                // defaultCenter={coords}
+                defaultZoom={11}
+                center={coords}
+                onGoogleApiLoaded={({ map, maps }) =>
+                  handleApiLoaded(map, maps)
+                }
+              >
+                <Position
+                  lat={coords?.lat}
+                  lng={coords?.lng}
+                  text={
+                    <>
+                      <HiLocationMarker color="black" size={"30px"} />
+                    </>
+                  }
+                />
+                <Position
+                  lat={centers?.lat}
+                  lng={centers?.lng}
+                  text={
+                    <div
+                      className={cx("marker-icon")}
+                      onMouseEnter={() => setShowInfo(true)}
+                      onMouseLeave={() => setShowInfo(false)}
+                    >
+                      <HiLocationMarker color="black" size={"30px"} />
+                      <div
+                        className={cx("siteUser")}
+                        style={{ display: showInfo ? "block" : "none" }}
+                      >
+                        {centers?.address}
+                        <br />
+                        <DirectionsIcon sx={{ fontSize: 20, color: "blue" }} />
+                      </div>
+                    </div>
+                  }
+                />
+              </GoogleMapReact>
+            </div>
+          </div>
+        </>
       )}
     </>
   );

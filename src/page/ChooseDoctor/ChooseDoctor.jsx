@@ -54,7 +54,6 @@ const ChooseDoctor = () => {
   };
   const handleSeen = (user) => {
     setUserD(user);
-    console.log(user);
   };
   return (
     <FormPage>

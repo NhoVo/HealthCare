@@ -41,6 +41,14 @@
   height: 90px;
 }
 
+.img-avatar {
+  margin-left: 183px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--white);
+}
 .img-cover {
   width: 100%;
   height: 160px;
@@ -49,7 +57,6 @@
 
 .img-avatar {
   margin-left: 183px;
-
   width: 100px;
   height: 100px;
   border-radius: 50%;

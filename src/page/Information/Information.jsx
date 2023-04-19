@@ -125,11 +125,9 @@ const Information = () => {
     setOpenInfo(true);
   };
   const handleModelCloseInfo = () => {
-    console.log("tao ơ day", healtDay);
     if (healtDay.length === 0) {
       dispatch(healthRecordDay());
       setOpenInfo(false);
-      console.log("tao ơ day");
     } else {
       const data5 = {
         userId: user?.id,
@@ -496,66 +494,36 @@ const Information = () => {
                     <div className={cx("col-2")} onClick={HandleBMI}>
                       <DiseaseIndex
                         name="BMI"
+                        BMI
                         index={healReport?.indexBmi}
-                        percent="46%"
-                        icon={
-                          <ArrowDropDownIcon
-                            sx={{ fontSize: 20 }}
-                            color="success"
-                          />
-                        }
                       />
                     </div>
                     <div className={cx("col-2")} onClick={HandleHA}>
                       <DiseaseIndex
+                        HA
                         name="Huyết áp"
                         index={healReport?.systolic}
-                        percent="46%"
-                        icon={
-                          <ArrowDropDownIcon
-                            sx={{ fontSize: 20 }}
-                            color="success"
-                          />
-                        }
                       />
                     </div>
                     <div className={cx("col-2")} onClick={HandleCHOLE}>
                       <DiseaseIndex
+                        CHOLE
                         name="Cholesterol"
                         index={healReport?.cholesterol}
-                        percent="46%"
-                        icon={
-                          <ArrowDropDownIcon
-                            sx={{ fontSize: 20 }}
-                            color="success"
-                          />
-                        }
                       />
                     </div>
                     <div className={cx("col-2")} onClick={HandleGLU}>
                       <DiseaseIndex
+                        GLU
                         name="Glucose"
                         index={healReport?.glucose}
-                        percent="46%"
-                        icon={
-                          <ArrowDropDownIcon
-                            sx={{ fontSize: 20 }}
-                            color="success"
-                          />
-                        }
                       />
                     </div>
                     <div className={cx("col-2")} onClick={HandleTIM}>
                       <DiseaseIndex
                         name="Nhịp Tim"
                         index={healReport?.heartRateIndicator}
-                        percent="46%"
-                        icon={
-                          <ArrowDropDownIcon
-                            sx={{ fontSize: 20 }}
-                            color="success"
-                          />
-                        }
+                        TIM
                       />
                     </div>
                     <div className={cx("col-2")}>
@@ -563,6 +531,7 @@ const Information = () => {
                         <DiseaseIndex
                           name="Tình trạng"
                           index="Bình thường"
+                          TT
                           icon={
                             <MoodIcon sx={{ fontSize: 40 }} color="success" />
                           }
@@ -572,6 +541,7 @@ const Information = () => {
                         <DiseaseIndex
                           name="Tình trạng"
                           index="Nguy hiểm"
+                          TT
                           icon={
                             <FlashOnIcon sx={{ fontSize: 40, color: "red" }} />
                           }
@@ -581,6 +551,7 @@ const Information = () => {
                         <DiseaseIndex
                           name="Tình trạng"
                           index="Báo Động"
+                          TT
                           icon={
                             <WarningIcon
                               sx={{ fontSize: 40, color: "Yellow" }}

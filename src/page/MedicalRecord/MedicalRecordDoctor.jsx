@@ -126,7 +126,6 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
     dispatch(fetchInformationPatient(users.id));
   };
   const handleModelOpenInfo = () => {
-    console.log(patient);
     setOpenInfo(true);
   };
   const handleModelCloseInfo = () => {

@@ -22,11 +22,9 @@ function ModelInfoAccount({
   seenInfoInGroup,
 }) {
   const [openInfoAccount, setOpenInfoAccount] = useState(false);
-  console.log(user);
 
   // Handle open/ close model info account
   const handleModelOpenInfoAccount = () => {
-    console.log(user);
     setOpenInfoAccount(true);
   };
   const handleModelCloseInfoAccount = () => {
@@ -70,7 +68,6 @@ function ModelInfoAccount({
 
       {user?.role === "DOCTOR" ? (
         <>
-          {console.log(" tao ở bác si")}
           <ModelWrapper
             className={cx("model-info-acc")}
             open={openInfoAccount}
@@ -199,7 +196,6 @@ function ModelInfoAccount({
           onClose={handleModelCloseInfoAccount}
         >
           <div className={cx("model-info-acc-bg")}>
-            {console.log(" tao ở bn")}
             <div className={cx("model-info-acc-header")}>
               <div className={cx("info-acc-title")}>
                 <span className={cx("acc-title")}>Thông tin tài khoản</span>
@@ -277,7 +273,7 @@ function ModelInfoAccount({
                       <div className={cx("input-field")}>
                         <label>
                           <b>Họ tên người thân:</b>
-                          {/* {console.log(user?.carer[0].fullName)} */}
+
                           <span>{user ? user?.carer[0]?.fullName : ""}</span>
                         </label>
                       </div>
