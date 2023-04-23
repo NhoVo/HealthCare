@@ -81,6 +81,7 @@ export const usersRemainingSelector = createSelector(
         return usersFilter.map((user) => ({
           _id: user._id,
           fullName: user.fullName,
+          avatar: user.avatar,
           phone: user.phone,
           gender: user.gender,
           dateOfBirth: user.dateOfBirth,
@@ -122,6 +123,7 @@ export const filterPhonePatient = createSelector(
         return usersFilter.map((user) => ({
           _id: user._id,
           fullName: user.fullName,
+          avatar: user.avatar,
           phone: user.phone,
           gender: user.gender,
           dateOfBirth: user.dateOfBirth,

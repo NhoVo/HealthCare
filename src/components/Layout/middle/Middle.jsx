@@ -26,13 +26,17 @@ import ModelInfoAccount from "../../ModelWrapper/ModelInfoAccount/ModelInfoAccou
 import Popper from "../../Popper/Popper";
 import Search from "../../Search/Search";
 import styles from "./Middle.module.scss";
-
+import GppGoodIcon from "@mui/icons-material/GppGood";
 import moment from "moment";
 import {
   fetchNotficationsOfDoctor,
   seenAllNotifications,
   seenNotifications,
 } from "../../../Redux/Features/Notifications/Notifications";
+import ModelWrapper from "../../ModelWrapper/ModelWrapper";
+import { useForm } from "react-hook-form";
+import { pathchangePassWord } from "../../../Redux/Features/Users/userPatient";
+import { toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
@@ -43,6 +47,11 @@ const Middle = () => {
   const [idRead, setIdRead] = useState(false);
   const dispatch = useDispatch();
   const index = useSelector(indexReadNotifications);
+  const [openInfoAccount, setOpenInfoAccount] = useState(false);
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { handleSubmit } = useForm();
   useEffect(() => {
     dispatch(fetchNotficationsOfDoctor());
     setIdRead(false);
@@ -67,7 +76,35 @@ const Middle = () => {
     setIdRead(true);
     dispatch(seenAllNotifications());
   };
+  const handleUpdatePassWord = () => {
+    setOpenInfoAccount(true);
+  };
+  const handleModelCloseInfoAccount = () => {
+    setOpenInfoAccount(false);
+    setPassword("");
+    setConfirmPassword("");
+    setNewPassword("");
+  };
+  const handleModelUpdatePass = async () => {
+    console.log(password);
+    console.log(newPassword);
+    console.log(confirmPassword);
+    const data = {
+      oldPassword: password,
+      newPassword: newPassword,
+      confirmNewPassword: confirmPassword,
+    };
 
+    await dispatch(pathchangePassWord(data)).then((value) => {
+      if (value.payload.statusCode === 200) {
+        toast.success("Cập nhật thành Công");
+        setPassword("");
+        setConfirmPassword("");
+        setNewPassword("");
+        setOpenInfoAccount(false);
+      }
+    });
+  };
   return (
     <div className={cx("middle")}>
       <div className={cx("col-12")}>
@@ -362,15 +399,63 @@ const Middle = () => {
                 </li>
                 <li>
                   <ItemLeft>
-                    <div className={cx("group-item")}>
+                    <div
+                      className={cx("group-item")}
+                      onClick={handleUpdatePassWord}
+                    >
                       <div>
-                        <SettingsIcon className={cx("icon")} />
+                        <GppGoodIcon className={cx("icon")} />
                       </div>
-
                       <div>
-                        <h1>Cập nhập thông tin</h1>
+                        <h1>Cập nhập mật khẩu</h1>
                       </div>
                     </div>
+                    <ModelWrapper
+                      className={cx("model-info-acc")}
+                      open={openInfoAccount}
+                      onClose={handleModelCloseInfoAccount}
+                    >
+                      <div className={cx("model-info-acc-bg")}>
+                        <h1 className={cx("model-tile")}>Thay đổi mật khẩu</h1>
+
+                        <form
+                          className={cx("model-form")}
+                          onSubmit={handleSubmit(handleModelUpdatePass)}
+                        >
+                          <label>Mật khẩu cũ</label>
+                          <input
+                            className={cx("model-input")}
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                          />
+                          <label>Mật khẩu mới</label>
+                          <input
+                            className={cx("model-input")}
+                            type="password"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                          />
+
+                          <label>Nhập lại mật khẩu mới</label>
+                          <input
+                            className={cx("model-input")}
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                          />
+                          <button
+                            className={cx("btn-cancel")}
+                            onClick={handleModelCloseInfoAccount}
+                          >
+                            Hủy
+                          </button>
+                          <button className={cx("btn-change")}>
+                            Cập nhật mật khẩu
+                          </button>
+                        </form>
+                      </div>
+                    </ModelWrapper>
                   </ItemLeft>
                 </li>
                 <li>

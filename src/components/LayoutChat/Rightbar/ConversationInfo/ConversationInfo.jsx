@@ -95,7 +95,11 @@ function ConversationInfo() {
           <div className={cx("info-avatar")}>
             {/* conversation.createdBy!== null */}
 
-            <img className={cx("avatar")} src={images?.logo} alt="avatar" />
+            <img
+              className={cx("avatar")}
+              src={infoConversation?.user?.avatar}
+              alt="avatar"
+            />
           </div>
           <div className={cx("info-name")}>
             <h3 className={cx("name")}>{infoConversation?.user?.fullName}</h3>

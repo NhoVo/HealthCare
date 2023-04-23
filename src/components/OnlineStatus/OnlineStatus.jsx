@@ -50,7 +50,7 @@ function OnlineStatus({ onlineUsers, conversation }) {
           <img
             className={cx("avatar-image")}
             // src={conversation.imageLinkOfConver}
-            src={images.logo}
+            src={conversation[0]?.user?.avatar}
             alt=""
           />
           <div className={cx("info")}>
@@ -58,7 +58,6 @@ function OnlineStatus({ onlineUsers, conversation }) {
             <h3 className={cx("username")}>
               {conversation[0]?.user?.fullName}
             </h3>
-            <span className={cx("time-online")}>Offline</span>
           </div>
         </>
       )}

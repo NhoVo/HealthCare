@@ -252,61 +252,36 @@ const Information = () => {
                     <div className={cx("col-2")} onClick={HandleBMI}>
                       <DiseaseIndex
                         name="BMI"
+                        BMI
                         index={indexPatient[0]?.indexBmi}
-                        icon={
-                          <ArrowDropDownIcon
-                            sx={{ fontSize: 20 }}
-                            color="success"
-                          />
-                        }
                       />
                     </div>
                     <div className={cx("col-2")} onClick={HandleHA}>
                       <DiseaseIndex
+                        HA
                         name="Huyết áp"
                         index={indexPatient[0]?.systolic}
-                        icon={
-                          <ArrowDropDownIcon
-                            sx={{ fontSize: 20 }}
-                            color="success"
-                          />
-                        }
                       />
                     </div>
                     <div className={cx("col-2")} onClick={HandleCHOLE}>
                       <DiseaseIndex
                         name="Cholesterol"
                         index={indexPatient[0]?.cholesterol}
-                        icon={
-                          <ArrowDropDownIcon
-                            sx={{ fontSize: 20 }}
-                            color="success"
-                          />
-                        }
+                        CHOLE
                       />
                     </div>
                     <div className={cx("col-2")} onClick={HandleGLU}>
                       <DiseaseIndex
                         name="Glucose"
                         index={indexPatient[0]?.glucose}
-                        icon={
-                          <ArrowDropDownIcon
-                            sx={{ fontSize: 20 }}
-                            color="success"
-                          />
-                        }
+                        GLU
                       />
                     </div>
                     <div className={cx("col-2")} onClick={HandleTIM}>
                       <DiseaseIndex
                         name="Nhịp Tim"
                         index={indexPatient[0]?.heartRateIndicator}
-                        icon={
-                          <ArrowDropDownIcon
-                            sx={{ fontSize: 20 }}
-                            color="success"
-                          />
-                        }
+                        TIM
                       />
                     </div>
                   </div>
@@ -346,7 +321,7 @@ const Information = () => {
                                 <img
                                   className={cx("avatar-img")}
                                   // src={phoneNumber.avatar}
-                                  src={images.logo}
+                                  src={healReportPatient.avatar}
                                   alt="avatar"
                                 />
                                 <div className={cx("content")}>
@@ -379,7 +354,7 @@ const Information = () => {
                                       <img
                                         className={cx("avatar-img")}
                                         // src={phoneNumber.avatar}
-                                        src={images.logo}
+                                        src={user.avatar}
                                         alt="avatar"
                                       />
                                       <div className={cx("content")}>

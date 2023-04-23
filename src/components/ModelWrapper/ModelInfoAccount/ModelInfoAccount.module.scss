@@ -39,6 +39,7 @@
 
 .info-image {
   height: 90px;
+  cursor: pointer;
 }
 
 .img-avatar {
@@ -355,4 +356,29 @@
 }
 .input-field-date {
   margin-top: 17px;
+}
+.input-field-2 input {
+  font-size: 1.5rem;
+}
+.input-birthday input {
+  height: 20px;
+  padding: 10px;
+}
+.intro input {
+  height: 50px;
+  padding-left: 10px;
+}
+.input-field-2 label {
+  font-size: 1.5rem;
+}
+.input-field-3 input {
+  font-size: 1.5rem;
+  padding: 15px;
+}
+
+.input-field-3 label {
+  font-size: 1.5rem;
+}
+.input-field-3 {
+  margin-top: 15px;
 }

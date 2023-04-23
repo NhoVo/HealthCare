@@ -29,5 +29,30 @@ export const fetchUserPatients = createAsyncThunk(
     return jsonData.data;
   }
 );
+//đổi mật khẩu
+export const pathchangePassWord = createAsyncThunk(
+  // Tên action
+  "userPatients/pathchangePassWord",
+  async (data) => {
+    // Gọi lên API backend//v1/user/change-password
+
+    const getToken = JSON.parse(localStorage.getItem("user_login"));
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/user/change-password`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    // Convert dữ liệu ra json/v1/notification/read-all
+    const jsonData = await response.json();
+
+    return jsonData;
+  }
+);
 
 export default userPatient;

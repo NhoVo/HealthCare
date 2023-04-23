@@ -96,7 +96,7 @@ const ChooseDoctor = () => {
                         <img
                           className={cx("avatar-img")}
                           // src={phoneNumber.avatar}
-                          src={images.logo}
+                          src={result.avatar}
                           alt="avatar"
                         />
                         <div className={cx("content")}>
@@ -127,7 +127,7 @@ const ChooseDoctor = () => {
                               <img
                                 className={cx("avatar-img")}
                                 // src={phoneNumber.avatar}
-                                src={images.logo}
+                                src={user.avatar}
                                 alt="avatar"
                               />
                               <div className={cx("content")}>
@@ -172,7 +172,7 @@ const ChooseDoctor = () => {
                 <img
                   className={cx("img")}
                   // src={phoneNumber.avatar}
-                  src={images.doctor}
+                  src={userD.avatar}
                   alt="avatar"
                 />
               </div>

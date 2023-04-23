@@ -10,16 +10,23 @@ import { NavLink } from "react-router-dom";
 import images from "../../../assets/images/index";
 // me
 import styles from "./Sidebar.module.scss";
+import { useSelector } from "react-redux";
+import { userLogin } from "../../../Redux/selector";
 
 const cx = classNames.bind(styles);
 
 function Sidebar() {
+  const user = useSelector(userLogin);
   return (
     <div className={cx("wrapper")}>
       {/* top */}
       <div className={cx("sidebar-top")}>
         <div className={cx("avatar")}>
-          <img className={cx("avatar-img")} src={images.logo} alt="avatar" />
+          <img
+            className={cx("avatar-img")}
+            src={user.role === "DOCTOR" ? user?.doctor?.avatar : user?.avatar}
+            alt="avatar"
+          />
         </div>
 
         <div className={cx("option-items")}>

@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import Room from "./page/RooomChat/Room";
 
 import ConfirmOTPDoctor from "./page/ConfirmOTP/ConfirmOTPDoctor";
+import ForgetPassword from "./page/forgetPassword/ForgetPassword";
 const getToken = JSON.parse(localStorage.getItem("jwt_refresh_token"));
 
 export let socket = io(process.env.REACT_APP_BASE_URL_SOCKET_IO, {
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/ChatHome" element={<ChatHome />} />
         <Route path="/ChooseDoctor" element={<ChooseDoctor />} />
         <Route path="/room/:roomID" element={<Room />} />
+        <Route path="/forgetPassword" element={<ForgetPassword />} />
       </Routes>
     </Fragment>
   );

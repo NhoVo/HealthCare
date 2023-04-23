@@ -211,3 +211,71 @@
   }
 }
 //thong bao
+.model-info-acc {
+  width: 400px;
+  height: 600px;
+}
+
+.model-info-acc-bg {
+  background-color: var(--white);
+  border-radius: 6px;
+  width: 487px;
+}
+.model-tile {
+  color: #00bfff;
+  text-align: center;
+}
+.model-form {
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 500px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.model-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.model-form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+.model-form input[type="submit"] {
+  background-color: #00bfff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn-change {
+  background-color: #00bfff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+    background-color: #007fff;
+  }
+}
+.btn-cancel {
+  background-color: #ccc;
+  margin-right: 10px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+    background-color: #007fff;
+  }
+}

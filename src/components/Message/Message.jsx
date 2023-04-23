@@ -153,10 +153,11 @@ function Message({ message, own, conversation }) {
                     <div className={cx("display-group-preview-image")}>
                       <MessageItem message={message} own={own} />
                     </div>
+
                     <img
                       className={cx("message-top-img")}
                       // src={message.user.avatarLink}
-                      src={images.doctor}
+                      src={message.user.avatar}
                       alt="avatar"
                     />
                   </div>
@@ -243,7 +244,7 @@ function Message({ message, own, conversation }) {
                   <div className={cx("display-action-none-receiver")}>
                     <img
                       className={cx("message-top-img")}
-                      src={images.logo}
+                      src={message.user.avatar}
                       alt="avatar"
                     />
                     <div>

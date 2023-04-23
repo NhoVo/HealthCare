@@ -24,11 +24,11 @@ function Conversation({ conversation }) {
           return (
             <div className={cx("container-conversation")} key={conversation.id}>
               <div className={cx("list-conversation")}>
-                {/*onClick={tam}  */}
+                {console.log(m)}
                 <img
                   className={cx("avatar-img")}
                   // src={conversation?.imageLinkOfConver}
-                  src={images.logo}
+                  src={m?.user?.avatar}
                   alt="avatar"
                 />
 

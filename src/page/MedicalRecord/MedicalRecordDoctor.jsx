@@ -170,7 +170,7 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
                       <img
                         className={cx("avatar-img")}
                         // src={phoneNumber.avatar}
-                        src={images.logo}
+                        src={healReportPatient.avatar}
                         alt="avatar"
                       />
                       <div className={cx("content")}>
@@ -203,7 +203,7 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
                             <img
                               className={cx("avatar-img")}
                               // src={phoneNumber.avatar}
-                              src={images.logo}
+                              src={user?.avatar}
                               alt="avatar"
                             />
                             <div className={cx("content")}>

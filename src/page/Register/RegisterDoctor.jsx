@@ -16,18 +16,18 @@ import { authentication } from "../../util/firebase";
 const cx = classNames.bind(styles);
 const RegisterDoctor = () => {
   const navigate = useNavigate();
-  const [phone, setPhone] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
-  const [email, setEmail] = useState();
-  const [name, setName] = useState();
-  const [birthday, setBirthday] = useState();
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [optionSex, setOptionSex] = useState("");
-  const [address, setAddress] = useState();
-  const [experience, setExperience] = useState();
-  const [workPlace, setWorkPlace] = useState();
-  const [specialize, setSpecialize] = useState();
-  const [description, setDescription] = useState();
+  const [workPlace, setWorkPlace] = useState("");
+  const [email, setEmail] = useState("");
+  const [experience, setExperience] = useState("");
+  const [specialize, setSpecialize] = useState("");
+  const [description, setDescription] = useState("");
   const { handleSubmit } = useForm();
   const generateRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
@@ -142,10 +142,10 @@ const RegisterDoctor = () => {
                     <div className={cx("input-field")}>
                       <TextInput
                         id="outlined-helperText"
-                        label="Địa chỉ"
-                        placeholder="Nhập địa chỉ..."
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        label="Email"
+                        placeholder="Nhập Email..."
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                   </div>
@@ -167,19 +167,6 @@ const RegisterDoctor = () => {
                         />
                       </Stack>
                     </div>
-                    <div className={cx("input-field")}>
-                      <TextInput
-                        id="outlined-helperText"
-                        label="Email"
-                        placeholder="Nhập Email..."
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className={cx("form-group py-1 pb-2")}>
-                  <div className={cx("form-group-1")}>
                     <div className={cx("input-field")}>
                       <TextInput
                         id="outlined-helperText"
@@ -241,6 +228,18 @@ const RegisterDoctor = () => {
                   <div className={cx("input-field")}>
                     <TextField
                       id="outlined-helperText"
+                      label="Địa chỉ"
+                      placeholder="Nhập địa chỉ..."
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      sx={{ width: 685 }}
+                    />
+                  </div>
+                </div>
+                <div className={cx("form-group py-1 pb-2")}>
+                  <div className={cx("input-field")}>
+                    <TextField
+                      id="outlined-helperText"
                       label="Giới thiệu bản thân"
                       placeholder="Nhập giới thiệu bản thân..."
                       className={cx("intro")}
@@ -248,7 +247,6 @@ const RegisterDoctor = () => {
                     />
                   </div>
                 </div>
-
                 <div className={cx("btn-register")}>
                   <Button>Đăng Ký</Button>
                   <div id="tam"></div>
