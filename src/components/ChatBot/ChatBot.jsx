@@ -144,7 +144,7 @@ const ChatBot = () => {
                 <div>
                   {messages.map((message, i) => {
                     return (
-                      <>
+                      <div key={i}>
                         {message.sender === "ChatGPT" ? (
                           <div className={cx("messages__item")}>
                             <div className={cx("messages__item--visitor")}>
@@ -156,7 +156,7 @@ const ChatBot = () => {
                             <Message key={i} model={message} />
                           </div>
                         )}
-                      </>
+                      </div>
                     );
                   })}
                   {isTyping ? (

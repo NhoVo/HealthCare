@@ -126,7 +126,7 @@ const Information = () => {
       const data5 = {
         userId: user?.id,
         typeNotification: "SYSTEM",
-        content: healtDay?.recordBloodhealtDay?.message,
+        content: healtDay?.recordBloodPressure?.message,
         title: "Chỉ số sức khỏe hôm nay",
       };
       dispatch(postNotification(data5));

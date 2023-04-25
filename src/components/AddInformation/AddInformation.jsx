@@ -1,16 +1,20 @@
 import classNames from "classnames/bind";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
 
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  healthRecordDay,
+  postHealthRecord,
+} from "../../Redux/Features/HealthRecord/HealthRecord";
+import { postNotification } from "../../Redux/Features/Notifications/Notifications";
+import { healthWarningDay, tam } from "../../Redux/selector";
 import Button from "../Button/Button";
 import TextInput from "../TextInput/TextInput";
 import styles from "./AddInformation.module.scss";
-import { postHealthRecord } from "../../Redux/Features/HealthRecord/HealthRecord";
+import { ToastContainer, toast } from "react-toastify";
 const cx = classNames.bind(styles);
-const AddInformation = () => {
-  const dispatch = useDispatch();
+const AddInformation = ({ handleModelCloseInfo, user }) => {
   const { handleSubmit } = useForm();
   const [weight, setWeight] = useState("");
   const [hight, setHight] = useState("");
@@ -19,6 +23,9 @@ const AddInformation = () => {
   const [glucose, setGlucose] = useState("");
   const [cholesterol, setCholesterol] = useState("");
   const [heartbeat, setHeartbeat] = useState("");
+  const healtDay = useSelector(tam);
+
+  const dispatch = useDispatch();
 
   const handleHealthRecord = () => {
     const data = {
@@ -30,7 +37,9 @@ const AddInformation = () => {
       glucose: glucose,
       cholesterol: cholesterol,
     };
-    dispatch(postHealthRecord(data));
+    dispatch(postHealthRecord(data)).then((v) => {
+      console.log(v);
+    });
     toast.success("Thêm thông tin thành công");
     setWeight("");
     setHight("");
@@ -44,6 +53,7 @@ const AddInformation = () => {
   return (
     <div className={cx("header-title")}>
       <ToastContainer />
+
       <form onSubmit={handleSubmit(handleHealthRecord)}>
         <div className={cx("form-group py-2")}>
           <h1 className={cx("title")}>Chỉ số BMI: </h1>

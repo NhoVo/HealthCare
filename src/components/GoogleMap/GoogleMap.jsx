@@ -121,6 +121,7 @@ const GoogleMap = ({ coords, user }) => {
         setCenters({ lat, lng, address });
       });
   };
+
   return (
     <>
       {user?.role === "DOCTOR" ? (
@@ -178,7 +179,15 @@ const GoogleMap = ({ coords, user }) => {
                       >
                         {centers?.address}
                         <br />
-                        <DirectionsIcon sx={{ fontSize: 20, color: "blue" }} />
+                        <span>
+                          <DirectionsIcon
+                            sx={{
+                              fontSize: 20,
+                              color: "blue",
+                              cursor: "point",
+                            }}
+                          />
+                        </span>
                       </div>
                     </div>
                   }
