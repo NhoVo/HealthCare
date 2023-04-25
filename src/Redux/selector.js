@@ -64,6 +64,36 @@ export const sumIndexBook = createSelector(
     return a.length + c.length;
   }
 );
+export const searchPhone = createSelector(
+  userDoctors,
+  userPatients,
+  searchTextSelector,
+  (userD, userP, search) => {
+    console.log(search);
+    if (search) {
+      if (search.startsWith("0")) {
+        //don't find
+        const usersFilterD = userD.find((_user) => _user.phone === search);
+        console.log("usersFilterD", usersFilterD);
+
+        const usersFilterP = userP.find((_user) => _user.phone === search);
+        console.log("usersFilterP", usersFilterP);
+
+        //don't find
+        if (usersFilterD === undefined && usersFilterP === undefined) {
+          console.log("ở tren");
+
+          return 1;
+        }
+        return true;
+      }
+    } else {
+      console.log("ở đây");
+      return 1;
+    }
+    return false;
+  }
+);
 export const usersRemainingSelector = createSelector(
   userDoctors,
   searchTextSelector,

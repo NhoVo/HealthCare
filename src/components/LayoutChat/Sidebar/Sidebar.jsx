@@ -7,7 +7,6 @@ import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import HomeIcon from "@mui/icons-material/Home";
 import { NavLink } from "react-router-dom";
-import images from "../../../assets/images/index";
 // me
 import styles from "./Sidebar.module.scss";
 import { useSelector } from "react-redux";

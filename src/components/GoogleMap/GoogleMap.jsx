@@ -3,13 +3,10 @@ import GoogleMapReact from "google-map-react";
 import React, { useEffect, useState } from "react";
 import styles from "./GoogleMap.module.scss";
 import SearchIcon from "@mui/icons-material/Search";
-
 import { HiLocationMarker } from "react-icons/hi";
-
 import axios from "axios";
 
 import useDebounce from "../hooks/useDebounce";
-import { FaMapMarkerAlt } from "react-icons/fa";
 import DirectionsIcon from "@mui/icons-material/Directions";
 const Position = ({ text }) => <div>{text}</div>;
 const cx = classNames.bind(styles);
@@ -34,8 +31,8 @@ const GoogleMap = ({ coords, user }) => {
         const url = `/maps/api/place/nearbysearch/json`;
         const params = {
           location: `${coords?.lat},${coords?.lng}`, //"10.820431509874297, 106.68668066437624",
-          radius: 5000, // bán kính 20km
-          type: "hospital                        ",
+          radius: 20000, // bán kính 20km
+          type: "hospital",
           key: process.env.REACT_APP_MAP_API,
         };
 
@@ -82,6 +79,28 @@ const GoogleMap = ({ coords, user }) => {
       });
     });
   };
+  const handleApiLoadedPatient = (map, maps) => {
+    hospitals.forEach((hospital) => {
+      const marker = new maps.Marker({
+        position: {
+          lat: hospital.geometry.location.lat,
+          lng: hospital.geometry.location.lng,
+        },
+        map,
+        title: hospital.name,
+      });
+
+      // Create an info window for each marker
+      const infowindow = new maps.InfoWindow({
+        content: hospital.name,
+      });
+
+      // Add a click event listener to each marker to open the info window
+      marker.addListener("click", () => {
+        infowindow.open(map, marker);
+      });
+    });
+  };
   const handleSearch = async () => {
     if (resultSearch === "") {
       setCenters({
@@ -98,7 +117,7 @@ const GoogleMap = ({ coords, user }) => {
         const lat = result.geometry.location.lat;
         const lng = result.geometry.location.lng;
         const address = result.formatted_address;
-
+        // console.log(result);
         setCenters({ lat, lng, address });
       });
   };
@@ -193,7 +212,7 @@ const GoogleMap = ({ coords, user }) => {
                 defaultZoom={11}
                 center={coords}
                 onGoogleApiLoaded={({ map, maps }) =>
-                  handleApiLoaded(map, maps)
+                  handleApiLoadedPatient(map, maps)
                 }
               >
                 <Position

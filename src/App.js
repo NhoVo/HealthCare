@@ -21,6 +21,7 @@ import Room from "./page/RooomChat/Room";
 
 import ConfirmOTPDoctor from "./page/ConfirmOTP/ConfirmOTPDoctor";
 import ForgetPassword from "./page/forgetPassword/ForgetPassword";
+import ConfirmOTPForgetPW from "./page/ConfirmOTP/ConfirmOTPForgetPW";
 const getToken = JSON.parse(localStorage.getItem("jwt_refresh_token"));
 
 export let socket = io(process.env.REACT_APP_BASE_URL_SOCKET_IO, {
@@ -50,7 +51,10 @@ const App = () => {
         <Route path="/Login" element={<Login />} />
         <Route path="/RegisterDoctor" element={<RegisterDoctor />} />
         <Route path="/ConfirmOTP" element={<ConfirmOTP />} />
+        <Route path="/ConfirmOTP" element={<ConfirmOTP />} />
         <Route path="/ConfirmOTPDoctor" element={<ConfirmOTPDoctor />} />
+        <Route path="/ConfirmOTPForgetPW" element={<ConfirmOTPForgetPW />} />
+
         <Route path="/ResisterPatient" element={<ResisterPatient />} />
         <Route path="/Home" element={<Home />} />
         <Route path="/ChatHome" element={<ChatHome />} />

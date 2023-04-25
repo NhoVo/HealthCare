@@ -3,68 +3,23 @@ import Tippy from "@tippyjs/react";
 import TippyHeadless from "@tippyjs/react/headless";
 import classNames from "classnames/bind";
 import moment from "moment";
-import { useState } from "react";
+
 import "tippy.js/dist/tippy.css";
 
 import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import {
-  faCopy,
   faEllipsis,
-  faFlag,
   faRepeat,
-  faShare,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-// me
-import images from "../../assets/images/index";
-import ModelWrapper from "../ModelWrapper/ModelWrapper";
 import Popper from "../Popper/Popper";
 import styles from "./Message.module.scss";
 import MessageItem from "./MessageItem";
-import MoveMessage from "./MoveMessage";
 
 const cx = classNames.bind(styles);
 
 function Message({ message, own, conversation }) {
-  const [showConversations, setShowConversation] = useState(false);
-  const [openReport, setOpenReport] = useState(false);
-
-  // handle delete message
-  const handleDeleteMessage = async () => {
-    // dispatch(
-    //   fetchApiDeleteMessage({
-    //     messageId: message._id,
-    //     userId: user._id, //message.user._id
-    //   })
-    // );
-  };
-
-  // handle re-call message
-  const handleRecallMessage = async () => {
-    // dispatch(
-    //   fetchApiRecallMessage({
-    //     messageId: message._id,
-    //     conversationID: conversation.id, // conversation.id
-    //   })
-    // );
-  };
-
-  // show model conversation
-  const handleShowModelConversation = () => {
-    setShowConversation(true);
-  };
-
-  // handle report clicked
-  const handleReportClick = () => {
-    setOpenReport(true);
-  };
-
-  const handleModelCloseReport = () => {
-    setOpenReport(false);
-  };
-
   return (
     <>
       {own ? (
@@ -81,20 +36,14 @@ function Message({ message, own, conversation }) {
                         render={(attrs) => (
                           <div tabIndex="-1" {...attrs}>
                             <Popper className={cx("own-menu-list-children")}>
-                              <button
-                                className={cx("options-children-btn")}
-                                onClick={handleRecallMessage}
-                              >
+                              <button className={cx("options-children-btn")}>
                                 <FontAwesomeIcon
                                   className={cx("recall-icon")}
                                   icon={faRepeat}
                                 />
                                 Thu hồi
                               </button>
-                              <button
-                                className={cx("options-children-btn")}
-                                onClick={handleDeleteMessage}
-                              >
+                              <button className={cx("options-children-btn")}>
                                 <FontAwesomeIcon
                                   className={cx("recall-icon")}
                                   icon={faTrash}

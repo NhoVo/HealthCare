@@ -9,77 +9,31 @@ import FormPage from "../../components/FormPage/FormPage";
 import TextInput from "../../components/TextInput/TextInput";
 import { authentication } from "../../util/firebase";
 import styles from "./ConfirmOTP.module.scss";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 const cx = classNames.bind(styles);
-const ConfirmOTP = () => {
+const ConfirmOTPForgetPW = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const { handleSubmit } = useForm();
   const phone = location.state?.phone;
-  const name = location.state?.name;
-  const password = location.state?.password;
-  const optionSex = location.state?.optionSex;
 
-  const address = location.state?.address;
-  const birthday = location.state?.birthday;
-  const insuranceNumber = location.state?.insuranceNumber;
-  const job = location.state?.job;
-  const states = location.state?.states;
-  const medicalHistory = location.state?.medicalHistory;
-  const carersFullName = location.state?.carersFullName;
-  const carersPhone = location.state?.carersPhone;
+  const password = location.state?.password;
+  const confirmPassword = location.state?.confirmPassword;
 
   const [OTP, setOTP] = useState("");
-  //API Register
-  const register = () => {
-    return fetch(
-      `${process.env.REACT_APP_BASE_URL}/auth/user/register/patient`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          fullName: name,
-          phone: phone,
-          password: password,
-          gender: optionSex,
-          address: address,
-          dateOfBirth: birthday,
-          insuranceNumber: insuranceNumber,
-          job: job,
-          state: states,
-          medicalHistory: medicalHistory,
-          carers: [
-            {
-              phone: carersPhone,
-              fullName: carersFullName,
-            },
-          ],
-        }),
-      }
-    )
-      .then((res) => res.json())
-      .then((resData) => {
-        if (resData.statusCode !== 200) {
-          throw new Error(resData.message);
-        } else {
-          return resData.data;
-        }
-      });
-  };
-  const sign = () => {
-    return fetch(`${process.env.REACT_APP_BASE_URL}/auth/user/login`, {
-      method: "POST",
+  //API Register/v1/user/update-password
+  const forget = () => {
+    return fetch(`${process.env.REACT_APP_BASE_URL}/user/update-password`, {
+      method: "PATCH",
       headers: {
         Accept: "application/json",
         "Content-type": "application/json",
       },
       body: JSON.stringify({
         phone: phone,
-        password: password,
+        newPassword: password,
+        confirmNewPassword: confirmPassword,
       }),
     })
       .then((res) => res.json())
@@ -91,6 +45,7 @@ const ConfirmOTP = () => {
         }
       });
   };
+
   const generateRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
       "tam",
@@ -112,46 +67,31 @@ const ConfirmOTP = () => {
             // User signed in successfully.
             // ...
 
-            register().then((token) => {
+            forget().then((token) => {
               if (typeof token != "undefined") {
-                alert("Đăng ký thành công");
-                sign()
-                  .then((token) => {
-                    if (typeof token != "undefined") {
-                      localStorage.setItem(
-                        "user_login",
-                        JSON.stringify(token.access_token)
-                      );
-
-                      navigate("/ChooseDoctor", {
-                        state: true,
-                      });
-                      setTimeout(() => {
-                        navigate("/ChooseDoctor");
-                      }, 2000);
-                    }
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
+                toast.success("thành công");
+                navigate("/", {
+                  state: true,
+                });
+                setTimeout(() => {
+                  navigate("/Home");
+                }, 2000);
               }
             });
           })
           .catch((error) => {
             // User couldn't sign in (bad verification code?)
             // ...
-
-            toast.error(error.toString());
+            console.log(error);
+            alert("Mã OTP sai");
           });
       } else {
-        toast.error("Mã OTP Phải là 6 số");
+        alert("Mã OTP Phải là 6 số");
       }
     }
   };
   return (
     <FormPage>
-      <ToastContainer />
-
       <div className={cx("container")}>
         <div className={cx("row")}>
           <div
@@ -186,7 +126,7 @@ const ConfirmOTP = () => {
                   <Button>
                     Xác nhận <div id="tam"></div>
                   </Button>
-                  <Link to="/ResisterPatient">
+                  <Link to="/ForgetPassword">
                     <div className={cx("back")}>
                       <ArrowBackIcon sx={{ fontSize: 20 }} />
                       <h3>Quay lại</h3>
@@ -202,4 +142,4 @@ const ConfirmOTP = () => {
   );
 };
 
-export default ConfirmOTP;
+export default ConfirmOTPForgetPW;

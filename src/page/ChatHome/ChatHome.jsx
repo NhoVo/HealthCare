@@ -6,11 +6,14 @@ import Center from "../../components/LayoutChat/Middle/Middle";
 import Rightbar from "../../components/LayoutChat/Rightbar/Rightbar";
 import Sidebar from "../../components/LayoutChat/Sidebar/Sidebar";
 import { fetchConversation } from "../../Redux/Features/Conversation/Conversation";
-import { fetchLoginSlice } from "../../Redux/Features/Users/UserLoginSlice";
+import {
+  fetchLoginSlice,
+  fetchUserCaller,
+} from "../../Redux/Features/Users/UserLoginSlice";
 import { userLogin } from "../../Redux/selector";
 import styles from "./ChatHome.module.scss";
 import { socket } from "../../App";
-import images from "../../assets/images";
+
 import CallIcon from "@mui/icons-material/Call";
 import CallEndIcon from "@mui/icons-material/CallEnd";
 import ModelWrapper from "../../components/ModelWrapper/ModelWrapper";
@@ -31,6 +34,7 @@ const ChatHome = () => {
   const [conversationId, setConversationId] = useState("");
   const [callerId, setCallerId] = useState("");
   const [calleeId, setCalleeId] = useState("");
+  const [userCaller, setUserCaller] = useState("");
 
   useEffect(() => {
     socket.on("incomingCall", ({ conversationId, callerId }) => {
@@ -39,6 +43,9 @@ const ChatHome = () => {
       setCallerId(callerId);
       setConversationId(conversationId);
       // alert("có người gọi");
+      dispatch(fetchUserCaller(callerId)).then((v) => {
+        setUserCaller(v.payload);
+      });
     });
     socket.on("cancelCall", ({ conversationId, calleeId }) => {
       setOpenInfo(false);
@@ -70,12 +77,20 @@ const ChatHome = () => {
           <div className={cx("info-image")}>
             <img
               className={cx("img-avatar")}
-              src={images.logo}
+              src={
+                userCaller?.role === "DOCTOR"
+                  ? userCaller?.doctor?.avatar
+                  : userCaller?.patient?.avatar
+              }
               alt="img-avatar"
             />
           </div>
           <div className={cx("title-name")}>
-            <div className={cx("name")}>Tao gọi</div>
+            <div className={cx("name")}>
+              {userCaller?.role === "DOCTOR"
+                ? userCaller?.doctor?.fullName
+                : userCaller?.patient?.fullName}
+            </div>
           </div>
           <div className={cx("title-name")}>
             <div className={cx("name")}>{callStatus}</div>

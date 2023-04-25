@@ -9,7 +9,6 @@ import styles from "./ChatBot.module.scss";
 
 const API_KEY = process.env.REACT_APP_CHAT_GPT_API_KEY;
 
-// "Explain things like you would to a 10 year old learning how to code."
 const systemMessage = {
   role: "system",
   content: "Chào mừng bạn đến với CadioCare",
@@ -41,9 +40,6 @@ const ChatBot = () => {
       const newMessages = [...messages, newMessage];
 
       setMessages(newMessages);
-
-      // Initial system message to determine ChatGPT functionality
-      // How it responds, how it talks, etc.
       setIsTyping(true);
       await processMessageToChatGPT(newMessages);
       setTam("");
@@ -51,11 +47,6 @@ const ChatBot = () => {
   };
 
   async function processMessageToChatGPT(chatMessages) {
-    // messages is an array of messages
-    // Format messages for chatGPT API
-    // API is expecting objects in format of { role: "user" or "assistant", "content": "message here"}
-    // So we need to reformat
-
     let apiMessages = chatMessages.map((messageObject) => {
       let role = "";
       if (messageObject.sender === "ChatGPT") {
@@ -65,10 +56,6 @@ const ChatBot = () => {
       }
       return { role: role, content: messageObject.message };
     });
-
-    // Get the request body set up with the model we plan to use
-    // and the messages which we formatted above. We add a system message in the front to'
-    // determine how we want chatGPT to act.
     const apiRequestBody = {
       model: "gpt-3.5-turbo",
       messages: [

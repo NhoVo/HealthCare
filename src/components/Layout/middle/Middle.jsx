@@ -5,7 +5,6 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import PersonIcon from "@mui/icons-material/Person";
-import SettingsIcon from "@mui/icons-material/Settings";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Avatar } from "@mui/material";
@@ -86,9 +85,6 @@ const Middle = () => {
     setNewPassword("");
   };
   const handleModelUpdatePass = async () => {
-    console.log(password);
-    console.log(newPassword);
-    console.log(confirmPassword);
     const data = {
       oldPassword: password,
       newPassword: newPassword,
@@ -188,10 +184,6 @@ const Middle = () => {
                                           className={cx("item-content")}
                                           sx={{ fontSize: 30 }}
                                         />
-                                        {/* <NotificationsIcon
-                                          className={cx("item-content")}
-                                          sx={{ fontSize: 30 }}
-                                        /> */}
                                         <div
                                           className={cx(
                                             "content-notifications"

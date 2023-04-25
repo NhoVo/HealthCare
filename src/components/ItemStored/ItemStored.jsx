@@ -20,9 +20,6 @@ function ItemStored({ message, isLink }) {
       <div className={cx("body")}>
         {/* render image (map) after */}
         <div className={cx("body-list-item-stored")}>
-          {/* <div className={cx('container')}> */}
-          {/* <img className={cx('left-item-image')} src={images.avt} alt="file-and-link" /> */}
-
           <div className={cx("right-container")}>
             {isLink ? (
               <>
@@ -32,8 +29,6 @@ function ItemStored({ message, isLink }) {
             ) : (
               <>
                 <FileMessage message={message} />
-                {/* <div className={cx('title-name')}>Name file</div>
-                                    <div className={cx('info')}>1.2 MB</div> */}
               </>
             )}
           </div>

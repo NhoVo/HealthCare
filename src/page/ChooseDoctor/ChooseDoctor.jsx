@@ -5,13 +5,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import images from "../../assets/images";
+
 import FormPage from "../../components/FormPage/FormPage";
 import { fetchChooseDoctor } from "../../Redux/Features/Doctor/ChooseDoctor";
 import filterSlice from "../../Redux/Features/filter/filterSlice";
 import { fetchUserDoctors } from "../../Redux/Features/Users/UserDoctors";
 import { userDoctors, usersRemainingSelector } from "../../Redux/selector";
-import ReactStars from "react-rating-stars-component";
+
 import styles from "./ChooseDoctor.module.scss";
 
 const cx = classNames.bind(styles);

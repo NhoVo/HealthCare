@@ -40,11 +40,10 @@ import {
   patientBookedSchedule,
   sumBookPatient,
   sumIndexBook,
-  userDoctorPatient,
   userLogin,
 } from "../../Redux/selector";
 import styles from "./Book.module.scss";
-import DiseaseIndex from "../../components/DiseaseIndex/DiseaseIndex";
+
 const cx = classNames.bind(styles);
 const Book = () => {
   const user = useSelector(userLogin);
@@ -305,17 +304,11 @@ const Book = () => {
     });
   };
   const handleGoRoom = () => {
-    //navigate("/HomeZoom");
-    // if (checkCreateRoom === true) {
     navigate(`/room/${123123}`, {
       state: {
         user,
       },
     });
-    //   dispatch(filterSlice.actions.clickChange(""));
-    // } else {
-    //   alert("Phòng chưa sẵn sàng? Vui lòng đợi bác sĩ mở phòng");
-    // }
   };
 
   const handlereFuse = (b) => {
@@ -384,7 +377,7 @@ const Book = () => {
                         <th>Thời gian</th>
                         <th>Chi tiết</th>
                         <th>Chấp nhận</th>
-                        <th>Từ trối</th>
+                        <th>Từ chối</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -411,7 +404,7 @@ const Book = () => {
                                 style={{ backgroundcolor: "silver" }}
                                 onClick={() => handlereFuse(b)}
                               >
-                                Từ trối
+                                Từ chối
                               </button>
                             </td>
                           </tr>

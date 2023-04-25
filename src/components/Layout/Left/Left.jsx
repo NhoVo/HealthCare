@@ -1,8 +1,7 @@
 import classNames from "classnames/bind";
 import React from "react";
+//
 import images from "../../../assets/images/index";
-import styles from "./Left.module.scss";
-
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ChatIcon from "@mui/icons-material/Chat";
 import EditIcon from "@mui/icons-material/Edit";
@@ -28,9 +27,9 @@ import {
   nextPageSelectorInforDoctor,
   userLogin,
 } from "../../../Redux/selector";
-import { getRatingOfDoctor } from "../../../Redux/Features/Rating/RatingDoctor";
 import { fetchUserDoctor } from "../../../Redux/Features/Users/UserDoctors";
 
+import styles from "./Left.module.scss";
 const cx = classNames.bind(styles);
 
 const Left = ({ role }) => {
@@ -182,36 +181,73 @@ const Left = ({ role }) => {
             >
               <div className={cx("group-item")} onClick={handleBook}>
                 <CalendarMonthIcon className={cx("icons")} />
-                <span>Đặt lịch hẹn</span>
+                <span>Đăng ký khám bệnh</span>
               </div>
             </div>
           ) : (
             <div className={cx("itemLeft")}>
               <div className={cx("group-item")} onClick={handleBook}>
                 <CalendarMonthIcon className={cx("icon")} />
-                <span>Đặt lịch hẹn</span>
+                <span>Đăng ký khám bệnh</span>
               </div>
             </div>
           )}
         </>
       )}
-      {pageInforDoctor ? (
-        <div
-          style={{ background: "#33CCFF", color: "white" }}
-          className={cx("itemLeft")}
-        >
-          <div className={cx("group-item")} onClick={handleInformationDoctor}>
-            <MapIcon className={cx("icons")} />
-            <span>Bản đồ</span>
-          </div>
-        </div>
+      {role ? (
+        <>
+          {pageInforDoctor ? (
+            <div
+              style={{ background: "#33CCFF", color: "white" }}
+              className={cx("itemLeft")}
+            >
+              <div
+                className={cx("group-item")}
+                onClick={handleInformationDoctor}
+              >
+                <MapIcon className={cx("icons")} />
+                <span>Bản đồ</span>
+              </div>
+            </div>
+          ) : (
+            <div className={cx("itemLeft")}>
+              <div
+                className={cx("group-item")}
+                onClick={handleInformationDoctor}
+              >
+                <MapIcon className={cx("icon")} />
+                <span>Bản đồ</span>
+              </div>
+            </div>
+          )}
+        </>
       ) : (
-        <div className={cx("itemLeft")}>
-          <div className={cx("group-item")} onClick={handleInformationDoctor}>
-            <PersonIcon className={cx("icon")} />
-            <span>Thông tin bác sĩ</span>
-          </div>
-        </div>
+        <>
+          {pageInforDoctor ? (
+            <div
+              style={{ background: "#33CCFF", color: "white" }}
+              className={cx("itemLeft")}
+            >
+              <div
+                className={cx("group-item")}
+                onClick={handleInformationDoctor}
+              >
+                <MapIcon className={cx("icons")} />
+                <span>Thông tin bác sĩ</span>
+              </div>
+            </div>
+          ) : (
+            <div className={cx("itemLeft")}>
+              <div
+                className={cx("group-item")}
+                onClick={handleInformationDoctor}
+              >
+                <PersonIcon className={cx("icon")} />
+                <span>Thông tin bác sĩ</span>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -15,7 +15,6 @@ import {
   faPaperclip,
   faThumbsUp,
   faVideo,
-  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { BiDockRight } from "react-icons/bi";
 
@@ -23,18 +22,14 @@ import { CircularProgress } from "@material-ui/core";
 import EmojiPicker, { SkinTones } from "emoji-picker-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Peer from "simple-peer";
 
 // me
 import styles from "./Messenger.module.scss";
 import Message from "../../../Message/Message";
 import Popper from "../../../Popper/Popper";
 import OnlineStatus from "../../../OnlineStatus/OnlineStatus";
-
 import PreviewFileMessage from "../../../FileMessage/PreviewFileMessage";
-
 import ModelWrapper from "../../../ModelWrapper/ModelWrapper";
-
 import { useDispatch, useSelector } from "react-redux";
 import {
   listAllConversation,
@@ -45,14 +40,11 @@ import {
 import Conversation, {
   fetchPostMessage,
   fetchUploadFiles,
-  pushMessage,
 } from "../../../../Redux/Features/Conversation/Conversation";
-import { useMemo } from "react";
-import { io } from "socket.io-client";
+
 import { socket } from "../../../../App";
-import { fetchAllmessage } from "../../../../Redux/Features/Conversation/Conversation";
 import { useNavigate } from "react-router-dom";
-import images from "../../../../assets/images";
+import { fetchUserCaller } from "../../../../Redux/Features/Users/UserLoginSlice";
 
 const cx = classNames.bind(styles);
 
@@ -68,11 +60,7 @@ function Messenger({ setInfor, infor }) {
   const listMessage = useSelector(listAllMessage);
   const listConversation = useSelector(listAllConversation);
   const [openInfo, setOpenInfo] = useState(false);
-
-  const inForConversation = listConversation.filter((_c) =>
-    listMessage[0]?.conversationId?.includes(_c?.id)
-  );
-  const imgMessage = useSelector(listImage);
+  const [userCaller, setUserCaller] = useState("");
 
   const user = useSelector(userLogin);
   const scrollMessenger = useRef();
@@ -253,23 +241,11 @@ function Messenger({ setInfor, infor }) {
     const calleeId = UsercalleeId[0].user.id;
     socket.emit("call", { conversationId, callerId, calleeId });
     setOpenInfo(true);
+    dispatch(fetchUserCaller(calleeId)).then((v) => {
+      setUserCaller(v.payload);
+    });
   };
-  const handleReject = () => {
-    // const conversationId = listMessage[0]?.conversationId;
-    // const conversation = listConversation?.filter(
-    //   (user) => user?.id === listMessage[0]?.conversationId
-    // );
-    // const callerId = user.role === "DOCTOR" ? user.doctor.id : user.id;
-    // const UsercalleeId = conversation[0]?.member?.filter(
-    //   (user) => user?.user.id !== callerId
-    // );
-    // const calleeId = UsercalleeId[0].user.id;
 
-    // socket.emit("rejectCall", { conversationId, callerId, calleeId });
-
-    // setOpenInfo(false);
-    console.log("ok");
-  };
   return (
     <div className={cx("messenger")}>
       <ModelWrapper className={cx("model-add-information")} open={openInfo}>
@@ -277,18 +253,26 @@ function Messenger({ setInfor, infor }) {
           <div className={cx("info-image")}>
             <img
               className={cx("img-avatar")}
-              src={images.logo}
+              src={
+                userCaller?.role === "DOCTOR"
+                  ? userCaller?.doctor?.avatar
+                  : userCaller?.patient?.avatar
+              }
               alt="img-avatar"
             />
           </div>
           <div className={cx("title-name")}>
-            <div className={cx("name")}>Tao gọi</div>
+            <div className={cx("name")}>
+              {userCaller?.role === "DOCTOR"
+                ? userCaller?.doctor?.fullName
+                : userCaller?.patient?.fullName}
+            </div>
           </div>
           <div className={cx("title-name")}>
             <div className={cx("name")}>Cuộc gọi...</div>
           </div>
           <div className={cx("form-call")}>
-            <div className={cx("icon-refuse")} onClick={handleReject}>
+            <div className={cx("icon-refuse")}>
               <CallEndIcon sx={{ fontSize: 30 }} />
             </div>
           </div>

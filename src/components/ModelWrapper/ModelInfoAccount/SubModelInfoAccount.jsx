@@ -13,11 +13,11 @@ import "react-toastify/dist/ReactToastify.css";
 // me
 import { Radio, TextField } from "@mui/material";
 import moment from "moment";
-import images from "../../../assets/images/index";
+
 import ModelWrapper from "../ModelWrapper";
 import styles from "./ModelInfoAccount.module.scss";
 import TextInput from "../../TextInput/TextInput";
-import { Stack } from "react-bootstrap";
+
 import { useDispatch } from "react-redux";
 import {
   updateAvatar,
@@ -25,6 +25,7 @@ import {
 } from "../../../Redux/Features/Users/UserDoctors";
 import { fetchLoginSlice } from "../../../Redux/Features/Users/UserLoginSlice";
 import { useEffect } from "react";
+import { updateUserPatient } from "../../../Redux/Features/Users/userPatient";
 
 const cx = classNames.bind(styles);
 
@@ -45,6 +46,13 @@ function SubModelInfoAccount({ user }) {
   const [experience, setExperience] = useState(userLogin?.experience);
   const [specialize, setSpecialize] = useState(userLogin?.specialize);
   const [description, setDescription] = useState(userLogin?.description);
+  const [carersFullName, setCarersFullName] = useState(
+    user.role === "DOCTOR" ? "" : userLogin?.carer[0]?.fullName
+  );
+  const [carersPhone, setCarersPhone] = useState(
+    user.role === "DOCTOR" ? "" : userLogin?.carer[0]?.phone
+  );
+  const [job, setJob] = useState(user.role === "DOCTOR" ? "" : userLogin?.job);
   // Handle open/ close model update info account
   const handleModelOpenUpdateInfoAccount = () => {
     setOpenUpdateInfoAccount(true);
@@ -53,51 +61,65 @@ function SubModelInfoAccount({ user }) {
     setOpenUpdateInfoAccount(false);
   };
 
-  // Handle change input full name
-  const handleChangeFullName = (e) => {
-    // setFullName(e.target.value);
-  };
-  const handleChange1 = (e) => {
-    // setBirthday(e.target.value);
-  };
   const handleChange = (e) => {
     const sex = e.target.value;
-    // if (sex === "MALE") {
-    //   setOptionSex(0);
-    // } else {
-    //   setOptionSex(1);
-    // }
+    if (sex === "MALE") {
+      setOptionSex("MALE");
+    } else {
+      setOptionSex("FEMALE");
+    }
   };
   const handleSubmit = async (e) => {
-    console.log(avatar);
     const dataImg = {
       files: avatar,
     };
-    await dispatch(updateAvatar(dataImg)).then((v) => {
-      if (v.payload.statusCode === 200) {
-        toast.success("Cập nhật thành Công");
-        dispatch(fetchLoginSlice());
-        setOpenUpdateInfoAccount(false);
-      }
-    });
-    // const data = {
-    //   fullName: name,
-    //   address: address,
-    //   email: email,
-    //   gender: optionSex,
-    //   dateOfBirth: birthday,
-    //   description: description,
-    //   experience: experience,
-    //   workPlace: workPlace,
-    //   specialize: specialize,
-    // };
-    // await dispatch(updateUserDoctor(data)).then((v) => {
-    //   if (v.payload.statusCode === 200) {
-    //     toast.success("Cập nhật thành Công");
-    //     dispatch(fetchLoginSlice());
-    //     setOpenUpdateInfoAccount(false);
-    //   }
-    // });
+    if (dataImg.files.previews === undefined) {
+      const data = {
+        fullName: name,
+        address: address,
+        email: email,
+        gender: optionSex,
+        dateOfBirth: birthday,
+        description: description,
+        experience: experience,
+        workPlace: workPlace,
+        specialize: specialize,
+      };
+      await dispatch(updateUserDoctor(data)).then((v) => {
+        if (v.payload.statusCode === 200) {
+          toast.success("Cập nhật thành Công");
+          dispatch(fetchLoginSlice());
+          setOpenUpdateInfoAccount(false);
+        }
+      });
+    } else {
+      await dispatch(updateAvatar(dataImg)).then((v) => {
+        if (v.payload.statusCode === 200) {
+          toast.success("Cập nhật thành Công");
+          dispatch(fetchLoginSlice());
+          setOpenUpdateInfoAccount(false);
+        }
+      });
+      const data = {
+        fullName: name,
+        address: address,
+        email: email,
+        gender: optionSex,
+        dateOfBirth: birthday,
+        description: description,
+        experience: experience,
+        workPlace: workPlace,
+        specialize: specialize,
+      };
+      await dispatch(updateUserDoctor(data)).then((v) => {
+        if (v.payload.statusCode === 200) {
+          toast.success("Cập nhật thành Công");
+          dispatch(fetchLoginSlice());
+          setOpenUpdateInfoAccount(false);
+        }
+      });
+    }
+
     e.preventDefault();
   };
   useEffect(() => {
@@ -109,6 +131,57 @@ function SubModelInfoAccount({ user }) {
     const file = e.target.files[0];
     file.previews = URL.createObjectURL(file);
     setAvatar(file);
+  };
+
+  const handleSubmitPatient = async (e) => {
+    const dataImg = {
+      files: avatar,
+    };
+    if (dataImg.files.previews === undefined) {
+      const data = {
+        fullName: name,
+        address: address,
+        gender: optionSex,
+        dateOfBirth: birthday,
+        job: job,
+        phoneCarer: carersPhone,
+        fullNameCarer: carersFullName,
+      };
+      await dispatch(updateUserPatient(data)).then((v) => {
+        if (v.payload.statusCode === 200) {
+          toast.success("Cập nhật thành Công");
+          dispatch(fetchLoginSlice());
+          setOpenUpdateInfoAccount(false);
+        }
+      });
+    } else {
+      await dispatch(updateAvatar(dataImg)).then((v) => {
+        if (v.payload.statusCode === 200) {
+          toast.success("Cập nhật thành Công");
+          dispatch(fetchLoginSlice());
+          setOpenUpdateInfoAccount(false);
+        } else {
+          return;
+        }
+      });
+      const data = {
+        fullName: name,
+        address: address,
+        gender: optionSex,
+        dateOfBirth: birthday,
+        job: job,
+        phoneCarer: carersPhone,
+        fullNameCarer: carersFullName,
+      };
+      await dispatch(updateUserPatient(data)).then((v) => {
+        if (v.payload.statusCode === 200) {
+          toast.success("Cập nhật thành Công");
+          dispatch(fetchLoginSlice());
+          setOpenUpdateInfoAccount(false);
+        }
+      });
+    }
+    e.preventDefault();
   };
   return (
     <>
@@ -320,7 +393,7 @@ function SubModelInfoAccount({ user }) {
               <label className={cx("info-image")} htmlFor="file-info">
                 <img
                   className={cx("img-avatar")}
-                  src={images.logo}
+                  src={avatar?.previews ? avatar?.previews : avatar}
                   alt="img-avatar"
                 />
                 <input
@@ -340,8 +413,8 @@ function SubModelInfoAccount({ user }) {
                           id="outlined-helperText"
                           label="Họ và tên"
                           placeholder="Nhập họ và tên..."
-                          // value={name}
-                          // onChange={(e) => setName(e.target.value)}
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
                         />
                       </div>
                       <div className={cx("input-field-2")}>
@@ -349,8 +422,8 @@ function SubModelInfoAccount({ user }) {
                           id="outlined-helperText"
                           label="Địa chỉ"
                           placeholder="Nhập địa chỉ..."
-                          // value={address}
-                          // onChange={(e) => setAddress(e.target.value)}
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
                         />
                       </div>
                     </div>
@@ -375,7 +448,7 @@ function SubModelInfoAccount({ user }) {
                         <label>Giới tính: </label>&ensp;
                         <label>Nam</label>
                         <Radio
-                          // checked={optionSex === "MALE"}
+                          checked={optionSex === "MALE"}
                           onChange={handleChange}
                           value="MALE"
                           name="radio-buttons"
@@ -383,7 +456,7 @@ function SubModelInfoAccount({ user }) {
                         />
                         <label>Nữ</label>
                         <Radio
-                          // checked={optionSex === "FEMALE"}
+                          checked={optionSex === "FEMALE"}
                           onChange={handleChange}
                           value="FEMALE"
                           name="radio-buttons"
@@ -399,8 +472,8 @@ function SubModelInfoAccount({ user }) {
                           id="outlined-helperText"
                           label="Họ và tên người thân"
                           placeholder="Nhập họ tên người thân..."
-                          // value={workPlace}
-                          // onChange={(e) => setWorkPlace(e.target.value)}
+                          value={carersFullName}
+                          onChange={(e) => setCarersFullName(e.target.value)}
                         />
                       </div>
                       <div className={cx("input-field-2")}>
@@ -408,21 +481,21 @@ function SubModelInfoAccount({ user }) {
                           id="outlined-helperText"
                           label="Số điện thoại người thân"
                           placeholder="Nhập số điện thoại người thân..."
-                          // value={workPlace}
-                          // onChange={(e) => setWorkPlace(e.target.value)}
+                          value={carersPhone}
+                          onChange={(e) => setCarersPhone(e.target.value)}
                         />
                       </div>
                     </div>
-                    <div className={cx("form-group py-1 pb-2")}>
-                      <div className={cx("input-field-3")}>
-                        <TextField
+                  </div>
+                  <div className={cx("form-group py-1 pb-2")}>
+                    <div className={cx("form-group-2")}>
+                      <div className={cx("input-field-2")}>
+                        <TextInput
                           id="outlined-helperText"
-                          label="Tiểu sử bệnh"
-                          placeholder="Nhập Tiểu sử bệnh..."
-                          className={cx("intro")}
-                          sx={{ width: 450 }}
-                          // value={medicalHistory}
-                          // onChange={(e) => setMedicalHistory(e.target.value)}
+                          label="Công việc"
+                          placeholder="Nhập công việc..."
+                          value={job}
+                          onChange={(e) => setJob(e.target.value)}
                         />
                       </div>
                     </div>
@@ -436,7 +509,7 @@ function SubModelInfoAccount({ user }) {
               <button className={cx("footer-sub-close-btn")}>Hủy</button>
               <button
                 className={cx("footer-sub-update-btn")}
-                onClick={handleSubmit}
+                onClick={handleSubmitPatient}
               >
                 Cập nhật
               </button>

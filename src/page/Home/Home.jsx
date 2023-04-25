@@ -13,17 +13,19 @@ import {
 } from "../../Redux/Features/HealthRecord/Heartbeat";
 import { fetchNotficationsOfDoctor } from "../../Redux/Features/Notifications/Notifications";
 import { fetchUserDoctor } from "../../Redux/Features/Users/UserDoctors";
-import { fetchLoginSlice } from "../../Redux/Features/Users/UserLoginSlice";
+import {
+  fetchLoginSlice,
+  fetchUserCaller,
+} from "../../Redux/Features/Users/UserLoginSlice";
 import { fetchUserPatients } from "../../Redux/Features/Users/userPatient";
 import { userLogin } from "../../Redux/selector";
 import styles from "./Home.module.scss";
 import { socket } from "../../App";
 import ModelWrapper from "../../components/ModelWrapper/ModelWrapper";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+
 import CallIcon from "@mui/icons-material/Call";
 import CallEndIcon from "@mui/icons-material/CallEnd";
-import images from "../../assets/images";
+
 import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
@@ -35,14 +37,18 @@ const Home = () => {
   const [conversationId, setConversationId] = useState("");
   const [callerId, setCallerId] = useState("");
   const [calleeId, setCalleeId] = useState("");
+  const [userCaller, setUserCaller] = useState("");
   const user = useSelector(userLogin);
   useEffect(() => {
     socket.on("incomingCall", ({ conversationId, callerId }) => {
       setOpenInfo(true);
       setCallStatus("Cuộc gọi đến...");
-      setCallerId(callerId);
+      // setCallerId(callerId);
       setConversationId(conversationId);
       // alert("có người gọi");
+      dispatch(fetchUserCaller(callerId)).then((v) => {
+        setUserCaller(v.payload);
+      });
     });
   }, []);
 
@@ -90,12 +96,20 @@ const Home = () => {
           <div className={cx("info-image")}>
             <img
               className={cx("img-avatar")}
-              src={images.logo}
+              src={
+                userCaller?.role === "DOCTOR"
+                  ? userCaller?.doctor?.avatar
+                  : userCaller?.patient?.avatar
+              }
               alt="img-avatar"
             />
           </div>
           <div className={cx("title-name")}>
-            <div className={cx("name")}>Tao gọi</div>
+            <div className={cx("name")}>
+              {userCaller?.role === "DOCTOR"
+                ? userCaller?.doctor?.fullName
+                : userCaller?.patient?.fullName}
+            </div>
           </div>
           <div className={cx("title-name")}>
             <div className={cx("name")}>{callStatus}</div>

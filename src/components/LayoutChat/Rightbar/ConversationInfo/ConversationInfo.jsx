@@ -1,26 +1,9 @@
 // libs
-import {
-  faCamera,
-  faCaretDown,
-  faClock,
-  faNoteSticky,
-  faPenToSquare,
-  faRightFromBracket,
-  faTrash,
-  faUserGroup,
-  faUserPlus,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ArrowBackIos } from "@material-ui/icons";
 import classNames from "classnames/bind";
-
-import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-// me
-import images from "../../../../assets/images/index";
 import ItemStored from "../../../ItemStored/ItemStored";
 import styles from "./ConversationInfo.module.scss";
 import { useSelector } from "react-redux";
@@ -29,23 +12,9 @@ import {
   listAllMessage,
   userLogin,
 } from "../../../../Redux/selector";
-import { useEffect } from "react";
-import ModelWrapper from "../../../ModelWrapper/ModelWrapper";
 import FileMessage from "../../../FileMessage/FileMessage";
-
 const cx = classNames.bind(styles);
-
 function ConversationInfo() {
-  //xem lại chỗ này
-
-  const [show, setShow] = useState(true);
-  const [showAddMembers, setShowAddMembers] = useState(true);
-  const [showFile, setShowFile] = useState(true);
-  const [showPreview, setShowPreview] = useState(false);
-
-  const [modelChangeName, setModelChangeName] = useState(false);
-  const [showImg, setShowImg] = useState();
-  const [changeNameGroup, setChangeNameGroup] = useState("");
   const listMessages = useSelector(listAllMessage);
   const user = useSelector(userLogin);
   const listConversation = useSelector(listAllConversation);
@@ -57,34 +26,6 @@ function ConversationInfo() {
     userloggin?.id === conversation[0]?.member[0].user.id
       ? conversation[0]?.member[1]
       : conversation[0]?.member[0];
-
-  const handleOpen = () => {
-    setShow(false);
-    setShowFile(true);
-  };
-
-  const handleClose = () => {
-    setShow(true);
-    setShowAddMembers(true);
-    setShowAddMembers(true);
-  };
-
-  //file
-  const handleOpenFile = () => {
-    setShow(false);
-    setShowFile(false);
-  };
-  const handleShowPreviewImageAndVideo = (e) => {
-    setShowPreview(!showPreview);
-    setShowImg(e.target.src);
-  };
-
-  // hide preview
-  const handleHidePreviewImageAndVideo = () => {
-    setShowPreview(false);
-  };
-
-  // mo dong model doi ten nhom
 
   return (
     <div className={cx("wrapper")}>
@@ -141,10 +82,7 @@ function ConversationInfo() {
                                       key={index}
                                       className={cx("display-group-item-image")}
                                     >
-                                      <button
-                                        className={cx("preview-image")}
-                                        onClick={handleShowPreviewImageAndVideo}
-                                      >
+                                      <button className={cx("preview-image")}>
                                         <img
                                           className={cx("item-image")}
                                           src={mess?.url}
@@ -162,10 +100,7 @@ function ConversationInfo() {
                                     {message?.content}
                                   </p>
                                 )}
-                                <button
-                                  className={cx("preview-image")}
-                                  onClick={handleShowPreviewImageAndVideo}
-                                >
+                                <button className={cx("preview-image")}>
                                   <img
                                     className={cx("item-image")}
                                     src={message?.file[0]?.url}
@@ -184,9 +119,7 @@ function ConversationInfo() {
             </div>
           </div>
           <div className={cx("footer")}>
-            <button className={cx("footer-btn-all")} onClick={handleOpen}>
-              Xem tất cả
-            </button>
+            <button className={cx("footer-btn-all")}>Xem tất cả</button>
           </div>
         </div>
 
@@ -215,9 +148,7 @@ function ConversationInfo() {
             </div>
           </div>
           <div className={cx("footer")}>
-            <button className={cx("footer-btn-all")} onClick={handleOpenFile}>
-              Xem tất cả
-            </button>
+            <button className={cx("footer-btn-all")}>Xem tất cả</button>
           </div>
         </div>
 

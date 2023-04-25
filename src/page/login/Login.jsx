@@ -89,6 +89,7 @@ const Login = () => {
         }
       })
       .catch((err) => {
+        toast.error(err.toString());
         console.log(err);
       });
   };
@@ -136,9 +137,9 @@ const Login = () => {
                   <div className={cx("form-inline")}>
                     <input type="checkbox" name="remember" id="remember" />
                     <label className={cx("text-muted")}>Nhớ mật khẩu</label>
-                    <u id="forgot" className={cx("font-weight-bold")}>
-                      Quên mật Khẩu ?
-                    </u>
+                    <Link to="/forgetPassword">
+                      <u className={cx("font-weight-bold")}>Quên mật Khẩu ?</u>
+                    </Link>
                   </div>
 
                   <Button>Đăng nhập</Button>

@@ -13,6 +13,7 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "@firebase/auth";
 import { Radio, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { authentication } from "../../util/firebase";
+import { toast } from "react-toastify";
 const cx = classNames.bind(styles);
 const RegisterDoctor = () => {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const RegisterDoctor = () => {
   };
   const handleResisterDoctor = () => {
     if (password !== confirmPassword) {
-      alert("Mật khẩu không trùng khớp");
+      toast.error("Mật khẩu không trùng khớp");
     } else {
       generateRecaptcha();
       const phoneNumbers = "+84" + phone.slice(1);
@@ -75,12 +76,15 @@ const RegisterDoctor = () => {
               description,
             },
           });
+          setTimeout(() => {
+            navigate("/ConfirmOTPDoctor");
+          }, 2000);
         })
         .catch((error) => {
           // Error; SMS not sent
           // ...
           //alert('Tài khoản đã yêu cầu quá nhiều lần!!!');
-          console.log("Chưa gửi về OTP" + error);
+          toast.error(error.toString());
         });
     }
   };

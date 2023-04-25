@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import images from "../../assets/images";
+
 import GoogleMap from "../../components/GoogleMap/GoogleMap";
 import { fetchUserDoctor } from "../../Redux/Features/Users/UserDoctors";
 import {
@@ -12,20 +12,23 @@ import {
 } from "../../Redux/selector";
 import styles from "./InformationDoctor.module.scss";
 
-import { geocodeByAddress, getLatLng } from "react-google-places-autocomplete";
 import useDebounce from "../../components/hooks/useDebounce";
 import ReactStars from "react-rating-stars-component";
-import SearchIcon from "@mui/icons-material/Search";
+
 import {
   getRatingOfDoctor,
   postRatingOfDoctor,
 } from "../../Redux/Features/Rating/RatingDoctor";
 import { postNotification } from "../../Redux/Features/Notifications/Notifications";
-import { Autocomplete, TextField } from "@mui/material";
+
+import { changeDoctor } from "../../Redux/Features/Users/userPatient";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const cx = classNames.bind(styles);
 
 const InformationDoctor = () => {
   const userD = useSelector(userDoctorPatient);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const user = useSelector(userLogin);
@@ -34,7 +37,6 @@ const InformationDoctor = () => {
   const userDoctor = useSelector(userLogin);
   const ratingDoctor = useSelector(ratingOfDoctor);
 
-  const [coordinates, setCoordinates] = useState(null);
   const [coordinatesP, setCoordinatesP] = useState("");
   const [rating, setRating] = useState(ratingDoctor?.rate);
   useEffect(() => {
@@ -70,7 +72,24 @@ const InformationDoctor = () => {
     dispatch(postNotification(data1));
     alert("Đánh giá thành công");
   };
-
+  const handleChange = () => {
+    const choice = window.confirm(
+      "Bạn có chắc chắn muốn thay đổi bác sĩ không?"
+    );
+    if (choice === true) {
+      dispatch(changeDoctor());
+      navigate("/ChooseDoctor", {
+        state: true,
+      });
+      setTimeout(() => {
+        navigate("/ChooseDoctor");
+      }, 2000);
+      toast.success("Bạn đã hủy thành công");
+    } else {
+      toast.error("Bạn đã đã hủy yêu cầu thay đổi bác sĩ");
+      return;
+    }
+  };
   return (
     <>
       {userDoctor.role === "DOCTOR" ? (
@@ -88,7 +107,7 @@ const InformationDoctor = () => {
                 <img
                   className={cx("img")}
                   // src={phoneNumber.avatar}
-                  src={images.doctor}
+                  src={userD.avatar}
                   alt="avatar"
                 />
               </div>
@@ -104,9 +123,8 @@ const InformationDoctor = () => {
                       </div>
                       <div className={cx("input-field")}>
                         <label>
-                          <b>Ngày sinh:</b>{" "}
+                          <b>Ngày sinh:</b>
                           <span>
-                            {" "}
                             {moment(userD?.dateOfBirth).format("DD/MM/YYYY")}
                           </span>
                         </label>
@@ -186,7 +204,7 @@ const InformationDoctor = () => {
                       </div>
                       <div className={cx("input-field")}>
                         <div className={cx("updateDoctor")}>
-                          <button onClick={handleRating}>Thay đổi</button>
+                          <button onClick={handleChange}>Thay đổi</button>
                         </div>
                       </div>
                     </div>

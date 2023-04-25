@@ -1,19 +1,16 @@
 import classNames from "classnames/bind";
-import React, { useEffect, useState } from "react";
-
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  healthRecordDay,
-  postHealthRecord,
-} from "../../Redux/Features/HealthRecord/HealthRecord";
-import { postNotification } from "../../Redux/Features/Notifications/Notifications";
-import { healthWarningDay, tam } from "../../Redux/selector";
+import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+
 import Button from "../Button/Button";
 import TextInput from "../TextInput/TextInput";
 import styles from "./AddInformation.module.scss";
+import { postHealthRecord } from "../../Redux/Features/HealthRecord/HealthRecord";
 const cx = classNames.bind(styles);
-const AddInformation = ({ handleModelCloseInfo, user }) => {
+const AddInformation = () => {
+  const dispatch = useDispatch();
   const { handleSubmit } = useForm();
   const [weight, setWeight] = useState("");
   const [hight, setHight] = useState("");
@@ -22,9 +19,6 @@ const AddInformation = ({ handleModelCloseInfo, user }) => {
   const [glucose, setGlucose] = useState("");
   const [cholesterol, setCholesterol] = useState("");
   const [heartbeat, setHeartbeat] = useState("");
-  const healtDay = useSelector(tam);
-
-  const dispatch = useDispatch();
 
   const handleHealthRecord = () => {
     const data = {
@@ -37,8 +31,7 @@ const AddInformation = ({ handleModelCloseInfo, user }) => {
       cholesterol: cholesterol,
     };
     dispatch(postHealthRecord(data));
-
-    alert("thêm thông tin thành công");
+    toast.success("Thêm thông tin thành công");
     setWeight("");
     setHight("");
     setSystolic("");
@@ -46,47 +39,11 @@ const AddInformation = ({ handleModelCloseInfo, user }) => {
     setGlucose("");
     setCholesterol("");
     setHeartbeat("");
-    // handleModelCloseInfo();
   };
-
-  // const data5 = {
-  //   userId: user?.id,
-  //   typeNotification: "SYSTEM",
-  //   content: healtDay?.recordBloodhealtDay?.message,
-  //   title: "Chỉ số sức khỏe hôm nay",
-  // };
-  // dispatch(postNotification(data5));
-  // const data1 = {
-  //   userId: user.id,
-  //   typeNotification: "SYSTEM",
-  //   content: healtDay?.recordBmi?.message,
-  //   title: "Chỉ số sức khỏe hôm nay",
-  // };
-  // dispatch(postNotification(data1));
-  // const data2 = {
-  //   userId: user.id,
-  //   typeNotification: "SYSTEM",
-  //   content: healtDay?.recordCholesterol?.message,
-  //   title: "Chỉ số sức khỏe hôm nay",
-  // };
-  // dispatch(postNotification(data2));
-  // const data3 = {
-  //   userId: user.id,
-  //   typeNotification: "SYSTEM",
-  //   content: healtDay?.recordGlucose?.message,
-  //   title: "Chỉ số sức khỏe hôm nay",
-  // };
-  // dispatch(postNotification(data3));
-  // const data4 = {
-  //   userId: user.id,
-  //   typeNotification: "SYSTEM",
-  //   content: healtDay?.recordHeartBeat?.message,
-  //   title: "Chỉ số sức khỏe hôm nay",
-  // };
-  // dispatch(postNotification(data4));
 
   return (
     <div className={cx("header-title")}>
+      <ToastContainer />
       <form onSubmit={handleSubmit(handleHealthRecord)}>
         <div className={cx("form-group py-2")}>
           <h1 className={cx("title")}>Chỉ số BMI: </h1>

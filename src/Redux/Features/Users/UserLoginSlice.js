@@ -30,6 +30,29 @@ export const fetchLoginSlice = createAsyncThunk(
     }
   }
 );
+export const fetchUserCaller = createAsyncThunk(
+  // Tên action /v1/user/me/{id}
+  "user/fetchUserCaller",
+  async (data) => {
+    // Gọi lên API backend
+    console.log(data, "------");
+    const getToken = JSON.parse(localStorage.getItem("user_login"));
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/user/me/${data}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken}`,
+        },
+      }
+    );
+    // Convert dữ liệu ra json
+    const jsonData = await response.json();
+
+    return jsonData.data;
+  }
+);
 
 const UserLoginSlice = createSlice({
   name: "user",

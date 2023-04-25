@@ -48,12 +48,7 @@ function MenuItem({ user }) {
     );
   };
   //logout
-  const userlogout = () => {
-    // localStorage.removeItem("user_login");
-    // dispatch(userSlice.actions.resetUserInfo([]));
-    // navigate("/login");
-    console.log("ok");
-  };
+
   // Menu popper sub intro
   const renderMenuPopperSubIntroVersion = () => {
     return (

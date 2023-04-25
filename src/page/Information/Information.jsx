@@ -1,7 +1,7 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddAlertIcon from "@mui/icons-material/AddAlert";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import MoodIcon from "@mui/icons-material/Mood";
 import classNames from "classnames/bind";
@@ -17,7 +17,6 @@ import {
   allHRecordPaient,
   filterPhonePatient,
   healthRD,
-  healthWarningDay,
   nextPageSelector,
   nextPageSelectorBook,
   nextPageSelectorInfor,
@@ -36,7 +35,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import moment from "moment";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import images from "../../assets/images/index";
+
 import useDebounce from "../../components/hooks/useDebounce";
 import filterSlice from "../../Redux/Features/filter/filterSlice";
 import {
@@ -70,7 +69,7 @@ const Information = () => {
 
   const medicalRecord = useSelector(nextPageSelector);
   const pageBook = useSelector(nextPageSelectorBook);
-  const pageInfor = useSelector(nextPageSelectorInfor);
+
   const pageInforDoctor = useSelector(nextPageSelectorInforDoctor);
 
   const user = useSelector(userLogin);
@@ -101,11 +100,6 @@ const Information = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const hours = time.getHours().toString().padStart(2, "0");
-  const minutes = time.getMinutes().toString().padStart(2, "0");
-  const seconds = time.getSeconds().toString().padStart(2, "0");
-  const today = new Date();
-  const formattedDate = today.toLocaleDateString("en-GB");
   useEffect(() => {
     if (searchPhone === "") {
       setSearchResult(false);

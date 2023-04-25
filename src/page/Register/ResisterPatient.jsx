@@ -13,6 +13,7 @@ import TextInput from "../../components/TextInput/TextInput";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "@firebase/auth";
 import { Radio, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 const ResisterPatient = () => {
@@ -52,7 +53,7 @@ const ResisterPatient = () => {
 
   const handleResisterPatient = () => {
     if (password !== confirmPassword) {
-      alert("Mật khẩu không trùng khớp");
+      toast.error("Mật khẩu không trùng khớp");
     } else {
       generateRecaptcha();
       const phoneNumbers = "+84" + phone.slice(1);
@@ -79,17 +80,21 @@ const ResisterPatient = () => {
               carersPhone,
             },
           });
+          setTimeout(() => {
+            navigate("/ConFirmOTP");
+          }, 2000);
         })
         .catch((error) => {
           // Error; SMS not sent
           // ...
           //alert('Tài khoản đã yêu cầu quá nhiều lần!!!');
-          console.log("Chưa gửi về OTP" + error);
+          toast.error(error.toString());
         });
     }
   };
   return (
     <FormPage>
+      <ToastContainer />
       <div className={cx("container")}>
         <div className={cx("row")}>
           <div className={cx("panel-border")}>

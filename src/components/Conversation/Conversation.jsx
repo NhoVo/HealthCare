@@ -4,19 +4,16 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { format } from "timeago.js";
 import "tippy.js/dist/tippy.css";
+import { useSelector } from "react-redux";
 
 // me
 import styles from "./Conversation.module.scss";
-
-import { useSelector } from "react-redux";
-import images from "../../assets/images/index";
 import { userLogin } from "../../Redux/selector";
 const cx = classNames.bind(styles);
 
 function Conversation({ conversation }) {
   const user = useSelector(userLogin);
 
-  //listMeRequest.filter((friend) => friend.receiverId.includes(phoneNumber._id))
   return (
     <>
       {conversation.member.map((m) => {
@@ -24,10 +21,8 @@ function Conversation({ conversation }) {
           return (
             <div className={cx("container-conversation")} key={conversation.id}>
               <div className={cx("list-conversation")}>
-                {console.log(m)}
                 <img
                   className={cx("avatar-img")}
-                  // src={conversation?.imageLinkOfConver}
                   src={m?.user?.avatar}
                   alt="avatar"
                 />

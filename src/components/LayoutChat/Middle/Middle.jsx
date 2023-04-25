@@ -17,6 +17,7 @@ function Middle() {
   const handleChat = (conversation) => {
     dispatch(fetchAllmessage(conversation.id));
   };
+
   return (
     <div className={cx("wrapper")}>
       {/* search */}

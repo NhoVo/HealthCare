@@ -211,7 +211,7 @@ function ModelInfoAccount({
               <div className={cx("info-image")}>
                 <img
                   className={cx("img-avatar")}
-                  src={images.logo}
+                  src={user?.avatar}
                   alt="img-avatar"
                 />
               </div>
