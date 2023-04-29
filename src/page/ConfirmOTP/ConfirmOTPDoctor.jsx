@@ -27,11 +27,23 @@ const ConfirmOTPDoctor = () => {
   const workPlace = location.state?.workPlace;
   const specialize = location.state?.specialize;
   const description = location.state?.description;
-
+  console.log(
+    phone,
+    name,
+    password,
+    optionSex,
+    address,
+    birthday,
+    email,
+    experience,
+    workPlace,
+    specialize,
+    description
+  );
   const [OTP, setOTP] = useState("");
   //API Register
-  const register = () => {
-    return fetch(
+  const register = async () => {
+    return await fetch(
       `${process.env.REACT_APP_BASE_URL}/auth/user/register/doctor`,
       {
         method: "POST",
@@ -63,8 +75,8 @@ const ConfirmOTPDoctor = () => {
         }
       });
   };
-  const sign = () => {
-    return fetch(`${process.env.REACT_APP_BASE_URL}/auth/user/login`, {
+  const sign = async () => {
+    return await fetch(`${process.env.REACT_APP_BASE_URL}/auth/user/login`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -94,11 +106,11 @@ const ConfirmOTPDoctor = () => {
       authentication
     );
   };
-  const handleConfirmOTP = () => {
+  const handleConfirmOTP = async () => {
     if (OTP.length === 6) {
       generateRecaptcha();
       if (OTP.length === 6) {
-        let confirmationResult = window.confirmationResult;
+        let confirmationResult = await window.confirmationResult;
         confirmationResult
           .confirm(OTP)
           .then((result) => {

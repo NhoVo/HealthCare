@@ -109,7 +109,7 @@ export const usersRemainingSelector = createSelector(
         }
 
         return usersFilter.map((user) => ({
-          _id: user._id,
+          id: user.id,
           fullName: user.fullName,
           avatar: user.avatar,
           phone: user.phone,
@@ -121,7 +121,6 @@ export const usersRemainingSelector = createSelector(
           experience: user.experience,
           workPlace: user.workPlace,
           specialize: user.specialize,
-          isFriend: false,
         }));
 
         ///tim theo ten nguoi da kp
@@ -151,7 +150,7 @@ export const filterPhonePatient = createSelector(
         }
 
         return usersFilter.map((user) => ({
-          _id: user._id,
+          id: user.id,
           fullName: user.fullName,
           avatar: user.avatar,
           phone: user.phone,

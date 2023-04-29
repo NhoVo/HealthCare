@@ -89,7 +89,7 @@ const Information = () => {
   const listPatient = useSelector(userPatients);
 
   const indexPatient = useSelector(allHRecordPaient);
-  const debouncedValue = useDebounce(searchPhone, 500);
+  const debouncedValue = useDebounce(searchPhone, 1000);
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
@@ -103,15 +103,21 @@ const Information = () => {
   useEffect(() => {
     if (searchPhone === "") {
       setSearchResult(false);
+      setHealReportPatient([]);
     } else {
-      dispatch(filterSlice.actions.searchFilterChange(searchPhone));
-      if (result !== 1) {
-        setSearchResult(true);
-        setHealReportPatient(result[0]);
-      } else {
-        toast.error(
-          "Số điện thoại này không tồn tại hoặc chưa được đăng ký tài khoản. Vui lòng thử lại!"
-        );
+      if (searchPhone.length === 10) {
+        dispatch(filterSlice.actions.searchFilterChange(searchPhone));
+
+        if (result !== 1) {
+          setSearchResult(true);
+          setHealReportPatient(result[0]);
+          console.log("1", searchPhone.length);
+        } else {
+          console.log("2");
+          toast.error(
+            "Số điện thoại này không tồn tại hoặc chưa được đăng ký tài khoản. Vui lòng thử lại!000000"
+          );
+        }
       }
     }
   }, [searchPhone, debouncedValue]);
@@ -334,7 +340,13 @@ const Information = () => {
                                 </div>
 
                                 <div className={cx("result-add-friend")}>
-                                  <button onClick={handleChoose}>Xem</button>
+                                  <button
+                                    onClick={() =>
+                                      handleChoose(healReportPatient)
+                                    }
+                                  >
+                                    Xem
+                                  </button>
                                 </div>
                               </div>
                             ) : (

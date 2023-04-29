@@ -78,7 +78,7 @@ const RegisterDoctor = () => {
           });
           setTimeout(() => {
             navigate("/ConfirmOTPDoctor");
-          }, 2000);
+          }, 200000);
         })
         .catch((error) => {
           // Error; SMS not sent
@@ -248,6 +248,8 @@ const RegisterDoctor = () => {
                       placeholder="Nhập giới thiệu bản thân..."
                       className={cx("intro")}
                       sx={{ width: 685 }}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
                 </div>

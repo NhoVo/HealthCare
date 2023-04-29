@@ -106,3 +106,95 @@
     transform: rotate(0deg);
   }
 }
+//
+.model-add-emergency {
+  width: 590px;
+  height: 380px;
+}
+.model-add-emergency-bg {
+  //background-color: #b0e0e6;
+  border-radius: 6px;
+  width: 590px;
+  height: 380px;
+  // height: 100%;
+  // background-color: #f44336;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom, #f44336, #ff5722);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+.notification-icon {
+  margin-bottom: 30px;
+}
+
+.notification-icon img {
+  width: 80px;
+  height: 80px;
+}
+
+.notification-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.notification-header h2 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.notification-body {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.notification-body p {
+  margin: 0;
+}
+
+.map-container {
+  width: 90%;
+  height: 50%;
+  margin-bottom: 30px;
+}
+.map-container-url {
+  text-align: center;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.notification-footer {
+  text-align: center;
+}
+
+.notification-footer button {
+  background-color: #fff;
+  color: #f44336;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}

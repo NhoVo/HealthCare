@@ -39,6 +39,7 @@ const App = () => {
       });
 
       socket.on("newNotification", (data) => {
+        console.log("app", data);
         dispatch(fetchNotficationsOfDoctor());
       });
     }

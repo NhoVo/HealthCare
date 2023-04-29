@@ -27,7 +27,7 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
   // const [patient, setPatient] = useState([]);
   const [openInfo, setOpenInfo] = useState(false);
   const result = useSelector(filterPhonePatient);
-  const debouncedValue = useDebounce(searchPhone, 500);
+  const debouncedValue = useDebounce(searchPhone, 1000);
   const indexPatient = useSelector(allHRecordPaient);
   const patient = useSelector(inforPatient);
   const [currentPage, setcurrentPage] = useState(1);
@@ -97,15 +97,21 @@ const MedicalRecordDoctor = ({ user, listPatient }) => {
   useEffect(() => {
     if (searchPhone === "") {
       setSearchResult(false);
+      setHealReportPatient([]);
     } else {
-      dispatch(filterSlice.actions.searchFilterChange(searchPhone));
-      if (result !== 1) {
-        setSearchResult(true);
-        setHealReportPatient(result[0]);
-      } else {
-        toast.error(
-          "Số điện thoại này không tồn tại hoặc chưa được đăng ký tài khoản. Vui lòng thử lại!"
-        );
+      if (searchPhone.length === 10) {
+        dispatch(filterSlice.actions.searchFilterChange(searchPhone));
+
+        if (result !== 1) {
+          setSearchResult(true);
+          setHealReportPatient(result[0]);
+          console.log("1", searchPhone.length);
+        } else {
+          console.log("2");
+          toast.error(
+            "Số điện thoại này không tồn tại hoặc chưa được đăng ký tài khoản. Vui lòng thử lại!000000"
+          );
+        }
       }
     }
   }, [searchPhone, debouncedValue]);

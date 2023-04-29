@@ -82,7 +82,7 @@ const ResisterPatient = () => {
           });
           setTimeout(() => {
             navigate("/ConFirmOTP");
-          }, 2000);
+          }, 200000);
         })
         .catch((error) => {
           // Error; SMS not sent

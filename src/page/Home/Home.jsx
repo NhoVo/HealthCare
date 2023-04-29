@@ -18,7 +18,7 @@ import {
   fetchUserCaller,
 } from "../../Redux/Features/Users/UserLoginSlice";
 import { fetchUserPatients } from "../../Redux/Features/Users/userPatient";
-import { userLogin } from "../../Redux/selector";
+import { allNotifiDoctor, userLogin } from "../../Redux/selector";
 import styles from "./Home.module.scss";
 import { socket } from "../../App";
 import ModelWrapper from "../../components/ModelWrapper/ModelWrapper";
@@ -28,17 +28,23 @@ import CallEndIcon from "@mui/icons-material/CallEnd";
 
 import { useNavigate } from "react-router-dom";
 
+import WarningIcon from "@mui/icons-material/Warning";
+
 const cx = classNames.bind(styles);
 
 const Home = () => {
   const dispatch = useDispatch();
   const [openInfo, setOpenInfo] = useState(false);
+  const [openEmergency, setOpenEmergency] = useState(false);
+
   const [callStatus, setCallStatus] = useState("");
   const [conversationId, setConversationId] = useState("");
   const [callerId, setCallerId] = useState("");
   const [calleeId, setCalleeId] = useState("");
   const [userCaller, setUserCaller] = useState("");
+
   const user = useSelector(userLogin);
+  const [userEmergency, setUserEmergency] = useState("");
   useEffect(() => {
     socket.on("incomingCall", ({ conversationId, callerId }) => {
       setOpenInfo(true);
@@ -49,6 +55,12 @@ const Home = () => {
       dispatch(fetchUserCaller(callerId)).then((v) => {
         setUserCaller(v.payload);
       });
+    });
+    socket.on("newNotification", (data) => {
+      if (data.data?.typeNotification === "EMERGENCY") {
+        setUserEmergency(data.data);
+        setOpenEmergency(true);
+      }
     });
   }, []);
 
@@ -73,6 +85,9 @@ const Home = () => {
   const handleModelCloseInfo = () => {
     setOpenInfo(false);
   };
+  const handleModelCloseEmergency = () => {
+    setOpenEmergency(false);
+  };
   const navigate = useNavigate();
   const handleAccept = () => {
     const calleeId = user.role === "DOCTOR" ? user.doctor.id : user.id;
@@ -87,6 +102,33 @@ const Home = () => {
   };
   return (
     <>
+      <ModelWrapper
+        className={cx("model-add-emergency")}
+        open={openEmergency}
+        onClose={handleModelCloseEmergency}
+      >
+        <div className={cx("model-add-emergency-bg")}>
+          {console.log(userEmergency)}
+          <div className={cx("notification-icon")}>
+            <WarningIcon className={cx("item-content")} sx={{ fontSize: 50 }} />
+          </div>
+          <div className={cx("notification-header")}>
+            <h2>THÔNG BÁO CẤP CỨU</h2>
+          </div>
+          <div className={cx("notification-body")}>
+            <p>{userEmergency?.content}</p>
+          </div>
+          <div className={cx("map-container")}>
+            <div className={cx("map-container-url")}>
+              LIÊN HỆ CỨU HỘ 115 &nbsp;
+              <a href={userEmergency?.url}>Địa chỉ hiện tại của bệnh nhân</a>
+            </div>
+          </div>
+          <div className={cx("notification-footer")}>
+            <button onClick={() => setOpenEmergency(false)}>Xác nhận</button>
+          </div>
+        </div>
+      </ModelWrapper>
       <ModelWrapper
         className={cx("model-add-information")}
         open={openInfo}
@@ -124,6 +166,7 @@ const Home = () => {
           </div>
         </div>
       </ModelWrapper>
+
       <div className={cx("container-fluid")}>
         <div className={cx("col-3")}>
           <Left role={user.role === "DOCTOR" ? true : false} />

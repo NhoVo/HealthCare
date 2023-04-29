@@ -22,12 +22,14 @@ const ChooseDoctor = () => {
   const dispatch = useDispatch();
   const result = useSelector(usersRemainingSelector);
   const listdoctor = useSelector(userDoctors);
-
+  console.log(listdoctor);
   const [userD, setUserD] = useState([]);
 
   const [searchResult, setSearchResult] = useState(false);
   useEffect(() => {
-    dispatch(fetchUserDoctors());
+    dispatch(fetchUserDoctors()).then((v) => {
+      console.log(v);
+    });
   }, []);
   useEffect(() => {
     dispatch(filterSlice.actions.searchFilterChange(searchPhone));
