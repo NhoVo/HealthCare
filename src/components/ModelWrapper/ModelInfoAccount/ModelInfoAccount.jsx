@@ -6,7 +6,7 @@ import moment from "moment";
 import { useState } from "react";
 // me
 import styles from "./ModelInfoAccount.module.scss";
-// import ModelWrapper from "~/components/ModelWrapper";
+
 import images from "../../../assets/images/index";
 import ModelWrapper from "../ModelWrapper";
 import SubModelInfoAccount from "./SubModelInfoAccount";

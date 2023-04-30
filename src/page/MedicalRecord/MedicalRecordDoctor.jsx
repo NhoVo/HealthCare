@@ -6,7 +6,7 @@ import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import images from "../../assets/images/index";
+
 import useDebounce from "../../components/hooks/useDebounce";
 import ModelWrapper from "../../components/ModelWrapper/ModelWrapper";
 import filterSlice from "../../Redux/Features/filter/filterSlice";
