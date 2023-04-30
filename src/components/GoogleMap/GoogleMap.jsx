@@ -21,7 +21,7 @@ const GoogleMap = ({ coords, user }) => {
   const [hospitals, setHospitals] = useState([]);
 
   const [resultSearch, setResultSearch] = useState("");
-  const [inforResult, setInforResult] = useState("");
+
   const debouncedValue = useDebounce(coords, 10000);
   const [showInfo, setShowInfo] = useState(false);
 

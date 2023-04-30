@@ -1,10 +1,8 @@
 import React, { useRef } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 // import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
-
-import { useEffect } from "react";
 
 const Room = () => {
   const { roomID } = useParams();

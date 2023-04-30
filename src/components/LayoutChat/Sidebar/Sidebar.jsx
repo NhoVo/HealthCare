@@ -16,7 +16,7 @@ const cx = classNames.bind(styles);
 
 function Sidebar() {
   const user = useSelector(userLogin);
-  console.log(user);
+
   return (
     <div className={cx("wrapper")}>
       {/* top */}

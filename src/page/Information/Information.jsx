@@ -19,7 +19,6 @@ import {
   healthRD,
   nextPageSelector,
   nextPageSelectorBook,
-  nextPageSelectorInfor,
   nextPageSelectorInforDoctor,
   tam,
   userDoctorPatient,

@@ -38,16 +38,17 @@ const AddInformation = ({ handleModelCloseInfo, user }) => {
       cholesterol: cholesterol,
     };
     dispatch(postHealthRecord(data)).then((v) => {
-      console.log(v);
+      if (v.statusCode === 200) {
+        toast.success("Thêm thông tin thành công");
+        setWeight("");
+        setHight("");
+        setSystolic("");
+        setDiastolic("");
+        setGlucose("");
+        setCholesterol("");
+        setHeartbeat("");
+      }
     });
-    toast.success("Thêm thông tin thành công");
-    setWeight("");
-    setHight("");
-    setSystolic("");
-    setDiastolic("");
-    setGlucose("");
-    setCholesterol("");
-    setHeartbeat("");
   };
 
   return (

@@ -12,13 +12,13 @@ import {
   fetchHeartbeats,
 } from "../../Redux/Features/HealthRecord/Heartbeat";
 import { fetchNotficationsOfDoctor } from "../../Redux/Features/Notifications/Notifications";
-import { fetchUserDoctor } from "../../Redux/Features/Users/UserDoctors";
+
 import {
   fetchLoginSlice,
   fetchUserCaller,
 } from "../../Redux/Features/Users/UserLoginSlice";
 import { fetchUserPatients } from "../../Redux/Features/Users/userPatient";
-import { allNotifiDoctor, userLogin } from "../../Redux/selector";
+import { userLogin } from "../../Redux/selector";
 import styles from "./Home.module.scss";
 import { socket } from "../../App";
 import ModelWrapper from "../../components/ModelWrapper/ModelWrapper";

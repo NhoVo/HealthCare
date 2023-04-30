@@ -1,9 +1,5 @@
 // libs
-import {
-  faCamera,
-  faPenToSquare,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useState } from "react";
