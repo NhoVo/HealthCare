@@ -16,6 +16,7 @@ function Middle() {
   const dispatch = useDispatch();
   const handleChat = (conversation) => {
     dispatch(fetchAllmessage(conversation.id));
+    console.log(conversation.id);
   };
 
   return (

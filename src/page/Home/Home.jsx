@@ -57,6 +57,7 @@ const Home = () => {
       });
     });
     socket.on("newNotification", (data) => {
+      console.log("Emergency", data);
       if (data.data?.typeNotification === "EMERGENCY") {
         setUserEmergency(data.data);
         setOpenEmergency(true);

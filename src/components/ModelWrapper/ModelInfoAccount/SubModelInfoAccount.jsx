@@ -73,7 +73,7 @@ function SubModelInfoAccount({ user }) {
     const dataImg = {
       files: avatar,
     };
-    if (dataImg.files.previews === undefined) {
+    if (dataImg.files?.previews === undefined) {
       const data = {
         fullName: name,
         address: address,
@@ -86,7 +86,8 @@ function SubModelInfoAccount({ user }) {
         specialize: specialize,
       };
       await dispatch(updateUserDoctor(data)).then((v) => {
-        if (v.payload.statusCode === 200) {
+        console.log("vvv", v);
+        if (v.payload?.statusCode === 200) {
           toast.success("Cập nhật thành Công");
           dispatch(fetchLoginSlice());
           setOpenUpdateInfoAccount(false);
@@ -94,7 +95,7 @@ function SubModelInfoAccount({ user }) {
       });
     } else {
       await dispatch(updateAvatar(dataImg)).then((v) => {
-        if (v.payload.statusCode === 200) {
+        if (v.payload?.statusCode === 200) {
           toast.success("Cập nhật thành Công");
           dispatch(fetchLoginSlice());
           setOpenUpdateInfoAccount(false);
@@ -112,7 +113,7 @@ function SubModelInfoAccount({ user }) {
         specialize: specialize,
       };
       await dispatch(updateUserDoctor(data)).then((v) => {
-        if (v.payload.statusCode === 200) {
+        if (v.payload?.statusCode === 200) {
           toast.success("Cập nhật thành Công");
           dispatch(fetchLoginSlice());
           setOpenUpdateInfoAccount(false);
@@ -137,7 +138,7 @@ function SubModelInfoAccount({ user }) {
     const dataImg = {
       files: avatar,
     };
-    if (dataImg.files.previews === undefined) {
+    if (dataImg.files?.previews === undefined) {
       const data = {
         fullName: name,
         address: address,
@@ -148,7 +149,7 @@ function SubModelInfoAccount({ user }) {
         fullNameCarer: carersFullName,
       };
       await dispatch(updateUserPatient(data)).then((v) => {
-        if (v.payload.statusCode === 200) {
+        if (v.payload?.statusCode === 200) {
           toast.success("Cập nhật thành Công");
           dispatch(fetchLoginSlice());
           setOpenUpdateInfoAccount(false);
@@ -156,7 +157,7 @@ function SubModelInfoAccount({ user }) {
       });
     } else {
       await dispatch(updateAvatar(dataImg)).then((v) => {
-        if (v.payload.statusCode === 200) {
+        if (v.payload?.statusCode === 200) {
           toast.success("Cập nhật thành Công");
           dispatch(fetchLoginSlice());
           setOpenUpdateInfoAccount(false);
@@ -174,7 +175,7 @@ function SubModelInfoAccount({ user }) {
         fullNameCarer: carersFullName,
       };
       await dispatch(updateUserPatient(data)).then((v) => {
-        if (v.payload.statusCode === 200) {
+        if (v.payload?.statusCode === 200) {
           toast.success("Cập nhật thành Công");
           dispatch(fetchLoginSlice());
           setOpenUpdateInfoAccount(false);

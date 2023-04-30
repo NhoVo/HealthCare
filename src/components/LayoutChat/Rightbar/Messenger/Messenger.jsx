@@ -176,6 +176,7 @@ function Messenger({ setInfor, infor }) {
         files: newFileMessage,
       };
       await dispatch(fetchUploadFiles(dataImg)).then((value) => {
+        console.log(value.payload);
         const data = {
           typeMessage: "FILE",
           idConversation: listMessage[0]?.conversationId,
@@ -316,28 +317,19 @@ function Messenger({ setInfor, infor }) {
 
       {/* onScroll={handleLoadingMessagesLast} */}
       <div className={cx("messenger-body")}>
-        {/* Messages */}
-        {false ? (
-          <CircularProgress className={cx("loading-messages")} />
-        ) : (
-          <>
-            {listMessage.map((message) => {
-              return (
-                <div key={message?._id} ref={scrollMessenger}>
-                  <Message
-                    message={message}
-                    own={
-                      message?.user.id === user?.doctor?.id ||
-                      message?.user.id === user?.id
-                    }
-
-                    // user={user}
-                  />
-                </div>
-              );
-            })}
-          </>
-        )}
+        {listMessage.map((message) => {
+          return (
+            <div key={message?._id} ref={scrollMessenger}>
+              <Message
+                message={message}
+                own={
+                  message?.user.id === user?.doctor?.id ||
+                  message?.user.id === user?.id
+                }
+              />
+            </div>
+          );
+        })}
       </div>
 
       {/* Message conversation */}
