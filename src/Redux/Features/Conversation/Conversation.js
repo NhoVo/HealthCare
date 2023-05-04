@@ -75,8 +75,8 @@ export const fetchAllmessage = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-
-    return jsonData.data;
+    console.log(jsonData.data);
+    return jsonData.data.reverse();
   }
 );
 //Gửi tin nhắn/v1/chat/{id}

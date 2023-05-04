@@ -36,6 +36,7 @@ import ModelWrapper from "../../ModelWrapper/ModelWrapper";
 import { useForm } from "react-hook-form";
 import { pathchangePassWord } from "../../../Redux/Features/Users/userPatient";
 import { toast } from "react-toastify";
+import { logoutUser } from "../../../Redux/Features/Users/UserLoginSlice";
 
 const cx = classNames.bind(styles);
 
@@ -100,6 +101,10 @@ const Middle = () => {
         setOpenInfoAccount(false);
       }
     });
+  };
+  const handlelogout = () => {
+    dispatch(logoutUser());
+    console.log("okokok");
   };
   return (
     <div className={cx("middle")}>
@@ -465,7 +470,7 @@ const Middle = () => {
                 </li>
                 <li>
                   <ItemLeft>
-                    <div className={cx("group-item")}>
+                    <div className={cx("group-item")} onClick={handlelogout}>
                       <div>
                         <LogoutIcon className={cx("icon")} />
                       </div>

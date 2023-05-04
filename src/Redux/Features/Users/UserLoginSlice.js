@@ -53,7 +53,31 @@ export const fetchUserCaller = createAsyncThunk(
     return jsonData.data;
   }
 );
+export const logoutUser = createAsyncThunk(
+  // Tên action
+  "user/logoutUser",
+  async (data) => {
+    // Gọi lên API backend//v1/auth/user/logout
 
+    const getToken = JSON.parse(localStorage.getItem("user_login"));
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/auth/user/logout`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    // Convert dữ liệu ra json/v1/notification/read-all
+    const jsonData = await response.json();
+    console.log("okokok", jsonData);
+
+    return jsonData.data;
+  }
+);
 const UserLoginSlice = createSlice({
   name: "user",
   initialState: { data: "" },
