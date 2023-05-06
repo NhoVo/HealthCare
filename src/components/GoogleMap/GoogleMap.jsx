@@ -66,7 +66,7 @@ const GoogleMap = ({ coords, user }) => {
           if (nextPageToken) {
             params.pagetoken = nextPageToken;
           }
-          //
+
           const response = await axios.get(url, { params, timeout: 10000 });
           hospitals = [...hospitals, ...response.data.results];
           nextPageToken = response.data.next_page_token;
