@@ -2,7 +2,10 @@
   "rewrites": [
     {
       "source": "/maps/api/:path*",
-      "destination": "/api/proxy.js"
+      "destination": "https://maps.googleapis.com/maps/api/:path*",
+      "headers": {
+        "host": "maps.googleapis.com"
+      }
     }
   ]
 }
