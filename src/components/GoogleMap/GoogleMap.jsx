@@ -58,48 +58,92 @@ const GoogleMap = ({ coords, user }) => {
   }, [coords, debouncedValue]);
 
   const handleApiLoaded = (map, maps) => {
-    hospitals.forEach((hospital) => {
-      const marker = new maps.Marker({
-        position: {
-          lat: hospital.geometry.location.lat,
-          lng: hospital.geometry.location.lng,
-        },
-        map,
-        title: hospital.name,
-      });
+    if (hospitals && hospitals.length > 0) {
+      hospitals.forEach((hospital) => {
+        const marker = new maps.Marker({
+          position: {
+            lat: hospital.geometry.location.lat,
+            lng: hospital.geometry.location.lng,
+          },
+          map,
+          title: hospital.name,
+        });
 
-      // Create an info window for each marker
-      const infowindow = new maps.InfoWindow({
-        content: hospital.name,
-      });
+        // Create an info window for each marker
+        const infowindow = new maps.InfoWindow({
+          content: hospital.name,
+        });
 
-      // Add a click event listener to each marker to open the info window
-      marker.addListener("click", () => {
-        infowindow.open(map, marker);
+        // Add a click event listener to each marker to open the info window
+        marker.addListener("click", () => {
+          infowindow.open(map, marker);
+        });
       });
-    });
+    }
+    // hospitals.forEach((hospital) => {
+    //   const marker = new maps.Marker({
+    //     position: {
+    //       lat: hospital.geometry.location.lat,
+    //       lng: hospital.geometry.location.lng,
+    //     },
+    //     map,
+    //     title: hospital.name,
+    //   });
+
+    //   // Create an info window for each marker
+    //   const infowindow = new maps.InfoWindow({
+    //     content: hospital.name,
+    //   });
+
+    //   // Add a click event listener to each marker to open the info window
+    //   marker.addListener("click", () => {
+    //     infowindow.open(map, marker);
+    //   });
+    // });
   };
   const handleApiLoadedPatient = (map, maps) => {
-    hospitals.forEach((hospital) => {
-      const marker = new maps.Marker({
-        position: {
-          lat: hospital.geometry.location.lat,
-          lng: hospital.geometry.location.lng,
-        },
-        map,
-        title: hospital.name,
-      });
+    if (hospitals && hospitals.length > 0) {
+      hospitals.forEach((hospital) => {
+        const marker = new maps.Marker({
+          position: {
+            lat: hospital.geometry.location.lat,
+            lng: hospital.geometry.location.lng,
+          },
+          map,
+          title: hospital.name,
+        });
 
-      // Create an info window for each marker
-      const infowindow = new maps.InfoWindow({
-        content: hospital.name,
-      });
+        // Create an info window for each marker
+        const infowindow = new maps.InfoWindow({
+          content: hospital.name,
+        });
 
-      // Add a click event listener to each marker to open the info window
-      marker.addListener("click", () => {
-        infowindow.open(map, marker);
+        // Add a click event listener to each marker to open the info window
+        marker.addListener("click", () => {
+          infowindow.open(map, marker);
+        });
       });
-    });
+    }
+    // hospitals.forEach((hospital) => {
+    //   const marker = new maps.Marker({
+    //     position: {
+    //       lat: hospital.geometry.location.lat,
+    //       lng: hospital.geometry.location.lng,
+    //     },
+    //     map,
+    //     title: hospital.name,
+    //   });
+
+    //   // Create an info window for each marker
+    //   const infowindow = new maps.InfoWindow({
+    //     content: hospital.name,
+    //   });
+
+    //   // Add a click event listener to each marker to open the info window
+    //   marker.addListener("click", () => {
+    //     infowindow.open(map, marker);
+    //   });
+    // });
   };
   const handleSearch = async () => {
     if (resultSearch === "") {
