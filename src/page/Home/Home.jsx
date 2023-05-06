@@ -46,6 +46,9 @@ const Home = () => {
   const user = useSelector(userLogin);
   const [userEmergency, setUserEmergency] = useState("");
   useEffect(() => {
+    dispatch(fetchLoginSlice());
+  }, []);
+  useEffect(() => {
     socket.on("incomingCall", ({ conversationId, callerId }) => {
       setOpenInfo(true);
       setCallStatus("Cuộc gọi đến...");
@@ -56,18 +59,17 @@ const Home = () => {
         setUserCaller(v.payload);
       });
     });
-    socket.on("newNotification", (data) => {
-      console.log("Emergency", data);
-      if (data.data?.typeNotification === "EMERGENCY") {
-        setUserEmergency(data.data);
-        setOpenEmergency(true);
-      }
-    });
+    if (user.role === "DOCTOR") {
+      socket.on("newNotification", (data) => {
+        console.log("Emergency", data);
+        if (data.data?.typeNotification === "EMERGENCY") {
+          setUserEmergency(data.data);
+          setOpenEmergency(true);
+        }
+      });
+    }
   }, []);
 
-  useEffect(() => {
-    dispatch(fetchLoginSlice());
-  }, []);
   useEffect(() => {
     dispatch(fetchNotficationsOfDoctor());
     if (user.role === "DOCTOR") {
