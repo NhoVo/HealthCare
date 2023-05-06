@@ -8,7 +8,7 @@ import images from "../../assets/images/index";
 import styles from "./ChatBot.module.scss";
 
 const API_KEY = process.env.REACT_APP_CHAT_GPT_API_KEY;
-
+console.log("Chat bot", API_KEY);
 const systemMessage = {
   role: "system",
   content: "Chào mừng bạn đến với CadioCare",
