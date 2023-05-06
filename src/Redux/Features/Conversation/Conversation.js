@@ -75,7 +75,7 @@ export const fetchAllmessage = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
-    console.log(jsonData.data);
+
     return jsonData.data.reverse();
   }
 );

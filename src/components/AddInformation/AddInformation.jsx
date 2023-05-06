@@ -38,7 +38,8 @@ const AddInformation = ({ handleModelCloseInfo, user }) => {
       cholesterol: cholesterol,
     };
     dispatch(postHealthRecord(data)).then((v) => {
-      if (v.statusCode === 200) {
+      console.log(v);
+      if (v !== null) {
         toast.success("Thêm thông tin thành công");
         setWeight("");
         setHight("");
