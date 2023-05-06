@@ -51,7 +51,7 @@ const GoogleMap = ({ coords, user }) => {
   useEffect(() => {
     const getHospitals = async () => {
       try {
-        const url = "/maps/api/place/nearbysearch/json";
+        const url = "/place/nearbysearch/json";
         const params = {
           location: `${coords?.lat},${coords?.lng}`, //"10.820431509874297, 106.68668066437624",
           radius: 20000, // bán kính 20km
@@ -118,7 +118,7 @@ const GoogleMap = ({ coords, user }) => {
     console.log(resultSearch);
     await axios
       .get(
-        `maps/api/place/textsearch/json?query=${resultSearch}&key=${process.env.REACT_APP_MAP_API}`
+        `/place/textsearch/json?query=${resultSearch}&key=${process.env.REACT_APP_MAP_API}`
       )
       .then((response) => {
         const result = response.data?.results;
