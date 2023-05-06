@@ -152,16 +152,17 @@ const GoogleMap = ({ coords, user }) => {
         lng: coords?.lng,
       });
     }
+    console.log(resultSearch);
     await axios
       .get(
         `maps/api/place/textsearch/json?query=${resultSearch}&key=${process.env.REACT_APP_MAP_API}`
       )
       .then((response) => {
         const result = response.data?.results;
-        console.log(response.data?.results);
-        const lat = result[0].geometry.location.lat;
-        const lng = result[0].geometry.location.lng;
-        const address = result[0].formatted_address;
+        console.log(response.data);
+        const lat = result[0]?.geometry.location.lat;
+        const lng = result[0]?.geometry.location.lng;
+        const address = result[0]?.formatted_address;
         // console.log(result);
         setCenters({ lat, lng, address });
       });
