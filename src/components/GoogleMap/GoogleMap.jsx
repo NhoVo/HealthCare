@@ -114,6 +114,7 @@ const GoogleMap = ({ coords, user }) => {
       )
       .then((response) => {
         const result = response.data?.results;
+        console.log(response.data?.results);
         const lat = result[0].geometry.location.lat;
         const lng = result[0].geometry.location.lng;
         const address = result[0].formatted_address;
