@@ -73,6 +73,7 @@ function Messenger({ setInfor, infor }) {
   useEffect(() => {
     // Lắng nghe event callAccepted để xử lý khi cuộc gọi được chấp nhận
     socket.on("callAccepted", ({ conversationId, calleeId }) => {
+      console.log("đã nghe rồi");
       navigate(`/room/${conversationId}`);
     });
     socket.on("callRejected", ({ conversationId, calleeId }) => {

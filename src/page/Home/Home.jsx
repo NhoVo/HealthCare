@@ -49,7 +49,7 @@ const Home = () => {
     socket.on("incomingCall", ({ conversationId, callerId }) => {
       setOpenInfo(true);
       setCallStatus("Cuộc gọi đến...");
-      // setCallerId(callerId);
+      setCallerId(callerId);
       setConversationId(conversationId);
       // alert("có người gọi");
       dispatch(fetchUserCaller(callerId)).then((v) => {

@@ -16,7 +16,7 @@ const Room = () => {
   });
 
   const meeting = async (element) => {
-    const appID = 1646990952;
+    const appID = 1643966043;
     const serverSecret = process.env.REACT_APP_ZEGOCLOUD_API_KEY;
 
     const hostKitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
