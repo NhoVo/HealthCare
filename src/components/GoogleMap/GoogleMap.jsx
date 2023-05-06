@@ -113,10 +113,10 @@ const GoogleMap = ({ coords, user }) => {
         `maps/api/place/textsearch/json?query=${resultSearch}&key=${process.env.REACT_APP_MAP_API}`
       )
       .then((response) => {
-        const result = response.data?.results[0];
-        const lat = result.geometry.location.lat;
-        const lng = result.geometry.location.lng;
-        const address = result.formatted_address;
+        const result = response.data?.results;
+        const lat = result[0].geometry.location.lat;
+        const lng = result[0].geometry.location.lng;
+        const address = result[0].formatted_address;
         // console.log(result);
         setCenters({ lat, lng, address });
       });
