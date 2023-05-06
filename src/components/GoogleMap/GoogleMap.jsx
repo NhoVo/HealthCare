@@ -59,11 +59,11 @@ const GoogleMap = ({ coords, user }) => {
 
   const handleApiLoaded = (map, maps) => {
     if (hospitals && hospitals.length > 0) {
-      hospitals.forEach((hospital) => {
+      for (const hospital of hospitals) {
         const marker = new maps.Marker({
           position: {
-            lat: hospital.geometry.location.lat,
-            lng: hospital.geometry.location.lng,
+            lat: hospital.geometry?.location?.lat,
+            lng: hospital.geometry?.location?.lng,
           },
           map,
           title: hospital.name,
@@ -78,7 +78,7 @@ const GoogleMap = ({ coords, user }) => {
         marker.addListener("click", () => {
           infowindow.open(map, marker);
         });
-      });
+      }
     }
     // hospitals.forEach((hospital) => {
     //   const marker = new maps.Marker({
