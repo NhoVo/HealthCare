@@ -37,7 +37,7 @@ const InformationDoctor = () => {
   const userDoctor = useSelector(userLogin);
   const ratingDoctor = useSelector(ratingOfDoctor);
 
-  const [coordinatesP, setCoordinatesP] = useState("");
+  const [coordinatesP, setCoordinatesP] = useState([]);
   const [rating, setRating] = useState(ratingDoctor?.rate);
   useEffect(() => {
     dispatch(fetchUserDoctor(user.doctorId));

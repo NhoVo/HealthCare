@@ -113,7 +113,7 @@ const GoogleMap = ({ coords, user }) => {
         `maps/api/place/textsearch/json?query=${resultSearch}&key=${process.env.REACT_APP_MAP_API}`
       )
       .then((response) => {
-        const result = response.data.results[0];
+        const result = response.data?.results[0];
         const lat = result.geometry.location.lat;
         const lng = result.geometry.location.lng;
         const address = result.formatted_address;
@@ -150,7 +150,7 @@ const GoogleMap = ({ coords, user }) => {
             >
               <GoogleMapReact
                 bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API }}
-                // defaultCenter={coords}
+                defaultCenter={coords}
                 defaultZoom={11}
                 center={coords}
                 onGoogleApiLoaded={({ map, maps }) =>
