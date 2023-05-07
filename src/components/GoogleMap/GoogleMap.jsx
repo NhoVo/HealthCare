@@ -152,7 +152,7 @@ const GoogleMap = ({ coords, user }) => {
             <div
               className={cx("title")}
               style={{
-                height: "665px",
+                height: "655px",
                 width: "1147px",
                 marginLeft: "1px",
                 marginTop: "1px",
@@ -160,7 +160,6 @@ const GoogleMap = ({ coords, user }) => {
             >
               <GoogleMapReact
                 bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API }}
-                defaultCenter={coords}
                 defaultZoom={11}
                 center={coords}
                 onGoogleApiLoaded={({ map, maps }) =>
@@ -223,7 +222,7 @@ const GoogleMap = ({ coords, user }) => {
             </div>
             <div
               className={cx("title")}
-              style={{ height: "340px", width: "1000px" }}
+              style={{ height: "310px", width: "1000px" }}
             >
               <GoogleMapReact
                 bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API }}
