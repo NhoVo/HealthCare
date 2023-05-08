@@ -1,11 +1,13 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-module.exports = function (req, res) {
-  return createProxyMiddleware({
-    target: "https://maps.googleapis.com",
-    changeOrigin: true,
-    pathRewrite: {
-      "^/api/proxy": "/maps/api",
-    },
-  })(req, res);
+module.exports = function (app) {
+  app.use(
+    createProxyMiddleware("/maps/api", {
+      target: "https://maps.googleapis.com",
+      changeOrigin: true,
+      pathRewrite: {
+        "^/maps/api": "", // Loại bỏ đường dẫn "/maps/api" khỏi yêu cầu
+      },
+    })
+  );
 };
