@@ -24,8 +24,8 @@ const GoogleMap = ({ coords, user }) => {
 
   const debouncedValue = useDebounce(coords, 20000);
   const [showInfo, setShowInfo] = useState(false);
-  console.log("coords", coords);
-  console.log("debouncedValue", debouncedValue);
+  // console.log("coords", coords);
+  // console.log("debouncedValue", debouncedValue);
   useEffect(() => {
     const getHospitals = async () => {
       try {
@@ -39,6 +39,19 @@ const GoogleMap = ({ coords, user }) => {
 
         const response = await axios.get(url, { params, timeout: 10000 });
         console.log("response", response);
+        // Chuỗi HTML trả về từ
+        const htmlString = response.data;
+
+        // Tạo một phần tử HTML ảo
+        const virtualElement = document.createElement("div");
+        virtualElement.innerHTML = htmlString;
+
+        // Truy cập phần tử <title> và lấy nội dung bên trong
+        const desiredContent = virtualElement.querySelector("title").innerText;
+
+        // Sử dụng dữ liệu đã trích xuất
+        console.log("desiredContent:", desiredContent);
+
         setHospitals(response.data.results);
       } catch (error) {
         console.log("err", error);
