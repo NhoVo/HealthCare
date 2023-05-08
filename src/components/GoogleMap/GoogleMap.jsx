@@ -29,8 +29,7 @@ const GoogleMap = ({ coords, user }) => {
   useEffect(() => {
     const getHospitals = async () => {
       try {
-        const url =
-          "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
+        const url = "/maps/api/place/nearbysearch/json";
         const params = {
           location: `${coords?.lat},${coords?.lng}`, //"10.820431509874297, 106.68668066437624",
           radius: 5000, // bán kính 20km
