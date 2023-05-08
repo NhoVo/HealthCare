@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/maps/api/:path*",
-      "destination": "/api/proxy.js"
-    }
-  ]
-}
