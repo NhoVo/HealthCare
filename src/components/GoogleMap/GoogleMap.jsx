@@ -29,15 +29,21 @@ const GoogleMap = ({ coords, user }) => {
   useEffect(() => {
     const getHospitals = async () => {
       try {
-        const url = "/maps/api/place/nearbysearch/json";
-        const params = {
-          location: `${coords?.lat},${coords?.lng}`, //"10.820431509874297, 106.68668066437624",
-          radius: 5000, // bán kính 20km
-          type: "hospital",
-          key: process.env.REACT_APP_MAP_API,
-        };
+        // const url = "/maps/api/place/nearbysearch/json";
+        // const params = {
+        //   location: `${coords?.lat},${coords?.lng}`, //"10.820431509874297, 106.68668066437624",
+        //   radius: 5000, // bán kính 20km
+        //   type: "hospital",
+        //   key: process.env.REACT_APP_MAP_API,
+        // };
+        const location = `${coords?.lat},${coords?.lng}`; //"10.820431509874297, 106.68668066437624",
+        const radius = 5000; // bán kính 20km
+        const type = "hospital";
+        const key = process.env.REACT_APP_MAP_API;
+        const url = `/maps/api/place/nearbysearch/json?location=${location}&radius=${radius}&type=${type}&key=${key}`;
+        // const response = await axios.get(url, { params, timeout: 10000 });
+        const response = await axios.get(url, { timeout: 10000 });
 
-        const response = await axios.get(url, { params, timeout: 10000 });
         console.log("response", response);
         // Chuỗi HTML trả về từ
 
