@@ -32,29 +32,16 @@ const GoogleMap = ({ coords, user }) => {
         const url = "/maps/api/place/nearbysearch/json";
         const params = {
           location: `${coords?.lat},${coords?.lng}`, //"10.820431509874297, 106.68668066437624",
-          radius: 20000, // bán kính 20km
+          radius: 5000, // bán kính 20km
           type: "hospital",
           key: process.env.REACT_APP_MAP_API,
         };
 
-        let hospitals = [];
-        let nextPageToken = null;
-
-        do {
-          if (nextPageToken) {
-            params.pagetoken = nextPageToken;
-          }
-
-          const response = await axios.get(url, { params, timeout: 10000 });
-          hospitals = [...hospitals, ...response.data.results];
-          nextPageToken = response.data.next_page_token;
-        } while (nextPageToken);
-
-        setHospitals(hospitals);
-
-        console.log("1");
+        const response = await axios.get(url, { params, timeout: 10000 });
+        console.log("response", response);
+        setHospitals(response.data.results);
       } catch (error) {
-        console.log(error);
+        console.log("err", error);
       }
     };
 
