@@ -1,13 +1,16 @@
-const { createProxyMiddleware } = require("http-proxy-middleware");
+const fetch = require("node-fetch");
 
-module.exports = function (app) {
-  app.use(
-    createProxyMiddleware("/maps/api", {
-      target: "https://maps.googleapis.com",
-      changeOrigin: true,
-      pathRewrite: {
-        "^/maps/api": "", // Loại bỏ đường dẫn "/maps/api" khỏi yêu cầu
-      },
-    })
-  );
+module.exports = async (req, res) => {
+  const { location, radius, type, key } = req.query;
+
+  const apiUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=${radius}&type=${type}&key=${key}`;
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
 };

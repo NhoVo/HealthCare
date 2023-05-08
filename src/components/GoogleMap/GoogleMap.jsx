@@ -41,9 +41,8 @@ const GoogleMap = ({ coords, user }) => {
         const type = "hospital";
         const key = process.env.REACT_APP_MAP_API;
         const url = `/maps/api/place/nearbysearch/json?location=${location}&radius=${radius}&type=${type}&key=${key}`;
-        // const response = await axios.get(url, { params, timeout: 10000 });
-        const response = await axios.get(url, { timeout: 10000 });
 
+        const response = await axios.get(url, { timeout: 10000 });
         console.log("response", response);
         // Chuỗi HTML trả về từ
 
