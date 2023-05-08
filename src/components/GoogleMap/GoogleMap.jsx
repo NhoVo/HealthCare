@@ -38,21 +38,7 @@ const GoogleMap = ({ coords, user }) => {
         };
 
         const response = await axios.get(url, { params, timeout: 10000 });
-        console.log("response", response.data);
-        const cheerio = require("cheerio");
-
-        // Chuỗi HTML trả về từ response.data
-        const htmlString = response.data;
-
-        // Load chuỗi HTML vào cheerio
-        const $ = cheerio.load(htmlString);
-
-        // Trích xuất nội dung cần thiết bằng cách lựa chọn các phần tử HTML
-        const desiredContent = $("selector").text();
-
-        // Sử dụng dữ liệu đã trích xuất
-        console.log("desiredContent", desiredContent);
-
+        console.log("response", response.data.results);
         setHospitals(response.data.results);
       } catch (error) {
         console.log("err", error);
