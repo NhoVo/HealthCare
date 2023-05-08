@@ -24,30 +24,8 @@ const GoogleMap = ({ coords, user }) => {
 
   const debouncedValue = useDebounce(coords, 20000);
   const [showInfo, setShowInfo] = useState(false);
-  const handleApiLoadedPatient = (map, maps) => {
-    if (hospitals && hospitals.length > 0) {
-      for (const hospital of hospitals) {
-        const marker = new maps.Marker({
-          position: {
-            lat: hospital.geometry?.location?.lat,
-            lng: hospital.geometry?.location?.lng,
-          },
-          map,
-          title: hospital.name,
-        });
-
-        // Create an info window for each marker
-        const infowindow = new maps.InfoWindow({
-          content: hospital.name,
-        });
-
-        // Add a click event listener to each marker to open the info window
-        marker.addListener("click", () => {
-          infowindow.open(map, marker);
-        });
-      }
-    }
-  };
+  console.log("coords", coords);
+  console.log("debouncedValue", debouncedValue);
   useEffect(() => {
     const getHospitals = async () => {
       try {
@@ -83,7 +61,30 @@ const GoogleMap = ({ coords, user }) => {
     getHospitals();
     console.log("1", hospitals);
   }, [coords, debouncedValue]);
+  const handleApiLoadedPatient = (map, maps) => {
+    if (hospitals && hospitals.length > 0) {
+      for (const hospital of hospitals) {
+        const marker = new maps.Marker({
+          position: {
+            lat: hospital.geometry?.location?.lat,
+            lng: hospital.geometry?.location?.lng,
+          },
+          map,
+          title: hospital.name,
+        });
 
+        // Create an info window for each marker
+        const infowindow = new maps.InfoWindow({
+          content: hospital.name,
+        });
+
+        // Add a click event listener to each marker to open the info window
+        marker.addListener("click", () => {
+          infowindow.open(map, marker);
+        });
+      }
+    }
+  };
   const handleApiLoaded = (map, maps) => {
     if (hospitals && hospitals.length > 0) {
       for (const hospital of hospitals) {
