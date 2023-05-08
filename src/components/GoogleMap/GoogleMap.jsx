@@ -38,7 +38,7 @@ const GoogleMap = ({ coords, user }) => {
         };
 
         const response = await axios.get(url, { params, timeout: 10000 });
-        console.log("response", response);
+        console.log("response", response.data);
         const cheerio = require("cheerio");
 
         // Chuỗi HTML trả về từ response.data
