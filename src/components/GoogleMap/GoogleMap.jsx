@@ -29,7 +29,8 @@ const GoogleMap = ({ coords, user }) => {
   useEffect(() => {
     const getHospitals = async () => {
       try {
-        const url = "/maps/api/place/nearbysearch/json";
+        const url =
+          "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
         const params = {
           location: `${coords?.lat},${coords?.lng}`, //"10.820431509874297, 106.68668066437624",
           radius: 5000, // bán kính 20km
@@ -40,17 +41,6 @@ const GoogleMap = ({ coords, user }) => {
         const response = await axios.get(url, { params, timeout: 10000 });
         console.log("response", response);
         // Chuỗi HTML trả về từ
-        const htmlString = response.data;
-
-        // Tạo một phần tử HTML ảo
-        const virtualElement = document.createElement("div");
-        virtualElement.innerHTML = htmlString;
-
-        // Truy cập phần tử <title> và lấy nội dung bên trong
-        const desiredContent = virtualElement.querySelector("title").innerText;
-
-        // Sử dụng dữ liệu đã trích xuất
-        console.log("desiredContent:", desiredContent);
 
         setHospitals(response.data.results);
       } catch (error) {
