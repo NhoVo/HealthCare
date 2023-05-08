@@ -38,7 +38,7 @@ const GoogleMap = ({ coords, user }) => {
         };
 
         const response = await axios.get(url, { params, timeout: 10000 });
-        console.log("response", response.data.results);
+        console.log("response", response);
         setHospitals(response.data.results);
       } catch (error) {
         console.log("err", error);
