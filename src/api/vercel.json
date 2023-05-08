@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "source": "/maps/api/:path*",
+      "destination": "/api/proxy"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/proxy",
+      "dest": "/api/proxy.js"
+    }
+  ]
+}
