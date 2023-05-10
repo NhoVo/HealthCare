@@ -59,17 +59,16 @@ const Home = () => {
         setUserCaller(v.payload);
       });
     });
-    if (user.role === "DOCTOR") {
-      socket.on("newNotification", (data) => {
-        console.log("Emergency", data);
-        if (data.data?.typeNotification === "EMERGENCY") {
-          setUserEmergency(data.data);
-          setOpenEmergency(true);
-        }
-      });
-    }
   }, []);
-
+  useEffect(() => {
+    socket.on("newNotification", (data) => {
+      console.log("Emergency", data);
+      if (data.data?.typeNotification === "EMERGENCY") {
+        setUserEmergency(data.data);
+        setOpenEmergency(true);
+      }
+    });
+  }, []);
   useEffect(() => {
     dispatch(fetchNotficationsOfDoctor());
     if (user.role === "DOCTOR") {
@@ -111,7 +110,6 @@ const Home = () => {
         onClose={handleModelCloseEmergency}
       >
         <div className={cx("model-add-emergency-bg")}>
-          {console.log(userEmergency)}
           <div className={cx("notification-icon")}>
             <WarningIcon className={cx("item-content")} sx={{ fontSize: 50 }} />
           </div>
