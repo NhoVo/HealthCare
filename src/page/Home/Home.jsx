@@ -94,7 +94,7 @@ const Home = () => {
   const handleAccept = () => {
     const calleeId = user.role === "DOCTOR" ? user.doctor.id : user.id;
     socket.emit("acceptCall", { conversationId, callerId, calleeId });
-    navigate(`/room/conversationId`);
+    navigate(`/room/${conversationId}`);
   };
 
   const handleReject = () => {
