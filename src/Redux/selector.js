@@ -55,6 +55,7 @@ export const listImage = (state) => state.listConversation.img;
 export const ratingOfDoctor = (state) => state.ratingDoctor.ratingData;
 // gg map
 export const listHospital = (state) => state.googleMapAPI.data;
+
 export const tam = createSelector(healthWarningDay, (index) => {
   return index;
 });

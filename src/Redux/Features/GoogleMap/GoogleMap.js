@@ -28,13 +28,14 @@ export const fetchSearchHospital = createAsyncThunk(
   "user/fetchSearchHospital",
   async (data) => {
     // Gọi lên API backend/v1/doctor/{id}
+
     const param = new URLSearchParams({
-      lat: data.lat,
-      lng: data.lng,
+      resultSearch: data,
     });
+
     const getToken = JSON.parse(localStorage.getItem("user_login"));
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/hospitals?` + param.toString(),
+      `${process.env.REACT_APP_BASE_URL}/resultSearch?` + param.toString(),
       {
         method: "GET",
         headers: {
@@ -45,6 +46,8 @@ export const fetchSearchHospital = createAsyncThunk(
     );
     // Convert dữ liệu ra json
     const jsonData = await response.json();
+    console.log("data", jsonData.data);
+
     return jsonData.data;
   }
 );

@@ -9,8 +9,11 @@ import axios from "axios";
 import useDebounce from "../hooks/useDebounce";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllHospital } from "../../Redux/Features/GoogleMap/GoogleMap";
-import { listHospital } from "../../Redux/selector";
+import {
+  fetchAllHospital,
+  fetchSearchHospital,
+} from "../../Redux/Features/GoogleMap/GoogleMap";
+import { SearchSiteHospital, listHospital } from "../../Redux/selector";
 const Position = ({ text }) => <div>{text}</div>;
 const cx = classNames.bind(styles);
 
@@ -21,7 +24,6 @@ const GoogleMap = ({ coords, user }) => {
     address: "",
   });
 
-  // const [hospitals, setHospitals] = useState([]);
   const hospitals = useSelector(listHospital);
 
   const [resultSearch, setResultSearch] = useState("");
@@ -29,8 +31,7 @@ const GoogleMap = ({ coords, user }) => {
   const debouncedValue = useDebounce(coords, 20000);
   const [showInfo, setShowInfo] = useState(false);
   const dispatch = useDispatch();
-  // console.log("coords", coords);
-  // console.log("debouncedValue", debouncedValue);
+
   useEffect(() => {
     const data = {
       lat: coords?.lat,
@@ -95,20 +96,15 @@ const GoogleMap = ({ coords, user }) => {
         lng: coords?.lng,
       });
     }
-    console.log(resultSearch);
-    await axios
-      .get(
-        `/maps/api/place/textsearch/json?query=${resultSearch}&key=${process.env.REACT_APP_MAP_API}`
-      )
-      .then((response) => {
-        const result = response.data?.results;
-        console.log(response.data);
-        const lat = result[0]?.geometry.location.lat;
-        const lng = result[0]?.geometry.location.lng;
-        const address = result[0]?.formatted_address;
-        // console.log(result);
-        setCenters({ lat, lng, address });
-      });
+
+    dispatch(fetchSearchHospital(resultSearch)).then((v) => {
+      console.log("---------", v.payload);
+      const result = v.payload;
+      const lat = result[0]?.geometry.location.lat;
+      const lng = result[0]?.geometry.location.lng;
+      const address = result[0]?.formatted_address;
+      setCenters({ lat, lng, address });
+    });
   };
 
   return (
