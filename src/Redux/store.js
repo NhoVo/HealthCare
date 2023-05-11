@@ -13,6 +13,7 @@ import RatingDoctor from "./Features/Rating/RatingDoctor";
 import UserDoctors from "./Features/Users/UserDoctors";
 import userLoginSlice from "./Features/Users/UserLoginSlice";
 import userPatient from "./Features/Users/userPatient";
+import GoogleMap from "./Features/GoogleMap/GoogleMap";
 
 const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ const store = configureStore({
     searchGoogle: searchgg.reducer,
     listConversation: Conversation.reducer,
     ratingDoctor: RatingDoctor.reducer,
+    googleMapAPI: GoogleMap.reducer,
   },
 });
 

@@ -8,6 +8,9 @@ import axios from "axios";
 
 import useDebounce from "../hooks/useDebounce";
 import DirectionsIcon from "@mui/icons-material/Directions";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllHospital } from "../../Redux/Features/GoogleMap/GoogleMap";
+import { listHospital } from "../../Redux/selector";
 const Position = ({ text }) => <div>{text}</div>;
 const cx = classNames.bind(styles);
 
@@ -18,42 +21,24 @@ const GoogleMap = ({ coords, user }) => {
     address: "",
   });
 
-  const [hospitals, setHospitals] = useState([]);
+  // const [hospitals, setHospitals] = useState([]);
+  const hospitals = useSelector(listHospital);
 
   const [resultSearch, setResultSearch] = useState("");
 
   const debouncedValue = useDebounce(coords, 20000);
   const [showInfo, setShowInfo] = useState(false);
+  const dispatch = useDispatch();
   // console.log("coords", coords);
   // console.log("debouncedValue", debouncedValue);
   useEffect(() => {
-    const getHospitals = async () => {
-      try {
-        // const url = "/maps/api/place/nearbysearch/json";
-        // const params = {
-        //   location: `${coords?.lat},${coords?.lng}`, //"10.820431509874297, 106.68668066437624",
-        //   radius: 5000, // bán kính 20km
-        //   type: "hospital",
-        //   key: process.env.REACT_APP_MAP_API,
-        // };
-        const location = `${coords?.lat},${coords?.lng}`; //"10.820431509874297, 106.68668066437624",
-        const radius = 5000; // bán kính 20km
-        const type = "hospital";
-        const key = process.env.REACT_APP_MAP_API;
-        const url = `/maps/api/place/nearbysearch/json?location=${location}&radius=${radius}&type=${type}&key=${key}`;
-
-        const response = await axios.get(url, { timeout: 10000 });
-        console.log("response", response);
-        // Chuỗi HTML trả về từ
-
-        setHospitals(response.data.results);
-      } catch (error) {
-        console.log("err", error);
-      }
+    const data = {
+      lat: coords?.lat,
+      lng: coords?.lng,
     };
-
-    getHospitals();
-    console.log("1", hospitals);
+    // Chuỗi HTML trả về từ
+    dispatch(fetchAllHospital(data));
+    // setHospitals(response.data.results);
   }, [coords, debouncedValue]);
   const handleApiLoadedPatient = (map, maps) => {
     if (hospitals && hospitals.length > 0) {
@@ -71,7 +56,6 @@ const GoogleMap = ({ coords, user }) => {
         const infowindow = new maps.InfoWindow({
           content: hospital.name,
         });
-
         // Add a click event listener to each marker to open the info window
         marker.addListener("click", () => {
           infowindow.open(map, marker);
