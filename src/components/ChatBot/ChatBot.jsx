@@ -127,83 +127,81 @@ const ChatBot = () => {
       />
       {openIntroVersion === true ? (
         <div className={cx("chatbox")}>
-          <div className={cx("chatbox")}>
-            <div className={cx("chatbox__support")}>
-              <div className={cx("chatbox__header")}>
-                <div className={cx("chatbox__image--header")}>
-                  <img src={images.logo} alt="" />
-                </div>
-                <div className={cx("chatbox__content--header")}>
-                  <h4 className={cx("chatbox__heading--header")}>CadioCare</h4>
-                  <p className={cx("chatbox__description--header")}>
-                    Tận tâm chia sẻ – vì sức khỏe của bạn
-                  </p>
-                </div>
+          <div className={cx("chatbox__support")}>
+            <div className={cx("chatbox__header")}>
+              <div className={cx("chatbox__image--header")}>
+                <img src={images.logo} alt="" />
               </div>
-              <div className={cx("chatbox__messages")}>
-                <div>
-                  {messages.map((message, i) => {
-                    return (
-                      <div key={i}>
-                        {message.sender === "ChatGPT" ? (
-                          <div className={cx("messages__item")}>
-                            <div className={cx("messages__item--visitor")}>
-                              <Message key={i} model={message} />
-                            </div>
-                          </div>
-                        ) : (
-                          <div className={cx("messages__item--operator")}>
-                            <Message key={i} model={message} />
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                  {isTyping ? (
-                    <div className={cx("messages__item")}>
-                      <div className={cx("messages__item--typing")}>
-                        <span className={cx("messages__dot")}>
-                          Đang trả lời...
-                        </span>
-                      </div>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-              <div className={cx("chatbox__footer")}>
-                {isRecording ? (
-                  <MicIcon
-                    sx={{
-                      fontSize: 30,
-                      cursor: "pointer",
-                      color: "#FFFFFF",
-                    }}
-                    onClick={closeListening}
-                    className={cx("chatbox__mic")}
-                  />
-                ) : (
-                  <MicIcon
-                    sx={{
-                      fontSize: 30,
-                      cursor: "pointer",
-                      color: "#FFFFFF",
-                    }}
-                    onClick={startListening}
-                  />
-                )}
-                <input
-                  type="text"
-                  placeholder="Nhập câu hỏi..."
-                  value={tam}
-                  onChange={(e) => setTam(e.target.value)}
-                />
-                <p
-                  className={cx("chatbox__send--footer")}
-                  onClick={() => handleSend(tam)}
-                >
-                  Gửi
+              <div className={cx("chatbox__content--header")}>
+                <h4 className={cx("chatbox__heading--header")}>CadioCare</h4>
+                <p className={cx("chatbox__description--header")}>
+                  Tận tâm chia sẻ – vì sức khỏe của bạn
                 </p>
               </div>
+            </div>
+            <div className={cx("chatbox__messages")}>
+              <div>
+                {messages.map((message, i) => {
+                  return (
+                    <div key={i}>
+                      {message.sender === "ChatGPT" ? (
+                        <div className={cx("messages__item")}>
+                          <div className={cx("messages__item--visitor")}>
+                            <Message key={i} model={message} />
+                          </div>
+                        </div>
+                      ) : (
+                        <div className={cx("messages__item--operator")}>
+                          <Message key={i} model={message} />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+                {isTyping ? (
+                  <div className={cx("messages__item")}>
+                    <div className={cx("messages__item--typing")}>
+                      <span className={cx("messages__dot")}>
+                        Đang trả lời...
+                      </span>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+            <div className={cx("chatbox__footer")}>
+              {isRecording ? (
+                <MicIcon
+                  sx={{
+                    fontSize: 30,
+                    cursor: "pointer",
+                    color: "#FFFFFF",
+                  }}
+                  onClick={closeListening}
+                  className={cx("chatbox__mic")}
+                />
+              ) : (
+                <MicIcon
+                  sx={{
+                    fontSize: 30,
+                    cursor: "pointer",
+                    color: "#FFFFFF",
+                  }}
+                  onClick={startListening}
+                />
+              )}
+              <input
+                type="text"
+                placeholder="Nhập câu hỏi..."
+                value={tam}
+                onChange={(e) => setTam(e.target.value)}
+              />
+              <p
+                className={cx("chatbox__send--footer")}
+                onClick={() => handleSend(tam)}
+              >
+                Gửi
+              </p>
             </div>
           </div>
         </div>
